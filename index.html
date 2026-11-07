@@ -1,1 +1,179 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Lilac OS: a bee-and-lilac desktop in your browser</title>
+<meta name="description" content="Lilac OS is a bee-and-lilac themed desktop that runs in your browser, with notes, a calculator, a terminal, a living beehive and the Nectar browser.">
+<meta property="og:title" content="Lilac OS">
+<meta property="og:description" content="A tiny desktop OS with notes, a calculator, a terminal, a living beehive and the Nectar browser.">
+<meta property="og:type" content="website">
+<style>
+:root{--lav:#B89CE8;--deep:#594477;--pink:#DCC4F2;--honey:#F5C85B;--cream:#FFF8E9;--dark:#21182F;--br:1;--is:56}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%;overflow:hidden;font-family:"Trebuchet MS",system-ui,sans-serif;color:var(--cream);background:var(--dark);user-select:none}
+#desk{position:fixed;inset:0 0 48px 0;filter:brightness(var(--br));background-size:cover}
+#desk::before{content:"";position:absolute;inset:0;pointer-events:none;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='28' height='49'%3E%3Cpath d='M14 2l12 7v14l-12 7-12-7V9z' fill='none' stroke='%23DCC4F2' stroke-opacity='.12'/%3E%3C/svg%3E")}
+.pt{position:absolute;top:-20px;width:12px;height:16px;border-radius:70% 0 70% 0;background:var(--pink);opacity:.7;pointer-events:none;animation:fall linear infinite}
+@keyframes fall{to{transform:translateY(110vh) rotate(540deg)}}
+.noanim .pt{display:none}
+.ic{position:absolute;width:calc(var(--is)*1px + 24px);text-align:center;cursor:pointer;font-size:12px;padding:6px;border-radius:12px;touch-action:none;z-index:1;transition:.2s}
+.ic:hover{background:#b89ce833;box-shadow:0 0 16px var(--lav)}
+.ic i{display:block;font-style:normal;font-size:calc(var(--is)*1px)}
+.win{position:absolute;min-width:260px;min-height:180px;max-width:100%;display:flex;flex-direction:column;background:rgba(40,28,62,.84);backdrop-filter:blur(14px);border:1px solid var(--lav);border-radius:14px;box-shadow:0 0 18px #b89ce844,0 12px 30px #0006;overflow:hidden;resize:both;animation:pop .25s}
+.win.on{box-shadow:0 0 26px #b89ce8aa,0 12px 30px #0008}
+.win.max{inset:0!important;width:auto!important;height:auto!important;border-radius:0;resize:none}
+.win.min{display:none}
+.win.dis{animation:dis .35s forwards;pointer-events:none}
+@keyframes pop{from{transform:scale(.85);opacity:0}}
+@keyframes dis{to{transform:scale(.7) rotate(4deg);opacity:0;filter:blur(4px)}}
+.noanim .win{animation:none!important}
+.tb{display:flex;justify-content:space-between;align-items:center;padding:8px 12px;background:linear-gradient(90deg,var(--deep),#7d62a6);cursor:grab;font-weight:bold;touch-action:none}
+.bt b{display:inline-block;width:26px;height:22px;line-height:22px;text-align:center;border-radius:6px;cursor:pointer;margin-left:4px}
+.bt b:hover{background:var(--honey);color:var(--dark)}
+.body{flex:1;min-height:0;display:flex;flex-direction:column;overflow:hidden}
+.in,.btn,textarea,select{font:inherit;color:var(--cream);background:rgba(255,255,255,.1);border:1px solid #b89ce888;border-radius:8px;padding:6px 8px}
+.in,textarea{user-select:text}
+.btn{cursor:pointer;background:var(--deep);transition:.15s}
+.btn:hover:not(:disabled){background:var(--honey);color:var(--dark)}
+.btn:disabled{opacity:.45;cursor:default}
+select option{color:#000}
+#bar{position:fixed;left:0;right:0;bottom:0;height:48px;display:flex;align-items:center;gap:8px;padding:0 8px;background:rgba(33,24,47,.92);backdrop-filter:blur(12px);border-top:1px solid var(--lav);z-index:99999}
+#tasks{display:flex;gap:6px;flex:1;overflow:hidden}
+.tbn{white-space:nowrap}.tbn.act{background:var(--honey);color:var(--dark)}
+#tray{display:flex;gap:10px;align-items:center;font-size:14px}#tray b{cursor:pointer}
+#start{position:fixed;left:8px;bottom:56px;width:250px;padding:10px;border-radius:16px;background:rgba(40,28,62,.94);border:1px solid var(--lav);box-shadow:0 0 24px #b89ce866;transform-origin:bottom left;transform:scale(0) rotate(-8deg);opacity:0;transition:.35s cubic-bezier(.3,1.5,.5,1);z-index:99999;display:flex;flex-direction:column;gap:4px}
+#start.on{transform:none;opacity:1}
+#start .btn{text-align:left;background:transparent;border-color:transparent}
+#boot{position:fixed;inset:0;z-index:999999;background:radial-gradient(circle,#3a2a54,var(--dark));display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;transition:opacity .8s;text-align:center}
+#boot .lg{font-size:84px;animation:glow 1.6s infinite alternate}
+#boot h1{letter-spacing:.4em;color:var(--pink);margin:0}#boot p{color:var(--honey);height:24px}
+@keyframes glow{to{filter:drop-shadow(0 0 28px var(--lav));transform:scale(1.1)}}
+.row{display:flex;flex:1;min-height:0}
+.side{width:38%;display:flex;flex-direction:column;gap:6px;padding:8px;border-right:1px solid #b89ce855}
+.ls{overflow:auto;flex:1}.li{padding:6px 8px;border-radius:8px;cursor:pointer;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.li.sel,.li:hover{background:#b89ce844}
+.ed{flex:1;display:flex;flex-direction:column;gap:6px;padding:8px;min-width:0}
+.ed textarea{flex:1;resize:none;background:repeating-linear-gradient(#fff8e9 0 26px,#dcc4f2 26px 27px);line-height:27px;color:var(--dark)}
+.dp{padding:14px;font-size:28px;text-align:right;background:#0004;min-height:64px;overflow:hidden}
+.kp{flex:1;display:grid;grid-template-columns:repeat(4,1fr);gap:6px;padding:8px;min-height:0}
+.k{font-size:18px}.k:active{transform:scale(.9)}
+.out{flex:1;overflow:auto;padding:10px;color:var(--lav);font-family:monospace;user-select:text}
+.pr{display:flex;padding:8px;color:var(--honey);font-family:monospace}
+.pr input{flex:1;background:none;border:0;outline:0;color:var(--cream);font:inherit;user-select:text}
+.cv{flex:1;min-height:0;position:relative;background:linear-gradient(#DCC4F2,#B89CE8)}
+.cv canvas{position:absolute;inset:0;width:100%;height:100%}
+.hv{padding:8px;display:flex;flex-wrap:wrap;gap:6px;align-items:center;background:#21182fcc}.hv>div{flex-basis:100%}
+.wp{display:flex;gap:8px}.wp button{width:56px;height:36px;border-radius:8px;border:2px solid var(--cream);cursor:pointer}
+</style></head><body>
+<div id="desk"></div>
+<div id="start"></div>
+<div id="bar"><button class="btn" id="sb">🪻 Start</button><div id="tasks"></div><span id="tray"><b id="snd"></b><b id="fs" title="Fullscreen">⛶</b><span id="clk"></span></span></div>
+<div id="boot"><div class="lg">🪻</div><h1>LILAC OS</h1><p id="bt">Pollinating system...</p></div>
+<script>
+const $=s=>document.querySelector(s),T0=Date.now();
+const ld=(k,d)=>{try{const v=JSON.parse(localStorage.getItem(k));return v==null?d:v}catch(e){return d}};
+const sv=(k,v)=>{try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}};
+const WP=['radial-gradient(circle at 20% 15%,#7a5cae,transparent 55%),radial-gradient(circle at 80% 90%,#594477,transparent 60%),linear-gradient(160deg,#3a2a54,#21182F)','linear-gradient(135deg,#B89CE8,#DCC4F2 50%,#F5C85B)','linear-gradient(160deg,#21182F,#594477 70%,#F5C85B)'];
+let cfg={br:1,anim:1,snd:true,is:56,wall:0,...ld('cfg',{})};
+function apply(){const s=document.documentElement.style;s.setProperty('--br',cfg.br);s.setProperty('--is',cfg.is);$('#desk').style.backgroundImage=WP[cfg.wall]||WP[0];document.body.classList.toggle('noanim',!cfg.anim);$('#snd').textContent=cfg.snd?'🔊':'🔇';sv('cfg',cfg)}
+let AC;const beep=(f=520)=>{if(!cfg.snd)return;try{AC=AC||new AudioContext();const o=AC.createOscillator(),g=AC.createGain();o.frequency.value=f;g.gain.value=.05;o.connect(g);g.connect(AC.destination);o.start();g.gain.exponentialRampToValueAtTime(.001,AC.currentTime+.15);o.stop(AC.currentTime+.15)}catch(e){}};
+function burst(x,y,c='#B89CE8',n=10){for(let i=0;i<n*cfg.anim;i++){const p=document.createElement('div');p.style.cssText=`position:fixed;left:${x}px;top:${y}px;width:7px;height:7px;border-radius:50%;background:${c};pointer-events:none;z-index:999998`;document.body.append(p);const a=Math.random()*6.28,d=30+Math.random()*50;p.animate([{transform:'none',opacity:1},{transform:`translate(${Math.cos(a)*d}px,${Math.sin(a)*d}px)`,opacity:0}],{duration:700}).onfinish=()=>p.remove()}}
+function bee(){if(!cfg.anim)return;const b=document.createElement('div'),y=Math.random()*innerHeight*.8;b.textContent='🐝';b.style.cssText='position:fixed;top:0;left:0;font-size:26px;pointer-events:none;z-index:99998';document.body.append(b);b.animate([{transform:`translate(-50px,${y}px)`},{transform:`translate(${innerWidth*.4}px,${y-60}px)`},{transform:`translate(${innerWidth*.7}px,${y+50}px)`},{transform:`translate(${innerWidth+50}px,${y-30}px)`}],{duration:9000,easing:'ease-in-out'}).onfinish=()=>b.remove()}
+setInterval(()=>Math.random()<.6&&bee(),7000);
+function petal(loop){const p=document.createElement('div');p.className='pt';p.style.left=Math.random()*100+'%';p.style.animationDuration=8+Math.random()*10+'s';if(loop)p.style.animationDelay=-Math.random()*10+'s';else{p.style.animationIterationCount=1;p.style.animationDelay=Math.random()*2+'s';p.onanimationend=()=>p.remove()}$('#desk').prepend(p)}
+for(let i=0;i<14;i++)petal(true);
+
+/* ---------- window manager ---------- */
+let z=10;const W={};
+function foc(id){Object.keys(W).forEach(k=>{W[k].el.classList.toggle('on',k==id);W[k].tbn.classList.toggle('act',k==id)});W[id].el.style.zIndex=++z}
+function mini(id){const w=W[id];w.el.classList.add('min');w.el.classList.remove('on');w.tbn.classList.remove('act')}
+function open(id){const a=apps[id];if(!a)return;if(W[id]){W[id].el.classList.remove('min');foc(id);return}
+const el=document.createElement('div'),n=Object.keys(W).length;el.className='win';
+el.style.cssText=`left:${80+n*30}px;top:${30+n*30}px;width:min(${a.w}px,95vw);height:min(${a.h}px,85vh)`;
+el.innerHTML=`<div class="tb"><span>${a.i} ${a.t}</span><span class="bt"><b data-a="min">–</b><b data-a="max">▢</b><b data-a="x">✕</b></span></div><div class="body"></div>`;
+$('#desk').append(el);
+const tbn=document.createElement('button');tbn.className='btn tbn';tbn.textContent=a.i+' '+a.t;
+tbn.onclick=()=>{const w=W[id];if(!w)return;if(w.el.classList.contains('on')&&!w.el.classList.contains('min'))mini(id);else{w.el.classList.remove('min');foc(id)}};
+$('#tasks').append(tbn);W[id]={el,tbn};
+const tb=el.firstChild;
+tb.onpointerdown=e=>{if(e.target.dataset.a||el.classList.contains('max'))return;const ox=e.clientX-el.offsetLeft,oy=e.clientY-el.offsetTop;tb.setPointerCapture(e.pointerId);tb.onpointermove=m=>{el.style.left=Math.max(-100,m.clientX-ox)+'px';el.style.top=Math.max(0,m.clientY-oy)+'px'};tb.onpointerup=()=>{tb.onpointermove=null}};
+el.onpointerdown=()=>W[id]&&foc(id);
+tb.ondblclick=e=>{if(!e.target.dataset.a)el.classList.toggle('max')};
+tb.onclick=e=>{const k=e.target.dataset.a;if(k=='min')mini(id);else if(k=='max')el.classList.toggle('max');else if(k=='x')close(id)};
+try{a.init(el.lastChild,id)}catch(err){el.lastChild.textContent='This app hit an error: '+err.message}
+foc(id);beep(660);const r=el.getBoundingClientRect();burst(r.left+r.width/2,r.top,'#DCC4F2')}
+function close(id){const w=W[id];if(!w)return;const r=w.el.getBoundingClientRect();burst(r.left+r.width/2,r.top+r.height/2,'#DCC4F2',16);w.el.classList.add('dis');w.tbn.remove();delete W[id];w.el.dispatchEvent(new Event('closed'));setTimeout(()=>w.el.remove(),350);beep(380)}
+const alive=(id,el)=>W[id]&&W[id].el===el;
+
+const NECTAR_URL='https://github.com/windydat/nectar'; // change this to wherever people can get Nectar
+/* ---------- apps ---------- */
+const apps={
+hive:{t:'The Hive',i:'🐝',w:620,h:480,init(b,id){const el=b.parentNode;let H={n:0,tot:0,fl:1,wk:0,fg:0,qn:0,lv:1,...ld('hive',{})};
+b.innerHTML='<div class="cv"><canvas></canvas></div><div class="hv"></div>';
+const cv=b.querySelector('canvas'),g=cv.getContext('2d'),hv=b.querySelector('.hv');
+const cost={fl:()=>Math.ceil(10*1.6**(H.fl-1)),wk:()=>Math.ceil(25*1.5**H.wk),fg:()=>Math.ceil(200*1.5**H.fg),qn:()=>Math.ceil(2000*1.6**H.qn),lv:()=>Math.ceil(100*3**(H.lv-1))};
+const defs=[['fl','🌸 Grow flower (+1 per click)',1],['wk','🐝 Worker bee (+1/s)',1],['fg','🍯 Forager bee (+6/s)',2],['qn','👑 Queen bee (+40/s)',3],['lv','🏠 Upgrade hive (x2 output)',1]];
+const rate=()=>(H.wk+6*H.fg+40*H.qn)*H.lv;
+function ui(){const goal=[100,1e3,1e4,1e5,1e6].find(x=>H.tot<x);
+hv.innerHTML=`<div>🍯 <b>${Math.floor(H.n)}</b> nectar · ${rate()}/s · Hive level ${H.lv}</div><div>${goal?`Goal: collect ${goal.toLocaleString()} nectar in total (${Math.floor(H.tot)} so far)`:'All goals done: your hive is legendary!'}</div><button class="btn" data-c="1">🌼 Collect nectar (+${H.fl*H.lv})</button>`+defs.map(([k,t,l])=>H.lv>=l?`<button class="btn" data-k="${k}" ${H.n<cost[k]()?'disabled':''}>${t} · ${cost[k]()} (${H[k]})</button>`:`<button class="btn" disabled>🔒 Unlocks at hive level ${l}</button>`).join('')}
+hv.onclick=e=>{const x=e.target.closest('button');if(!x)return;if(x.dataset.c){const v=H.fl*H.lv;H.n+=v;H.tot+=v;burst(e.clientX,e.clientY,'#F5C85B',8);beep(700)}else if(x.dataset.k){const k=x.dataset.k,c=cost[k]();if(H.n>=c){H.n-=c;H[k]++;burst(e.clientX,e.clientY,'#B89CE8',12);beep(520)}}sv('hive',H);ui()};
+const pts=[];for(let q=-2;q<=2;q++)for(let r=-2;r<=2;r++)if(Math.abs(q+r)<=2)pts.push([q+r/2,r]);pts.sort((a,b)=>Math.hypot(a[0],a[1])-Math.hypot(b[0],b[1]));
+const hex=(x,y,r)=>{g.beginPath();for(let k=0;k<6;k++)g.lineTo(x+r*Math.cos(k*1.047+.52),y+r*Math.sin(k*1.047+.52));g.closePath();g.fill();g.stroke()};
+function draw(t){if(!alive(id,el))return;cv.width=cv.clientWidth;cv.height=cv.clientHeight;const w=cv.width,h=cv.height,cx=w/2,cy=h*.45,r=Math.min(w,h)/12;
+g.fillStyle='#F5C85B';g.strokeStyle='#594477';g.lineWidth=2;pts.slice(0,Math.min(19,2+H.lv*3)).forEach(p=>hex(cx+p[0]*r*1.75,cy+p[1]*r*1.5,r));
+for(let i=0;i<Math.min(H.fl,30);i++){const x=(i+.5)*w/Math.min(H.fl,30);g.strokeStyle='#594477';g.beginPath();g.moveTo(x,h);g.lineTo(x,h-30);g.stroke();g.fillStyle=i%2?'#594477':'#FFF8E9';g.beginPath();g.arc(x,h-34,9,0,6.3);g.fill()}
+g.font='20px serif';const nb=Math.min(1+H.wk+H.fg+H.qn,40);for(let i=0;i<nb;i++)g.fillText(i<H.qn?'👑':'🐝',cx+Math.cos(t/600+i*2.4)*(70+i%5*28)*(w/600+.4)-10,cy+Math.sin(t/450+i*1.7)*(45+i%4*18)+8);
+requestAnimationFrame(draw)}
+const iv=setInterval(()=>{if(!alive(id,el))return clearInterval(iv);const v=rate();H.n+=v;H.tot+=v;sv('hive',H);ui()},1000);
+ui();requestAnimationFrame(draw)}},
+notes:{t:'Notes',i:'📓',w:540,h:400,init(b){let N=ld('notes',[{id:1,t:'Welcome',b:'Write something sweet 🪻'}]),cur=N[0]&&N[0].id,q='';
+b.innerHTML='<div class="row"><div class="side"><input class="in" placeholder="Search notes"><button class="btn">+ New note</button><div class="ls"></div></div><div class="ed"><input class="in" placeholder="Title"><textarea placeholder="Start writing..."></textarea><button class="btn">Delete note</button></div></div>';
+const sq=b.querySelector('.side input'),nw=b.querySelector('.side button'),ls=b.querySelector('.ls'),ti=b.querySelector('.ed input'),ta=b.querySelector('textarea'),del=b.querySelector('.ed button');
+const save=()=>sv('notes',N),get=()=>N.find(n=>n.id==cur);
+function list(){ls.innerHTML='';N.filter(n=>(n.t+n.b).toLowerCase().includes(q)).forEach(n=>{const d=document.createElement('div');d.className='li'+(n.id==cur?' sel':'');d.textContent=n.t||'Untitled';d.onclick=()=>{cur=n.id;list();load()};ls.append(d)})}
+function load(){const n=get();ti.value=n?n.t:'';ta.value=n?n.b:'';ti.disabled=ta.disabled=del.disabled=!n}
+sq.oninput=()=>{q=sq.value.toLowerCase();list()};
+nw.onclick=()=>{const n={id:Date.now(),t:'New note',b:''};N.unshift(n);cur=n.id;save();list();load();ti.focus();ti.select()};
+del.onclick=()=>{N=N.filter(n=>n.id!=cur);cur=N[0]&&N[0].id;save();list();load()};
+ti.oninput=ta.oninput=()=>{const n=get();if(n){n.t=ti.value;n.b=ta.value;save();list()}};
+list();load()}},
+calc:{t:'Calculator',i:'🧮',w:300,h:420,init(b){let ex='';b.innerHTML='<div class="dp">0</div><div class="kp"></div>';const dp=b.firstChild,kp=b.lastChild;
+const p=k=>{if(k=='C')ex='';else if(k=='⌫')ex=ex.slice(0,-1);else if(k=='='){if(/^[\d+\-*/.() ]+$/.test(ex)){try{const r=Function('return '+ex)();ex=isFinite(r)?String(+r.toFixed(10)):'Error'}catch(e){ex='Error'}}}else{if(ex=='Error')ex='';ex+=k}dp.textContent=ex||'0'};
+'C ⌫ ( ) 7 8 9 / 4 5 6 * 1 2 3 - 0 . = +'.split(' ').forEach(k=>{const x=document.createElement('button');x.textContent=k;x.className='btn k';x.onclick=()=>p(k);kp.append(x)});
+const h=e=>{if(!b.parentNode.classList.contains('on'))return;const k=e.key;if(/^[\d+\-*/.()]$/.test(k))p(k);else if(k=='Enter'||k=='=')p('=');else if(k=='Backspace')p('⌫');else if(k=='Escape')p('C')};
+document.addEventListener('keydown',h);b.parentNode.addEventListener('closed',()=>document.removeEventListener('keydown',h))}},
+term:{t:'Hive Console',i:'💻',w:560,h:380,init(b){b.innerHTML='<div class="out"></div><div class="pr">🐝 hive&gt;&nbsp;<input spellcheck="false"></div>';const o=b.firstChild,i=b.querySelector('input');
+const say=(t,c)=>{const d=document.createElement('div');d.textContent=t;if(c)d.style.color=c;o.append(d);o.scrollTop=1e9};
+say('Hive Console v1.0. Type help to begin.','#F5C85B');
+const C={help:()=>say('Commands: help clear date time whoami hive flowers bees about open <app>'),clear:()=>{o.innerHTML=''},date:()=>say(new Date().toDateString()),time:()=>say(new Date().toLocaleTimeString()),whoami:()=>say('a very busy worker bee'),hive:()=>say('🐝 The hive is warm and humming. Open The Hive app to grow it.'),flowers:()=>say('🪻 lilac  🌸 blossom  🌼 daisy  🌷 tulip'),bees:()=>{say('🐝 bzzz...');bee()},about:()=>say('Lilac OS 1.0, made with nectar.'),open:a=>apps[a]?open(a):say('No app called "'+a+'". Try: '+Object.keys(apps).join(', ')),bzz:()=>{say('SWARM!','#F5C85B');for(let k=0;k<8;k++)setTimeout(bee,k*250)},honey:()=>{say('🍯 sweet!','#F5C85B');burst(innerWidth/2,innerHeight/2,'#F5C85B',40)},lilac:()=>{say('🪻 petal storm');for(let k=0;k<30;k++)petal()}};
+i.onkeydown=e=>{if(e.key!='Enter')return;const[v='',...r]=i.value.trim().split(/\s+/),k=v.toLowerCase();say('> '+i.value,'#DCC4F2');if(v)Object.hasOwn(C,k)?C[k](r.join(' ').toLowerCase()):say('Unknown command: '+v,'#F5C85B');i.value=''};
+b.onclick=()=>i.focus();setTimeout(()=>i.focus(),50)}},
+tasks:{t:'Task Manager',i:'📊',w:380,h:300,init(b,id){const el=b.parentNode;
+const d=()=>{b.innerHTML=`<p style="margin:10px">Open windows: ${Object.keys(W).length} · Uptime: ${Math.floor((Date.now()-T0)/1000)}s</p><div style="overflow:auto">`+Object.keys(W).map(k=>`<div class="li">${apps[k].i} ${apps[k].t}<button class="btn" data-x="${k}" style="float:right">End</button></div>`).join('')+'</div>'};
+d();const iv=setInterval(()=>alive(id,el)?d():clearInterval(iv),1000);b.onclick=e=>{if(e.target.dataset.x){close(e.target.dataset.x);setTimeout(d,50)}}}},
+set:{t:'Settings',i:'⚙️',w:380,h:420,init(b){b.style.cssText+='padding:14px;gap:12px;overflow:auto';
+b.innerHTML=`<div>Wallpaper</div><div class="wp">${WP.map((w,k)=>`<button data-w="${k}" style="background:${w}"></button>`).join('')}</div><label>Brightness<br><input type="range" min=".5" max="1.2" step=".05" value="${cfg.br}"></label><label>Animations<br><select><option value="0">Off</option><option value="1">Calm</option><option value="2">Lively</option></select></label><label><input type="checkbox" ${cfg.snd?'checked':''}> Sound effects</label><label>Icon size<br><input type="range" min="36" max="96" value="${cfg.is}"></label>`;
+const r=b.querySelectorAll('input[type=range]'),s=b.querySelector('select'),c=b.querySelector('input[type=checkbox]');s.value=cfg.anim;
+b.querySelector('.wp').onclick=e=>{if(e.target.dataset.w){cfg.wall=+e.target.dataset.w;apply()}};
+r[0].oninput=()=>{cfg.br=+r[0].value;apply()};r[1].oninput=()=>{cfg.is=+r[1].value;apply()};s.onchange=()=>{cfg.anim=+s.value;apply()};c.onchange=()=>{cfg.snd=c.checked;apply()}}},
+nectar:{t:'Nectar',i:'🌸',w:460,h:430,init(b){b.style.cssText+='padding:20px;overflow:auto;gap:10px;user-select:text;align-items:center;text-align:center';
+b.innerHTML=`<svg viewBox="0 0 128 128" width="84" height="84"><defs><linearGradient id="ng" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#DCC4F2"/><stop offset="1" stop-color="#594477"/></linearGradient></defs><path d="M64 6l50 29v58l-50 29-50-29V35z" fill="url(#ng)" stroke="#F5C85B" stroke-width="5" stroke-linejoin="round"/><g fill="#FFF8E9"><ellipse cx="64" cy="40" rx="11" ry="20"/><ellipse cx="64" cy="40" rx="11" ry="20" transform="rotate(120 64 64)"/><ellipse cx="64" cy="40" rx="11" ry="20" transform="rotate(240 64 64)"/></g><circle cx="64" cy="64" r="11" fill="#F5C85B"/></svg><h2 style="margin:0">Nectar</h2><p style="margin:0">A lilac-and-honey desktop browser for your computer.</p><ul style="text-align:left;margin:6px 0"><li>Search with Google, DuckDuckGo, Brave or Bing</li><li>Tabs, bookmarks, history and a custom homepage</li><li>Themes, accent colors and your own logo</li><li>Proxy settings with encrypted credentials</li></ul><p style="margin:0;opacity:.8">Nectar is a separate app you install on your computer. It does not run inside this page.</p><a class="btn" href="${NECTAR_URL}" target="_blank" rel="noopener" style="text-decoration:none;display:inline-block">Get Nectar</a>`}},
+about:{t:'About Lilac OS',i:'🪻',w:420,h:300,init(b){b.style.cssText+='padding:20px;overflow:auto;gap:8px;user-select:text';b.innerHTML='<h2 style="margin:0">🪻 Lilac OS 1.0</h2><p>A tiny desktop that lives in your browser, powered by bees.</p><p><b>v1.0, first bloom:</b> desktop, draggable and resizable windows, The Hive, Notes, Calculator, Hive Console, Task Manager and Settings.</p>'}}
+};
+
+/* ---------- desktop shell ---------- */
+Object.keys(apps).forEach((k,i)=>{const d=document.createElement('div'),step=cfg.is+46;d.className='ic';d.style.cssText=`left:${14+Math.floor(i/5)*110}px;top:${14+(i%5)*step}px`;d.innerHTML=`<i>${apps[k].i}</i>${apps[k].t}`;
+d.onpointerdown=e=>{const ox=e.clientX-d.offsetLeft,oy=e.clientY-d.offsetTop;let mv=0;d.setPointerCapture(e.pointerId);d.onpointermove=m=>{mv=1;d.style.left=m.clientX-ox+'px';d.style.top=m.clientY-oy+'px'};d.onpointerup=()=>{d.onpointermove=null;if(!mv&&e.pointerType=='touch')open(k)}};
+d.ondblclick=()=>open(k);$('#desk').append(d)});
+const st=$('#start');Object.keys(apps).forEach(k=>{const x=document.createElement('button');x.className='btn';x.textContent=apps[k].i+' '+apps[k].t;x.onclick=()=>{open(k);st.classList.remove('on')};st.append(x)});
+$('#sb').onclick=e=>{e.stopPropagation();st.classList.toggle('on');beep(600)};
+document.addEventListener('click',e=>{if(!st.contains(e.target))st.classList.remove('on')});
+$('#snd').onclick=()=>{cfg.snd=!cfg.snd;apply();beep()};
+$('#fs').onclick=()=>{try{document.fullscreenElement?document.exitFullscreen():document.documentElement.requestFullscreen()}catch(e){}};
+const tick=()=>{$('#clk').textContent=new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'})};tick();setInterval(tick,1000);
+apply();
+
+/* ---------- boot ---------- */
+const L=['Pollinating system...','Collecting nectar...','Initializing hive...','WELCOME TO THE HIVE 🐝'],boot=$('#boot');let bi=0,iv;
+function done(){clearInterval(iv);boot.style.opacity=0;setTimeout(()=>boot.remove(),800)}
+iv=setInterval(()=>{bi++;if(bi<L.length)$('#bt').textContent=L[bi];else{clearInterval(iv);setTimeout(done,900)}},800);
+boot.onclick=done;
+</script></body></html>
 
