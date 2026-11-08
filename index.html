@@ -1,9 +1,8 @@
 <!DOCTYPE html>
 <html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Lilac OS: a bee-and-lilac desktop in your browser</title>
-<meta name="description" content="Lilac OS is a bee-and-lilac themed desktop that runs in your browser, with notes, a calculator, a terminal, a living beehive and the Nectar browser.">
-<meta name="google-site-verification" content="FnlV77sVZ6SD4myUSfHjipw-171AjtqE39FaE4R3KkA" />
+<meta name="description" content="Lilac OS is a bee-and-lilac themed desktop that runs in your browser, with notes, a calculator, a terminal, a living beehive and the Nectar search page.">
 <meta property="og:title" content="Lilac OS">
-<meta property="og:description" content="A tiny desktop OS with notes, a calculator, a terminal, a living beehive and the Nectar browser.">
+<meta property="og:description" content="A tiny desktop OS with notes, a calculator, a terminal, a living beehive and the Nectar search page.">
 <meta property="og:type" content="website">
 <style>
 :root{--lav:#B89CE8;--deep:#594477;--pink:#DCC4F2;--honey:#F5C85B;--cream:#FFF8E9;--dark:#21182F;--br:1;--is:56}
@@ -62,6 +61,28 @@ select option{color:#000}
 .cv canvas{position:absolute;inset:0;width:100%;height:100%}
 .hv{padding:8px;display:flex;flex-wrap:wrap;gap:6px;align-items:center;background:#21182fcc}.hv>div{flex-basis:100%}
 .wp{display:flex;gap:8px}.wp button{width:56px;height:36px;border-radius:8px;border:2px solid var(--cream);cursor:pointer}
+.nb{display:flex;justify-content:space-between;align-items:center;padding:8px 12px;border-bottom:1px solid #b89ce855;font-weight:bold}
+.nx{flex:1;display:flex;flex-direction:column;min-height:0}
+.nh{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;padding:16px;text-align:center;overflow:auto}
+.nh form{display:flex;gap:6px;width:min(480px,100%)}.nh form input{flex:1;min-width:0;border-radius:20px;padding:10px 16px}
+.ns{flex:1;display:flex;min-height:0}
+.nt{width:132px;padding:10px;display:flex;flex-direction:column;gap:6px;border-right:1px solid #b89ce855}
+.np{flex:1;padding:16px;overflow:auto;display:flex;flex-direction:column;gap:12px}.np h3{margin:0}.np p{margin:0;opacity:.85}
+.card{background:#ffffff14;border:1px solid #b89ce833;border-radius:12px;padding:12px}
+.eg{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.btn.on{background:var(--na,#B89CE8);color:var(--dark)}
+.sws i{display:inline-block;width:30px;height:30px;border-radius:50%;margin-right:8px;cursor:pointer;border:2px solid transparent}.sws i.on{border-color:var(--cream)}
+.nh.top{justify-content:flex-start}
+.nr{width:min(560px,100%);text-align:left;display:flex;flex-direction:column;gap:8px}
+.rs{display:block;padding:10px 12px;border-radius:10px;background:#ffffff14;color:inherit;text-decoration:none;user-select:text}.rs:hover{background:#ffffff26}
+.rs small{display:block;opacity:.6;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.rs span{font-size:13px;opacity:.9}
+.gb{display:flex;gap:6px;padding:8px;flex-wrap:wrap}
+.gs{padding:0 12px 6px;font-weight:bold;color:var(--honey);min-height:24px}
+.gst{flex:1;min-height:0;position:relative;background:#21182F;touch-action:none}
+.gst canvas{position:absolute;inset:0;width:100%;height:100%}
+.fc{display:grid;gap:8px;padding:12px;height:100%}
+.fc button{font-size:clamp(20px,6vw,40px);border-radius:12px;border:1px solid var(--lav);background:var(--deep);color:var(--cream);cursor:pointer;transition:.2s}
+.fc button.up{background:var(--cream)}.fc button.ok{background:var(--honey)}
 </style></head><body>
 <div id="desk"></div>
 <div id="start"></div>
@@ -103,7 +124,6 @@ foc(id);beep(660);const r=el.getBoundingClientRect();burst(r.left+r.width/2,r.to
 function close(id){const w=W[id];if(!w)return;const r=w.el.getBoundingClientRect();burst(r.left+r.width/2,r.top+r.height/2,'#DCC4F2',16);w.el.classList.add('dis');w.tbn.remove();delete W[id];w.el.dispatchEvent(new Event('closed'));setTimeout(()=>w.el.remove(),350);beep(380)}
 const alive=(id,el)=>W[id]&&W[id].el===el;
 
-const NECTAR_URL='https://github.com/windydat/nectar'; // change this to wherever people can get Nectar
 /* ---------- apps ---------- */
 const apps={
 hive:{t:'The Hive',i:'🐝',w:620,h:480,init(b,id){const el=b.parentNode;let H={n:0,tot:0,fl:1,wk:0,fg:0,qn:0,lv:1,...ld('hive',{})};
@@ -154,9 +174,105 @@ b.innerHTML=`<div>Wallpaper</div><div class="wp">${WP.map((w,k)=>`<button data-w
 const r=b.querySelectorAll('input[type=range]'),s=b.querySelector('select'),c=b.querySelector('input[type=checkbox]');s.value=cfg.anim;
 b.querySelector('.wp').onclick=e=>{if(e.target.dataset.w){cfg.wall=+e.target.dataset.w;apply()}};
 r[0].oninput=()=>{cfg.br=+r[0].value;apply()};r[1].oninput=()=>{cfg.is=+r[1].value;apply()};s.onchange=()=>{cfg.anim=+s.value;apply()};c.onchange=()=>{cfg.snd=c.checked;apply()}}},
-nectar:{t:'Nectar',i:'🌸',w:460,h:430,init(b){b.style.cssText+='padding:20px;overflow:auto;gap:10px;user-select:text;align-items:center;text-align:center';
-b.innerHTML=`<svg viewBox="0 0 128 128" width="84" height="84"><defs><linearGradient id="ng" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#DCC4F2"/><stop offset="1" stop-color="#594477"/></linearGradient></defs><path d="M64 6l50 29v58l-50 29-50-29V35z" fill="url(#ng)" stroke="#F5C85B" stroke-width="5" stroke-linejoin="round"/><g fill="#FFF8E9"><ellipse cx="64" cy="40" rx="11" ry="20"/><ellipse cx="64" cy="40" rx="11" ry="20" transform="rotate(120 64 64)"/><ellipse cx="64" cy="40" rx="11" ry="20" transform="rotate(240 64 64)"/></g><circle cx="64" cy="64" r="11" fill="#F5C85B"/></svg><h2 style="margin:0">Nectar</h2><p style="margin:0">A lilac-and-honey desktop browser for your computer.</p><ul style="text-align:left;margin:6px 0"><li>Search with Google, DuckDuckGo, Brave or Bing</li><li>Tabs, bookmarks, history and a custom homepage</li><li>Themes, accent colors and your own logo</li><li>Proxy settings with encrypted credentials</li></ul><p style="margin:0;opacity:.8">Nectar is a separate app you install on your computer. It does not run inside this page.</p><a class="btn" href="${NECTAR_URL}" target="_blank" rel="noopener" style="text-decoration:none;display:inline-block">Get Nectar</a>`}},
-about:{t:'About Lilac OS',i:'🪻',w:420,h:300,init(b){b.style.cssText+='padding:20px;overflow:auto;gap:8px;user-select:text';b.innerHTML='<h2 style="margin:0">🪻 Lilac OS 1.0</h2><p>A tiny desktop that lives in your browser, powered by bees.</p><p><b>v1.0, first bloom:</b> desktop, draggable and resizable windows, The Hive, Notes, Calculator, Hive Console, Task Manager and Settings.</p>'}}
+nectar:{t:'Nectar',i:'🌸',w:600,h:470,init(b){
+const ENG={google:['Google','https://www.google.com/search?q='],duckduckgo:['DuckDuckGo','https://duckduckgo.com/?q='],brave:['Brave Search','https://search.brave.com/search?q='],bing:['Microsoft Bing','https://www.bing.com/search?q='],nectar:['Nectar results','']};
+const TAVILY_WORKER=''; // paste your Cloudflare Worker address between the quotes
+const AC=['#B89CE8','#F5C85B','#E58CC0','#7FB7A4','#6C8EEF'],esc=x=>String(x).replace(/[&<>"']/g,c=>'&#'+c.charCodeAt(0)+';');
+const LG='<svg viewBox="0 0 128 128" width="84" height="84"><defs><linearGradient id="ng" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#DCC4F2"/><stop offset="1" stop-color="#594477"/></linearGradient></defs><path d="M64 6l50 29v58l-50 29-50-29V35z" fill="url(#ng)" stroke="#F5C85B" stroke-width="5" stroke-linejoin="round"/><g fill="#FFF8E9"><ellipse cx="64" cy="40" rx="11" ry="20"/><ellipse cx="64" cy="40" rx="11" ry="20" transform="rotate(120 64 64)"/><ellipse cx="64" cy="40" rx="11" ry="20" transform="rotate(240 64 64)"/></g><circle cx="64" cy="64" r="11" fill="#F5C85B"/></svg>';
+let S={engine:'duckduckgo',hist:false,accent:AC[0],...ld('nectar',{})},H=ld('nectarH',[]),v='home',tab='s',R=null,LQ='';
+if(!ENG[S.engine])S.engine='duckduckgo';
+const save=()=>sv('nectar',S);
+async function run(q){q=String(q).trim();if(!q)return;LQ=q;if(S.hist){H=[q,...H.filter(x=>x!=q)].slice(0,20);sv('nectarH',H)}
+if(S.engine=='nectar'){if(!TAVILY_WORKER){R={s:'err',m:'Nectar results are not set up yet. Add your worker address to the Nectar code first.'};r();return}
+R={s:'load'};r();try{const res=await fetch(TAVILY_WORKER+'?q='+encodeURIComponent(q));const d=await res.json();if(!res.ok)throw new Error('bad');R={s:'ok',items:(d.results||[]).filter(x=>/^https?:\/\//.test(x.url))}}catch(e){R={s:'err',m:'The search failed. Try again in a moment.'}}r();return}
+R=null;window.open(ENG[S.engine][1]+encodeURIComponent(q),'_blank','noopener');if(v=='home')r()}
+function r(){b.style.setProperty('--na',S.accent);const E=Object.entries(ENG);let body;const res=R?(R.s=='load'?'<p>Searching…</p>':R.s=='err'?`<p>${esc(R.m)}</p>`:R.items.length?`<div class="nr">${R.items.map(x=>`<a class="rs" href="${esc(x.url)}" target="_blank" rel="noopener"><b>${esc(x.title||x.url)}</b><small>${esc(x.url)}</small><span>${esc((x.content||'').slice(0,220))}</span></a>`).join('')}</div>`:'<p>No results found.</p>'):'';
+if(v=='home')body=`<div class="nh${R?' top':''}">${LG}<h2 style="margin:0">Nectar</h2><p style="margin:0;opacity:.8">One search box for four search engines</p><form><select class="in" id="ne">${E.map(([k,x])=>`<option value="${k}"${k==S.engine?' selected':''}>${x[0]}</option>`).join('')}</select><input class="in" id="nq" placeholder="Search with ${ENG[S.engine][0]}" autocomplete="off"><button class="btn on">Search</button></form>${S.hist&&H.length?`<div>${H.slice(0,6).map(q=>`<button class="btn" data-h="${esc(q)}">${esc(q)}</button>`).join(' ')}</div>`:''}${res}<small style="opacity:.7">Other engines open in a new tab. "Nectar results" shows results here.</small></div>`;
+else{let pn;
+if(tab=='s')pn=`<h3>Search engine</h3><p>Choose which engine Nectar uses for your searches.</p><div class="eg">${E.map(([k,x])=>`<button class="btn${k==S.engine?' on':''}" data-e="${k}">${x[0]}</button>`).join('')}</div><div class="card">Nectar is searching with <b>${ENG[S.engine][0]}</b>. You can switch any time, including on the Nectar home screen.</div>`;
+else if(tab=='a')pn=`<h3>Look</h3><p>Pick an accent color for Nectar.</p><div class="sws">${AC.map(c=>`<i data-c="${c}" class="${c==S.accent?'on':''}" style="background:${c}"></i>`).join('')}</div><div class="card">Your choice is saved on this device.</div>`;
+else pn=`<h3>Privacy</h3><label><input type="checkbox" id="nh"${S.hist?' checked':''}> Remember my recent searches on this device</label><div><button class="btn" data-clr="1">Clear recent searches</button></div><div class="card">Nectar keeps nothing by default. If you turn this on, recent searches are stored only in this browser on this device. Your searches go to the engine you pick, and nowhere else.</div>`;
+body=`<div class="ns"><div class="nt">${[['s','🔎 Search'],['a','🎨 Look'],['p','🔒 Privacy']].map(([k,l])=>`<button class="btn${tab==k?' on':''}" data-t="${k}">${l}</button>`).join('')}</div><div class="np">${pn}</div></div>`}
+b.innerHTML=`<div class="nx"><div class="nb"><span>🌸 Nectar</span><button class="btn" data-v="${v=='home'?'set':'home'}">${v=='home'?'⚙ Settings':'← Back'}</button></div>${body}</div>`;
+const f=b.querySelector('form');if(f)f.onsubmit=e=>{e.preventDefault();run(b.querySelector('#nq').value)};
+const ne=b.querySelector('#ne');if(ne)ne.onchange=()=>{S.engine=ne.value;R=null;save();r()};
+const nh=b.querySelector('#nh');if(nh)nh.onchange=()=>{S.hist=nh.checked;if(!S.hist){H=[];sv('nectarH',H)}save()};
+const q=b.querySelector('#nq');if(q){q.value=LQ;q.focus()}}
+b.onclick=e=>{const d=e.target.dataset;if(d.v){v=d.v;r()}else if(d.t){tab=d.t;r()}else if(d.e){S.engine=d.e;R=null;save();r()}else if(d.c){S.accent=d.c;save();r()}else if(d.h)run(d.h);else if(d.clr){H=[];sv('nectarH',H);e.target.textContent='Cleared ✓'}};
+r()}},
+games:{t:'Games',i:'🎮',w:540,h:520,init(b,id){const el=b.parentNode;
+const GN=[['flight','🐝 Bee Flight'],['catch','🌸 Petal Catcher'],['match','🪻 Flower Match'],['maze','🍯 Hive Maze']];
+let G='flight',tok=0,B=ld('gbest',{}),keys={},onKey=null;
+b.innerHTML='<div class="gb"></div><div class="gs"></div><div class="gst"></div>';
+const bar=b.querySelector('.gb'),sc=b.querySelector('.gs'),st=b.querySelector('.gst');
+const say=t=>{sc.textContent=t},best=(k,v,low)=>{if(B[k]==null||(low?v<B[k]:v>B[k])){B[k]=v;sv('gbest',B)}};
+const run=my=>tok==my&&W[id]&&W[id].el===el;
+const cvs=()=>{st.innerHTML='<canvas></canvas>';return st.firstChild};
+const dB=(g,x,y,s,t)=>{g.save();g.translate(x,y);g.scale(s,s);g.fillStyle='rgba(255,248,233,.85)';g.beginPath();g.ellipse(-3,-9,6,9+Math.sin(t/60)*2,-.5,0,6.3);g.fill();g.fillStyle='#F5C85B';g.beginPath();g.ellipse(0,0,13,9,0,0,6.3);g.fill();g.fillStyle='#21182F';g.fillRect(-5,-8,3,16);g.fillRect(2,-8,3,16);g.beginPath();g.arc(10,-2,1.8,0,6.3);g.fill();g.restore()};
+const txt=(g,t,w,h,sz)=>{g.fillStyle='#FFF8E9';g.font='bold '+(sz||22)+'px Trebuchet MS,sans-serif';g.textAlign='center';g.fillText(t,w/2,h/2);g.textAlign='left'};
+const sky=(g,w,h)=>{const q=g.createLinearGradient(0,0,0,h);q.addColorStop(0,'#594477');q.addColorStop(1,'#B89CE8');g.fillStyle=q;g.fillRect(0,0,w,h)};
+const kd=e=>{if(!el.classList.contains('on')||/INPUT|TEXTAREA/.test(e.target.tagName))return;keys[e.key]=1;if(onKey)onKey(e)},ku=e=>{delete keys[e.key]};
+document.addEventListener('keydown',kd);document.addEventListener('keyup',ku);
+el.addEventListener('closed',()=>{tok++;document.removeEventListener('keydown',kd);document.removeEventListener('keyup',ku)});
+bar.onclick=e=>{const d=e.target.dataset;if(d.g){G=d.g;start()}else if(d.r)start()};
+function start(){tok++;onKey=null;st.onpointerdown=st.onpointermove=null;st.innerHTML='';st.style.background='';
+bar.innerHTML=GN.map(([k,l])=>`<button class="btn${k==G?' on':''}" data-g="${k}">${l}</button>`).join('')+'<button class="btn" data-r="1">↻ Restart</button>';
+({flight,catcher,match,maze})[G==='catch'?'catcher':G](tok)}
+
+function flight(my){const cv=cvs(),g=cv.getContext('2d');let y=0,vy=0,P=[],D=[],pts=0,state=0,last=performance.now();
+const flap=()=>{if(state==2){start();return}state=1;vy=-330};
+st.onpointerdown=flap;onKey=e=>{if(e.key==' '||e.key=='ArrowUp'){e.preventDefault();flap()}};
+const frame=t=>{if(!run(my))return;const dt=Math.min((t-last)/1000,.05);last=t;cv.width=cv.clientWidth;cv.height=cv.clientHeight;const w=cv.width,h=cv.height,bx=w*.25,vx=130+pts*2;
+if(state==0)y=h/2+Math.sin(t/250)*10;
+if(state==1){vy+=900*dt;y+=vy*dt;
+if(!P.length||P[P.length-1].x<w-230){const gp=Math.max(120,175-pts*2),gy=50+Math.random()*Math.max(10,h-gp-100);P.push({x:w+20,gy,gp,ok:0});if(Math.random()<.7)D.push({x:w+135,y:gy+gp/2+(Math.random()-.5)*gp*.4})}
+P.forEach(p=>p.x-=vx*dt);D.forEach(d=>d.x-=vx*dt);P=P.filter(p=>p.x>-60);
+D=D.filter(d=>{if(Math.hypot(d.x-bx,d.y-y)<20){pts+=3;return false}return d.x>-20});
+P.forEach(p=>{if(!p.ok&&p.x+46<bx){p.ok=1;pts++}if(bx+11>p.x&&bx-11<p.x+46&&(y-9<p.gy||y+9>p.gy+p.gp))state=2});
+if(y<0||y>h)state=2;if(state==2)best('flight',pts)}
+sky(g,w,h);P.forEach(p=>{g.fillStyle='#3d2d57';g.fillRect(p.x,0,46,p.gy);g.fillRect(p.x,p.gy+p.gp,46,h);g.fillStyle='#E58CC0';[p.gy,p.gy+p.gp].forEach(yy=>{g.beginPath();g.arc(p.x+23,yy,19,0,6.3);g.fill()});g.fillStyle='#F5C85B';[p.gy,p.gy+p.gp].forEach(yy=>{g.beginPath();g.arc(p.x+23,yy,6,0,6.3);g.fill()})});
+D.forEach(d=>{g.fillStyle='#F5C85B';g.beginPath();g.arc(d.x,d.y,8,0,6.3);g.fill();g.fillStyle='#FFF8E9';g.beginPath();g.arc(d.x-2,d.y-3,2.5,0,6.3);g.fill()});
+dB(g,bx,y,1.2,t);say(`Score: ${pts} · Best: ${B.flight||0}`);
+if(state==0)txt(g,'Tap, click or press Space to flap',w,h);if(state==2)txt(g,'Game over! Tap to try again',w,h);
+requestAnimationFrame(frame)};requestAnimationFrame(frame)}
+
+function catcher(my){const cv=cvs(),g=cv.getContext('2d');let x=200,I=[],pts=0,lives=3,over=0,acc=0,last=performance.now();
+st.onpointermove=e=>{x=e.clientX-st.getBoundingClientRect().left};st.onpointerdown=e=>{if(over)start()};
+const frame=t=>{if(!run(my))return;const dt=Math.min((t-last)/1000,.05);last=t;cv.width=cv.clientWidth;cv.height=cv.clientHeight;const w=cv.width,h=cv.height;
+if(!over){if(keys.ArrowLeft||keys.a)x-=440*dt;if(keys.ArrowRight||keys.d)x+=440*dt;x=Math.max(34,Math.min(w-34,x));acc-=dt;
+if(acc<=0){acc=Math.max(.3,.8-pts/150);const r=Math.random();I.push({x:20+Math.random()*(w-40),y:-20,k:r<.15?2:r<.3?1:0,a:Math.random()*6})}
+I.forEach(i=>{i.y+=(130+pts*1.5)*dt;i.a+=dt*3});
+I=I.filter(i=>{if(i.y>h-40&&i.y<h-8&&Math.abs(i.x-x)<38){if(i.k==2){lives--;if(lives<=0){over=1;best('catch',pts)}}else pts+=i.k?3:1;return false}return i.y<h+20})}
+sky(g,w,h);I.forEach(i=>{g.save();g.translate(i.x,i.y);if(i.k==0){g.rotate(i.a);g.fillStyle='#DCC4F2';g.beginPath();g.ellipse(0,0,6,11,0,0,6.3);g.fill()}else if(i.k==1){g.fillStyle='#F5C85B';g.beginPath();g.arc(0,0,9,0,6.3);g.fill();g.fillStyle='#FFF8E9';g.beginPath();g.arc(-3,-3,3,0,6.3);g.fill()}else{g.rotate(i.a);g.fillStyle='#21182F';g.strokeStyle='#E5584F';g.lineWidth=2;g.beginPath();for(let k=0;k<8;k++){const r=k%2?6:13,an=k*.785;g.lineTo(Math.cos(an)*r,Math.sin(an)*r)}g.closePath();g.fill();g.stroke()}g.restore()});
+g.fillStyle='#F5C85B';g.strokeStyle='#594477';g.lineWidth=3;g.beginPath();g.moveTo(x-38,h-34);g.lineTo(x+38,h-34);g.lineTo(x+26,h-8);g.lineTo(x-26,h-8);g.closePath();g.fill();g.stroke();
+say(`Petals: ${pts} · Lives: ${'♥'.repeat(Math.max(0,lives))} · Best: ${B.catch||0}`);
+if(over)txt(g,'Game over! Tap to try again',w,h);requestAnimationFrame(frame)};requestAnimationFrame(frame);
+if(!st.title)st.title='Move the mouse or use the arrow keys. Catch petals and nectar, dodge thorns.'}
+
+function match(my){const E=['🌸','🌼','🌷','🪻','🌻','🌹','🌺','💐'],C=[...E,...E].sort(()=>Math.random()-.5);let open=[],moves=0,done=0,lock=0;
+st.style.background='#2d2142';st.innerHTML='<div class="fc" style="grid-template:repeat(4,1fr)/repeat(4,1fr)">'+C.map((c,i)=>`<button data-i="${i}">🐝</button>`).join('')+'</div>';
+const f=st.firstChild,btn=i=>f.children[i],info=()=>say(`Moves: ${moves} · Pairs: ${done}/8 · Best: ${B.match||'none'}`);info();
+f.onclick=e=>{const i=+e.target.dataset.i;if(isNaN(i)||lock||open.includes(i)||btn(i).classList.contains('ok'))return;
+btn(i).textContent=C[i];btn(i).classList.add('up');open.push(i);
+if(open.length==2){moves++;lock=1;const[a,c]=open;setTimeout(()=>{if(tok!=my)return;if(C[a]==C[c]){[a,c].forEach(k=>{btn(k).classList.remove('up');btn(k).classList.add('ok')});done++}else[a,c].forEach(k=>{btn(k).textContent='🐝';btn(k).classList.remove('up')});open=[];lock=0;info();
+if(done==8){best('match',moves,1);say(`You matched every pair in ${moves} moves! Best: ${B.match}`)}},650)}}}
+
+function maze(my){const cv=cvs(),g=cv.getContext('2d');let n=9,lvl=1,pol=0,M,p,pl;
+const mk=n=>{const c=[...Array(n*n)].map(()=>[1,1,1,1]),seen=Array(n*n).fill(0),s=[0],D=[[0,-1,0,2],[1,0,1,3],[0,1,2,0],[-1,0,3,1]];seen[0]=1;
+while(s.length){const i=s[s.length-1],x=i%n,y=(i/n)|0,o=D.filter(d=>{const a=x+d[0],q=y+d[1];return a>=0&&q>=0&&a<n&&q<n&&!seen[q*n+a]});
+if(!o.length){s.pop();continue}const d=o[Math.random()*o.length|0],j=(y+d[1])*n+x+d[0];c[i][d[2]]=0;c[j][d[3]]=0;seen[j]=1;s.push(j)}return c};
+const gen=()=>{M=mk(n);p=0;pl=new Set([...Array(n*n).keys()].slice(1,-1).sort(()=>Math.random()-.5).slice(0,n))};gen();
+onKey=e=>{const m={ArrowUp:0,w:0,ArrowRight:1,d:1,ArrowDown:2,s:2,ArrowLeft:3,a:3}[e.key];if(m==null)return;e.preventDefault();if(M[p][m])return;p+=[-n,1,n,-1][m];if(pl.delete(p)){pol++;best('maze',pol)}
+if(p==n*n-1){lvl++;n=Math.min(15,8+lvl);gen()}};
+const frame=t=>{if(!run(my))return;cv.width=cv.clientWidth;cv.height=cv.clientHeight;const w=cv.width,h=cv.height,s=Math.min((w-20)/n,(h-20)/n),ox=(w-s*n)/2,oy=(h-s*n)/2;
+g.fillStyle='#21182F';g.fillRect(0,0,w,h);g.strokeStyle='#B89CE8';g.lineWidth=3;g.lineCap='round';g.beginPath();
+M.forEach((c,i)=>{const x=ox+(i%n)*s,y=oy+((i/n)|0)*s;if(c[0]){g.moveTo(x,y);g.lineTo(x+s,y)}if(c[1]){g.moveTo(x+s,y);g.lineTo(x+s,y+s)}if(c[2]){g.moveTo(x,y+s);g.lineTo(x+s,y+s)}if(c[3]){g.moveTo(x,y);g.lineTo(x,y+s)}});g.stroke();
+g.fillStyle='#F5C85B';pl.forEach(i=>{g.beginPath();g.arc(ox+(i%n+.5)*s,oy+(((i/n)|0)+.5)*s,s*.12,0,6.3);g.fill()});
+const gx=ox+(n-.5)*s,gy=oy+(n-.5)*s;g.fillStyle='#DCC4F2';g.beginPath();for(let k=0;k<6;k++)g.lineTo(gx+s*.32*Math.cos(k*1.047+.52),gy+s*.32*Math.sin(k*1.047+.52));g.closePath();g.fill();
+dB(g,ox+(p%n+.5)*s,oy+(((p/n)|0)+.5)*s,s/34,t);
+say(`Pollen: ${pol} · Level ${lvl} · Best: ${B.maze||0} · Arrow keys or WASD to move to the hive`);requestAnimationFrame(frame)};requestAnimationFrame(frame)}
+start()}},
+about:{t:'About Lilac OS',i:'🪻',w:420,h:300,init(b){b.style.cssText+='padding:20px;overflow:auto;gap:8px;user-select:text';b.innerHTML='<h2 style="margin:0">🪻 Lilac OS 1.0</h2><p>A tiny desktop that lives in your browser, powered by bees.</p><p><b>v1.0, first bloom:</b> desktop, draggable and resizable windows, The Hive, Notes, Calculator, Hive Console, Task Manager, Settings, Nectar search and four bee games.</p>'}}
 };
 
 /* ---------- desktop shell ---------- */
@@ -177,4 +293,3 @@ function done(){clearInterval(iv);boot.style.opacity=0;setTimeout(()=>boot.remov
 iv=setInterval(()=>{bi++;if(bi<L.length)$('#bt').textContent=L[bi];else{clearInterval(iv);setTimeout(done,900)}},800);
 boot.onclick=done;
 </script></body></html>
-
