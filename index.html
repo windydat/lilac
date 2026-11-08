@@ -1,190 +1,210 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Lilac OS</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lilac OS — Nectar Browser</title>
 <style>
-:root {
-  --bg:#21182f;
-  --panel:#322444;
-  --purple:#b89ce8;
-  --pink:#dcc4f2;
-  --gold:#f5c85b;
-  --white:#fff8e9;
+:root{
+  --lav:#B89CE8;
+  --deep:#594477;
+  --pink:#DCC4F2;
+  --honey:#F5C85B;
+  --cream:#FFF8E9;
+  --dark:#21182F;
 }
 *{box-sizing:border-box}
-body{
-  margin:0;
-  font-family:"Trebuchet MS",Arial,sans-serif;
-  background:var(--bg);
-  color:var(--white);
+html,body{
+  margin:0;width:100%;height:100%;
   overflow:hidden;
+  font-family:"Trebuchet MS",system-ui,sans-serif;
+  color:var(--cream);
+  background:var(--dark);
 }
 button,input,textarea,select{font:inherit}
 button{
-  background:#594477;
-  color:var(--white);
-  border:1px solid #b89ce877;
-  border-radius:9px;
-  padding:8px 12px;
   cursor:pointer;
-}
-button:hover{background:var(--purple);color:var(--bg)}
-input,textarea,select{
-  background:#ffffff18;
+  background:var(--deep);
   border:1px solid #b89ce888;
-  border-radius:8px;
-  padding:10px;
-  color:var(--white);
+  color:var(--cream);
+  padding:8px 12px;
+  border-radius:9px;
+}
+button:hover{background:var(--lav);color:var(--dark)}
+button:disabled{opacity:.4;cursor:default}
+input,textarea,select{
+  color:var(--cream);
+  background:#ffffff15;
+  border:1px solid #b89ce888;
+  border-radius:9px;
+  padding:9px;
 }
 select option{color:black}
-input,textarea{user-select:text}
+input:focus,textarea:focus{
+  outline:2px solid var(--lav);
+}
 #desktop{
   position:fixed;
   inset:0 0 48px;
-  background:
-    radial-gradient(circle at 20% 15%,#7958a3,transparent 55%),
-    radial-gradient(circle at 80% 85%,#594477,transparent 60%),
-    linear-gradient(135deg,#3a2a54,#21182f);
   overflow:hidden;
+  background:
+    radial-gradient(circle at 20% 15%,#7a5cae,transparent 55%),
+    radial-gradient(circle at 80% 90%,#594477,transparent 60%),
+    linear-gradient(160deg,#3a2a54,#21182F);
 }
-.icon{
-  width:95px;
-  padding:8px;
-  text-align:center;
+#desktop:before{
+  content:"";
+  position:absolute;inset:0;
+  pointer-events:none;
+  background-image:radial-gradient(#dcc4f230 1px,transparent 1px);
+  background-size:28px 28px;
+}
+.desktop-icon{
   position:absolute;
-  border-radius:12px;
-  cursor:pointer;
+  width:96px;
+  min-height:92px;
+  padding:7px;
+  text-align:center;
   font-size:12px;
+  cursor:pointer;
+  border-radius:13px;
   user-select:none;
+  touch-action:none;
 }
-.icon:hover{background:#ffffff22}
-.icon .emoji{font-size:48px;display:block}
+.desktop-icon:hover{
+  background:#b89ce833;
+  box-shadow:0 0 16px #b89ce855;
+}
+.desktop-icon .emoji{
+  display:block;font-size:49px;
+}
 .window{
   position:absolute;
   display:flex;
   flex-direction:column;
   min-width:270px;
-  min-height:190px;
-  background:#302341ef;
-  border:1px solid var(--purple);
-  border-radius:14px;
-  box-shadow:0 14px 38px #0008;
+  min-height:180px;
+  max-width:100%;
   overflow:hidden;
+  background:#302241ee;
+  backdrop-filter:blur(14px);
+  border:1px solid var(--lav);
+  border-radius:14px;
+  box-shadow:0 14px 40px #0008;
   resize:both;
 }
-.window.max{
-  left:0!important;
-  top:0!important;
-  width:100%!important;
-  height:100%!important;
-  resize:none;
-  border-radius:0;
+.window.active{
+  box-shadow:0 0 25px #b89ce877,0 14px 40px #0008;
 }
-.window.min{display:none}
+.window.maximized{
+  left:0!important;top:0!important;
+  width:100%!important;height:100%!important;
+  border-radius:0;resize:none;
+}
+.window.minimized{display:none}
 .titlebar{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  background:linear-gradient(90deg,#594477,#8062a9);
-  padding:7px 10px;
-  cursor:grab;
-  touch-action:none;
+  background:linear-gradient(90deg,#594477,#8465ae);
+  padding:8px 11px;
+  display:flex;justify-content:space-between;align-items:center;
+  cursor:grab;touch-action:none;
   user-select:none;
 }
-.controls{display:flex;gap:4px}
-.controls button{padding:2px 9px}
-.content{
-  flex:1;
-  min-height:0;
+.win-buttons{display:flex;gap:5px}
+.win-buttons button{padding:2px 9px}
+.window-body{
+  flex:1;min-height:0;
+  display:flex;flex-direction:column;
   overflow:auto;
-  display:flex;
-  flex-direction:column;
 }
 #taskbar{
-  position:fixed;
-  bottom:0;
-  left:0;
-  right:0;
+  position:fixed;bottom:0;left:0;right:0;
   height:48px;
+  display:flex;align-items:center;gap:7px;
+  padding:5px 9px;
   background:#21182ff2;
-  display:flex;
-  align-items:center;
-  gap:7px;
-  padding:5px;
+  border-top:1px solid var(--lav);
   z-index:99999;
-  border-top:1px solid var(--purple);
 }
-#tasks{display:flex;flex:1;gap:5px;overflow:auto}
+#tasks{flex:1;display:flex;gap:5px;overflow:auto}
 #tasks button{white-space:nowrap}
-#startMenu{
-  display:none;
-  position:fixed;
-  left:8px;
-  bottom:53px;
-  width:230px;
-  max-height:70vh;
-  overflow:auto;
-  background:#302341;
-  border:1px solid var(--purple);
-  border-radius:13px;
-  padding:9px;
+#startmenu{
+  position:fixed;bottom:56px;left:8px;
+  width:250px;max-height:70vh;overflow:auto;
+  display:none;flex-direction:column;gap:5px;
+  padding:10px;
+  border-radius:15px;
+  background:#302241;
+  border:1px solid var(--lav);
+  box-shadow:0 0 22px #b89ce866;
   z-index:99998;
 }
-#startMenu.open{display:grid;gap:5px}
-#startMenu button{text-align:left}
-#clock{white-space:nowrap}
-.padded{padding:14px;display:flex;flex-direction:column;gap:10px}
-.flex{display:flex;gap:8px}
-.flex>*{min-width:0}
-.searchBox{
-  display:flex;
-  gap:7px;
-  width:min(100%,540px);
-}
-.searchBox input{flex:1;min-width:0}
-.result{
-  display:block;
-  padding:13px;
-  background:#ffffff12;
-  border:1px solid #ffffff1a;
-  border-radius:10px;
-  text-decoration:none;
-  color:var(--white);
-  overflow-wrap:anywhere;
-}
-.result:hover{background:#ffffff25}
-.result strong{display:block;color:var(--pink)}
-.result small{color:var(--gold)}
-.result p{font-size:13px;opacity:.85}
+#startmenu.visible{display:flex}
+#startmenu button{text-align:left}
+#clock{white-space:nowrap;font-size:13px}
 #boot{
-  position:fixed;
-  inset:0;
-  background:radial-gradient(circle,#3a2a54,#21182f);
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  justify-content:center;
+  position:fixed;inset:0;
   z-index:999999;
+  background:radial-gradient(circle,#3a2a54,var(--dark));
+  display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
   transition:opacity .7s;
 }
-#boot .logo{font-size:90px}
-#boot h1{letter-spacing:8px;color:var(--pink)}
-canvas{display:block;width:100%;height:100%}
-.gameCanvas{flex:1;min-height:180px;touch-action:none}
-.small{font-size:13px;opacity:.75}
+#boot h1{letter-spacing:7px;color:var(--pink)}
+#boot .logo{font-size:85px}
+.panel{
+  padding:14px;
+  display:flex;flex-direction:column;gap:10px;
+}
+.row{display:flex;gap:8px;align-items:center}
+.row input{min-width:0;flex:1}
+.muted{opacity:.7;font-size:13px}
+.card{
+  background:#ffffff12;
+  border:1px solid #ffffff20;
+  border-radius:12px;
+  padding:12px;
+}
+.link-card{
+  display:flex;flex-direction:column;gap:6px;
+  color:var(--cream);text-decoration:none;
+  background:#ffffff12;
+  border:1px solid #b89ce833;
+  border-radius:12px;
+  padding:13px;
+  overflow-wrap:anywhere;
+}
+.link-card:hover{background:#ffffff24}
+.link-card strong{color:var(--pink)}
+.link-card small{color:var(--honey)}
+.link-card p{font-size:13px;margin:0}
+#nectar-results{display:grid;gap:9px}
+#nectar-page{min-height:100%;overflow:auto}
+.search-form{
+  display:flex;gap:7px;
+  width:min(100%,580px);
+}
+.search-form input{flex:1;min-width:0}
+#game-area{
+  flex:1;min-height:200px;
+  position:relative;overflow:hidden;
+  background:#21182f;
+}
+#game-area canvas{
+  width:100%;height:100%;
+  display:block;touch-action:none;
+}
 </style>
 </head>
-<body>
 
+<body>
 <div id="desktop"></div>
-<div id="startMenu"></div>
+<div id="startmenu"></div>
 
 <div id="taskbar">
-  <button id="startButton">🪻 Start</button>
+  <button id="startbtn">🪻 Start</button>
   <div id="tasks"></div>
-  <button id="soundButton">🔊</button>
+  <button id="soundbtn">🔊</button>
   <button id="fullscreen">⛶</button>
   <span id="clock"></span>
 </div>
@@ -198,261 +218,299 @@ canvas{display:block;width:100%;height:100%}
 <script>
 "use strict";
 
-/* ========= CONFIGURATION ========= */
+/* ==============================
+   TAVILY CONNECTION
+   ============================== */
 
 const TAVILY_WORKER =
   "https://nectar-search.nathanjf2091.workers.dev/";
 
-const $ = s => document.querySelector(s);
-const desktop = $("#desktop");
+/* ==============================
+   UTILITIES
+   ============================== */
 
-function load(key,fallback){
-  try {
-    const data=JSON.parse(localStorage.getItem(key));
-    return data===null?fallback:data;
-  }catch{
-    return fallback;
-  }
-}
-function save(key,data){
-  try{localStorage.setItem(key,JSON.stringify(data))}catch{}
-}
-function escapeHTML(value){
-  return String(value).replace(/[&<>"']/g,c=>({
+const $=s=>document.querySelector(s);
+const desktop=$("#desktop");
+
+const getData=(key,fallback)=>{
+  try{
+    const value=JSON.parse(localStorage.getItem(key));
+    return value===null?fallback:value;
+  }catch{return fallback}
+};
+
+const setData=(key,value)=>{
+  try{localStorage.setItem(key,JSON.stringify(value))}
+  catch{}
+};
+
+const escapeHTML=value=>String(value).replace(
+  /[&<>"']/g,
+  c=>({
     "&":"&amp;","<":"&lt;",">":"&gt;",
     '"':"&quot;","'":"&#39;"
-  })[c]);
-}
+  })[c]
+);
 
-let sound=true;
-let audioContext;
-function beep(freq=520){
+let sound=true,audio;
+function beep(freq=540){
   if(!sound)return;
   try{
-    audioContext ||= new AudioContext();
-    const osc=audioContext.createOscillator();
-    const gain=audioContext.createGain();
+    audio ||= new AudioContext();
+    const osc=audio.createOscillator();
+    const gain=audio.createGain();
     osc.frequency.value=freq;
-    gain.gain.value=.025;
+    gain.gain.value=.035;
     osc.connect(gain);
-    gain.connect(audioContext.destination);
+    gain.connect(audio.destination);
     osc.start();
     gain.gain.exponentialRampToValueAtTime(
-      .001,audioContext.currentTime+.12
+      .001,audio.currentTime+.13
     );
-    osc.stop(audioContext.currentTime+.12);
+    osc.stop(audio.currentTime+.13);
   }catch{}
 }
 
-/* ========= WINDOW MANAGER ========= */
+/* ==============================
+   WINDOW SYSTEM
+   ============================== */
 
 const windows={};
-let highestZ=10;
+let z=10;
 
-function focusWindow(id){
+function focusApp(id){
   if(!windows[id])return;
-  const w=windows[id];
-  w.style.zIndex=++highestZ;
+  Object.entries(windows).forEach(([key,w])=>{
+    w.classList.toggle("active",key===id);
+  });
+  windows[id].style.zIndex=++z;
 }
 
-function closeWindow(id){
-  const w=windows[id];
-  if(!w)return;
-  w.dispatchEvent(new Event("appclosed"));
-  w.remove();
+function closeApp(id){
+  const win=windows[id];
+  if(!win)return;
+  win.dispatchEvent(new Event("appclosed"));
+  win.remove();
   delete windows[id];
   document.getElementById("task-"+id)?.remove();
-  beep(350);
+  beep(370);
 }
 
 function openApp(id){
   if(windows[id]){
-    windows[id].classList.remove("min");
-    focusWindow(id);
+    windows[id].classList.remove("minimized");
+    focusApp(id);
     return;
   }
   const app=apps[id];
   if(!app)return;
 
+  const count=Object.keys(windows).length;
   const win=document.createElement("div");
   win.className="window";
-  win.style.left=(70+Object.keys(windows).length*28)+"px";
-  win.style.top=(35+Object.keys(windows).length*28)+"px";
+
+  win.style.left=(65+count*28)+"px";
+  win.style.top=(30+count*28)+"px";
   win.style.width=`min(${app.width||520}px,95vw)`;
-  win.style.height=`min(${app.height||430}px,85vh)`;
+  win.style.height=`min(${app.height||450}px,85vh)`;
 
   win.innerHTML=`
     <div class="titlebar">
       <strong>${app.icon} ${app.name}</strong>
-      <div class="controls">
-        <button data-action="min">−</button>
-        <button data-action="max">□</button>
-        <button data-action="close">×</button>
+      <div class="win-buttons">
+        <button data-act="min">−</button>
+        <button data-act="max">□</button>
+        <button data-act="close">×</button>
       </div>
     </div>
-    <div class="content"></div>`;
+    <div class="window-body"></div>
+  `;
 
-  desktop.appendChild(win);
+  desktop.append(win);
   windows[id]=win;
-  focusWindow(id);
+  focusApp(id);
 
-  const bar=win.querySelector(".titlebar");
-  let dragging=false,dx=0,dy=0;
+  const titlebar=win.querySelector(".titlebar");
+  let moving=false,offsetX=0,offsetY=0;
 
-  bar.addEventListener("pointerdown",e=>{
-    if(e.target.closest("button")||win.classList.contains("max"))
-      return;
-    dragging=true;
-    dx=e.clientX-win.offsetLeft;
-    dy=e.clientY-win.offsetTop;
-    bar.setPointerCapture(e.pointerId);
-    focusWindow(id);
-  });
-  bar.addEventListener("pointermove",e=>{
-    if(!dragging)return;
-    win.style.left=Math.max(-100,e.clientX-dx)+"px";
-    win.style.top=Math.max(0,e.clientY-dy)+"px";
-  });
-  bar.addEventListener("pointerup",()=>dragging=false);
-  bar.addEventListener("pointercancel",()=>dragging=false);
-
-  win.querySelector(".controls").onclick=e=>{
-    const action=e.target.dataset.action;
-    if(action==="close")closeWindow(id);
-    if(action==="min")win.classList.add("min");
-    if(action==="max")win.classList.toggle("max");
+  titlebar.onpointerdown=e=>{
+    if(e.target.closest("button")||
+       win.classList.contains("maximized"))return;
+    moving=true;
+    offsetX=e.clientX-win.offsetLeft;
+    offsetY=e.clientY-win.offsetTop;
+    titlebar.setPointerCapture(e.pointerId);
+    focusApp(id);
   };
-  win.addEventListener("pointerdown",()=>focusWindow(id));
+  titlebar.onpointermove=e=>{
+    if(!moving)return;
+    win.style.left=Math.max(-100,e.clientX-offsetX)+"px";
+    win.style.top=Math.max(0,e.clientY-offsetY)+"px";
+  };
+  titlebar.onpointerup=()=>moving=false;
+  titlebar.onpointercancel=()=>moving=false;
+  titlebar.ondblclick=e=>{
+    if(!e.target.closest("button"))
+      win.classList.toggle("maximized");
+  };
+
+  win.querySelector(".win-buttons").onclick=e=>{
+    const action=e.target.dataset.act;
+    if(action==="min")win.classList.add("minimized");
+    if(action==="max")win.classList.toggle("maximized");
+    if(action==="close")closeApp(id);
+  };
+  win.onpointerdown=()=>focusApp(id);
 
   const task=document.createElement("button");
   task.id="task-"+id;
   task.textContent=app.icon+" "+app.name;
   task.onclick=()=>{
-    if(win.classList.contains("min")){
-      win.classList.remove("min");
-      focusWindow(id);
+    if(win.classList.contains("minimized")){
+      win.classList.remove("minimized");
+      focusApp(id);
     }else{
-      win.classList.add("min");
+      win.classList.add("minimized");
     }
   };
   $("#tasks").append(task);
 
   try{
-    app.init(win.querySelector(".content"),win);
+    app.init(win.querySelector(".window-body"),win);
   }catch(err){
-    win.querySelector(".content").textContent=
-      "App error: "+err.message;
+    win.querySelector(".window-body").textContent=
+      "Application error: "+err.message;
   }
-  beep(650);
+  beep(660);
 }
 
-/* ========= NECTAR SEARCH ========= */
+/* ==============================
+   NECTAR — TAVILY SEARCH
+   ============================== */
 
 function nectarApp(root,win){
-  let settings={
-    engine:"nectar",
-    history:false,
-    ...load("nectarSettings",{})
-  };
-  let history=load("nectarHistory",[]);
-  let lastQuery="";
-  let controller=null;
-
   const engines={
-    nectar:["🌸 Nectar (Tavily)",""],
+    nectar:["🌸 Nectar / Tavily",""],
     google:["Google","https://www.google.com/search?q="],
     duck:["DuckDuckGo","https://duckduckgo.com/?q="],
     bing:["Bing","https://www.bing.com/search?q="],
     brave:["Brave","https://search.brave.com/search?q="]
   };
 
+  let settings={
+    engine:"nectar",
+    history:false,
+    ...getData("nectarSettings",{})
+  };
   if(!engines[settings.engine])settings.engine="nectar";
-  const persist=()=>save("nectarSettings",settings);
+
+  let history=getData("nectarHistory",[]);
+  let currentSearch=null;
+  let searchNumber=0;
 
   root.innerHTML=`
-    <div class="padded" style="align-items:center">
-      <div style="font-size:65px">🌸</div>
-      <h1 style="margin:0;color:var(--pink)">Nectar</h1>
-      <p class="small">Search the web with Tavily</p>
-      <form class="searchBox" id="nectarForm">
-        <input id="nectarInput"
-          placeholder="Search the internet..."
-          autocomplete="off" required>
-        <button>Search</button>
-      </form>
-      <div class="flex" style="flex-wrap:wrap">
-        <select id="nectarEngine"></select>
-        <button id="nectarClear">Clear results</button>
+    <div id="nectar-page" class="panel">
+      <div style="text-align:center">
+        <div style="font-size:65px">🌸</div>
+        <h1 style="color:var(--pink);margin:2px">Nectar</h1>
+        <p class="muted">Discover the web with Tavily</p>
       </div>
-      <label class="small">
-        <input id="nectarRemember" type="checkbox">
-        Remember recent searches on this device
+
+      <form id="nectar-form" class="search-form"
+        style="align-self:center">
+        <input id="nectar-query"
+          placeholder="Search anything..."
+          autocomplete="off" required>
+        <button type="submit">🔎 Search</button>
+      </form>
+
+      <div class="row" style="flex-wrap:wrap;justify-content:center">
+        <select id="nectar-engine"></select>
+        <button id="nectar-clear">Clear results</button>
+      </div>
+
+      <label class="muted">
+        <input id="nectar-history-on" type="checkbox">
+        Remember recent searches
       </label>
-      <div id="nectarHistory" style="width:100%"></div>
-      <div id="nectarStatus" class="small" role="status"></div>
-      <div id="nectarResults"
-        style="width:100%;display:grid;gap:9px"></div>
-    </div>`;
 
-  const input=root.querySelector("#nectarInput");
-  const form=root.querySelector("#nectarForm");
-  const select=root.querySelector("#nectarEngine");
-  const status=root.querySelector("#nectarStatus");
-  const results=root.querySelector("#nectarResults");
-  const remember=root.querySelector("#nectarRemember");
-  const historyBox=root.querySelector("#nectarHistory");
+      <div id="nectar-history"></div>
+      <div id="nectar-status" role="status" class="muted"></div>
+      <div id="nectar-results"></div>
+    </div>
+  `;
 
-  select.innerHTML=Object.entries(engines).map(([id,value])=>
-    `<option value="${id}">${value[0]}</option>`
-  ).join("");
-  select.value=settings.engine;
+  const queryInput=root.querySelector("#nectar-query");
+  const form=root.querySelector("#nectar-form");
+  const engineSelect=root.querySelector("#nectar-engine");
+  const status=root.querySelector("#nectar-status");
+  const results=root.querySelector("#nectar-results");
+  const historyBox=root.querySelector("#nectar-history");
+  const remember=root.querySelector("#nectar-history-on");
+
+  engineSelect.innerHTML=Object.entries(engines)
+    .map(([id,details])=>
+      `<option value="${id}">${escapeHTML(details[0])}</option>`
+    ).join("");
+
+  engineSelect.value=settings.engine;
   remember.checked=settings.history;
+
+  function saveSettings(){
+    setData("nectarSettings",settings);
+  }
 
   function renderHistory(){
     historyBox.replaceChildren();
-    if(!settings.history||!history.length)return;
+    if(!settings.history||history.length===0)return;
 
-    const title=document.createElement("p");
-    title.textContent="Recent searches";
-    title.className="small";
-    historyBox.append(title);
+    const label=document.createElement("p");
+    label.textContent="Recent searches";
+    label.className="muted";
+    historyBox.append(label);
 
-    history.slice(0,6).forEach(q=>{
-      const btn=document.createElement("button");
-      btn.textContent=q;
-      btn.style.margin="3px";
-      btn.onclick=()=>{
-        input.value=q;
-        performSearch(q);
+    history.slice(0,6).forEach(query=>{
+      const button=document.createElement("button");
+      button.textContent=query;
+      button.style.margin="3px";
+      button.onclick=()=>{
+        queryInput.value=query;
+        search(query);
       };
-      historyBox.append(btn);
+      historyBox.append(button);
     });
   }
 
-  async function performSearch(query){
+  async function search(query){
     query=String(query).trim();
     if(!query)return;
-    lastQuery=query;
+
+    currentSearch?.abort();
+    const searchID=++searchNumber;
 
     if(settings.history){
-      history=[query,...history.filter(x=>x!==query)].slice(0,20);
-      save("nectarHistory",history);
+      history=[
+        query,
+        ...history.filter(item=>item!==query)
+      ].slice(0,20);
+      setData("nectarHistory",history);
       renderHistory();
     }
 
     if(settings.engine!=="nectar"){
-      const base=engines[settings.engine][1];
-      window.open(base+encodeURIComponent(query),"_blank","noopener");
+      window.open(
+        engines[settings.engine][1]+encodeURIComponent(query),
+        "_blank","noopener"
+      );
       return;
     }
 
-    controller?.abort();
-    controller=new AbortController();
-    const activeController=controller;
-    const timeout=setTimeout(()=>activeController.abort(),15000);
-
-    status.textContent="🌸 Searching with Tavily...";
+    status.textContent="🐝 Searching the web...";
     results.replaceChildren();
+
+    const controller=new AbortController();
+    currentSearch=controller;
+    const timeout=setTimeout(()=>controller.abort(),15000);
 
     try{
       const url=TAVILY_WORKER+
@@ -461,7 +519,7 @@ function nectarApp(root,win){
 
       const response=await fetch(url,{
         method:"GET",
-        signal:activeController.signal,
+        signal:controller.signal,
         cache:"no-store"
       });
 
@@ -470,111 +528,142 @@ function nectarApp(root,win){
       try{
         data=JSON.parse(raw);
       }catch{
-        throw new Error("Worker did not return valid JSON.");
+        throw new Error("The Worker returned invalid JSON.");
       }
 
       if(!response.ok){
         throw new Error(
           typeof data.error==="string"
-            ? data.error
-            : "Worker returned HTTP "+response.status
+            ?data.error
+            :"Cloudflare Worker HTTP "+response.status
         );
       }
 
+      if(searchID!==searchNumber)return;
+
       const items=Array.isArray(data.results)?data.results:[];
-      status.textContent=items.length
-        ?`Found ${items.length} results for "${query}"`
-        :"No results found.";
+      const safeItems=items.filter(item=>
+        /^https?:\/\//i.test(item.url||"")
+      );
 
-      for(const item of items){
-        if(!/^https?:\/\//i.test(item.url||""))continue;
-        const a=document.createElement("a");
-        a.className="result";
-        a.href=item.url;
-        a.target="_blank";
-        a.rel="noopener noreferrer";
+      status.textContent=safeItems.length
+        ?`🌸 Found ${safeItems.length} results for "${query}"`
+        :"No results found. Try different keywords.";
 
-        const name=document.createElement("strong");
-        name.textContent=item.title||item.url;
+      if(data.answer){
+        const answer=document.createElement("div");
+        answer.className="card";
+        const heading=document.createElement("strong");
+        heading.textContent="Search summary";
+        const paragraph=document.createElement("p");
+        paragraph.textContent=data.answer;
+        answer.append(heading,paragraph);
+        results.append(answer);
+      }
 
-        const link=document.createElement("small");
-        link.textContent=item.url;
+      safeItems.forEach(item=>{
+        const link=document.createElement("a");
+        link.className="link-card";
+        link.href=item.url;
+        link.target="_blank";
+        link.rel="noopener noreferrer";
+
+        const heading=document.createElement("strong");
+        heading.textContent=item.title||item.url;
+
+        const address=document.createElement("small");
+        address.textContent=item.url;
 
         const description=document.createElement("p");
-        description.textContent=(item.content||"").slice(0,350);
+        description.textContent=
+          String(item.content||"").slice(0,380);
 
-        a.append(name,link,description);
-        results.append(a);
-      }
+        link.append(heading,address,description);
+        results.append(link);
+      });
+
     }catch(err){
+      if(searchID!==searchNumber)return;
+
       if(err.name==="AbortError"){
-        status.textContent="Search timed out or was cancelled.";
+        status.textContent="Search timed out. Please try again.";
       }else{
         status.textContent="Search error: "+err.message;
       }
     }finally{
       clearTimeout(timeout);
+      if(currentSearch===controller)currentSearch=null;
     }
   }
 
   form.onsubmit=e=>{
     e.preventDefault();
-    performSearch(input.value);
+    search(queryInput.value);
   };
 
-  select.onchange=()=>{
-    settings.engine=select.value;
-    persist();
-    controller?.abort();
-    status.textContent="";
+  engineSelect.onchange=()=>{
+    settings.engine=engineSelect.value;
+    saveSettings();
+    currentSearch?.abort();
+    searchNumber++;
     results.replaceChildren();
+    status.textContent="";
   };
 
   remember.onchange=()=>{
     settings.history=remember.checked;
     if(!settings.history){
       history=[];
-      save("nectarHistory",[]);
+      setData("nectarHistory",[]);
     }
-    persist();
+    saveSettings();
     renderHistory();
   };
 
-  root.querySelector("#nectarClear").onclick=()=>{
-    controller?.abort();
+  root.querySelector("#nectar-clear").onclick=()=>{
+    currentSearch?.abort();
+    searchNumber++;
     results.replaceChildren();
     status.textContent="";
-    input.value="";
+    queryInput.value="";
   };
 
-  win.addEventListener("appclosed",()=>controller?.abort());
+  win.addEventListener("appclosed",()=>{
+    currentSearch?.abort();
+    searchNumber++;
+  });
+
   renderHistory();
-  input.focus();
+  queryInput.focus();
 }
 
-/* ========= NOTES ========= */
+/* ==============================
+   NOTES APP
+   ============================== */
 
 function notesApp(root){
-  let notes=load("lilacNotes",[
+  let notes=getData("lilacNotes",[
     {id:1,title:"Welcome",body:"Welcome to Lilac OS! 🪻"}
   ]);
-  let current=notes[0]?.id;
+  let selected=notes[0]?.id;
 
   root.innerHTML=`
-    <div class="padded">
-      <div class="flex">
-        <button id="newNote">+ New note</button>
-        <button id="deleteNote">Delete</button>
+    <div class="panel" style="height:100%">
+      <div class="row">
+        <button id="note-new">+ New note</button>
+        <button id="note-delete">Delete</button>
       </div>
-      <select id="noteList"></select>
-      <input id="noteTitle" placeholder="Note title">
-      <textarea id="noteBody" placeholder="Start writing..."
-        style="min-height:180px;flex:1;resize:vertical"></textarea>
-    </div>`;
+      <select id="note-select"></select>
+      <input id="note-title" placeholder="Note title">
+      <textarea id="note-text"
+        placeholder="Start writing..."
+        style="flex:1;min-height:150px;resize:none"></textarea>
+    </div>
+  `;
 
-  const list=root.querySelector("#noteList");
-  const title=root.querySelector("#noteTitle");
-  const body=root.querySelector("#noteBody");
+  const list=root.querySelector("#note-select");
+  const title=root.querySelector("#note-title");
+  const text=root.querySelector("#note-text");
 
   function render(){
     list.replaceChildren();
@@ -584,113 +673,131 @@ function notesApp(root){
       opt.textContent=note.title||"Untitled";
       list.append(opt);
     });
-    const note=notes.find(n=>n.id===current);
-    list.value=current||"";
+    const note=notes.find(n=>n.id===selected);
+    list.value=selected||"";
     title.value=note?.title||"";
-    body.value=note?.body||"";
+    text.value=note?.body||"";
   }
-  function persist(){save("lilacNotes",notes)}
-  root.querySelector("#newNote").onclick=()=>{
-    const note={id:Date.now(),title:"New note",body:""};
+
+  function save(){setData("lilacNotes",notes)}
+
+  root.querySelector("#note-new").onclick=()=>{
+    const note={
+      id:Date.now(),title:"New note",body:""
+    };
     notes.unshift(note);
-    current=note.id;
-    persist();
+    selected=note.id;
+    save();render();
+  };
+
+  root.querySelector("#note-delete").onclick=()=>{
+    notes=notes.filter(n=>n.id!==selected);
+    selected=notes[0]?.id;
+    save();render();
+  };
+
+  list.onchange=()=>{
+    selected=Number(list.value);
     render();
   };
-  root.querySelector("#deleteNote").onclick=()=>{
-    notes=notes.filter(n=>n.id!==current);
-    current=notes[0]?.id;
-    persist();
-    render();
-  };
-  list.onchange=()=>{current=Number(list.value);render()};
+
   function update(){
-    const note=notes.find(n=>n.id===current);
+    const note=notes.find(n=>n.id===selected);
     if(!note)return;
     note.title=title.value;
-    note.body=body.value;
-    persist();
-    const selected=list.selectedOptions[0];
-    if(selected)selected.textContent=note.title||"Untitled";
+    note.body=text.value;
+    save();
+    const option=list.selectedOptions[0];
+    if(option)option.textContent=note.title||"Untitled";
   }
-  title.oninput=body.oninput=update;
+
+  title.oninput=text.oninput=update;
   render();
 }
 
-/* ========= CALCULATOR ========= */
+/* ==============================
+   CALCULATOR
+   ============================== */
 
 function calculatorApp(root){
   let expression="";
+
   root.innerHTML=`
-    <div class="padded" style="height:100%">
-      <div id="calcDisplay"
-        style="font-size:30px;text-align:right;padding:12px;
-        background:#0004;border-radius:8px">0</div>
-      <div id="calcKeys"
+    <div class="panel" style="height:100%">
+      <div id="calc-display"
+        style="font-size:30px;text-align:right;
+        background:#0004;border-radius:9px;padding:13px">0</div>
+      <div id="calc-buttons"
         style="display:grid;grid-template-columns:repeat(4,1fr);
         gap:7px;flex:1"></div>
-    </div>`;
-  const display=root.querySelector("#calcDisplay");
-  const keys=root.querySelector("#calcKeys");
-  const values=[
-    "C","⌫","(",")",
-    "7","8","9","/",
-    "4","5","6","*",
-    "1","2","3","-",
-    "0",".","=","+"
-  ];
-  function press(value){
-    if(value==="C")expression="";
-    else if(value==="⌫")expression=expression.slice(0,-1);
-    else if(value==="="){
+    </div>
+  `;
+
+  const display=root.querySelector("#calc-display");
+  const keypad=root.querySelector("#calc-buttons");
+
+  function press(key){
+    if(key==="C")expression="";
+    else if(key==="⌫")expression=expression.slice(0,-1);
+    else if(key==="="){
       try{
         if(!/^[0-9+\-*/.() ]+$/.test(expression))
           throw Error("Invalid");
-        const tokens=expression.match(/\d+(?:\.\d+)?|[()+*/-]/g);
-        if(!tokens||tokens.join("")!==expression.replace(/\s/g,""))
+        const tokens=expression.match(
+          /\d+(?:\.\d+)?|[()+*/-]/g
+        );
+        if(!tokens||
+           tokens.join("")!==expression.replace(/\s/g,""))
           throw Error("Invalid");
-
-        // Evaluate only a validated arithmetic expression.
-        const answer=Function('"use strict";return ('+expression+')')();
-        expression=Number.isFinite(answer)?String(answer):"Error";
+        const result=Function(
+          '"use strict";return ('+expression+')'
+        )();
+        expression=Number.isFinite(result)
+          ?String(result):"Error";
       }catch{
         expression="Error";
       }
     }else{
       if(expression==="Error")expression="";
-      expression+=value;
+      expression+=key;
     }
     display.textContent=expression||"0";
   }
-  values.forEach(value=>{
-    const btn=document.createElement("button");
-    btn.textContent=value;
-    btn.onclick=()=>press(value);
-    keys.append(btn);
-  });
+
+  "C ⌫ ( ) 7 8 9 / 4 5 6 * 1 2 3 - 0 . = +"
+    .split(" ").forEach(key=>{
+      const button=document.createElement("button");
+      button.textContent=key;
+      button.onclick=()=>press(key);
+      keypad.append(button);
+    });
 }
 
-/* ========= HIVE ========= */
+/* ==============================
+   THE HIVE
+   ============================== */
 
 function hiveApp(root,win){
   let hive={
-    nectar:0,total:0,flowers:1,workers:0,
-    foragers:0,queens:0,level:1,
-    ...load("lilacHive",{})
+    nectar:0,total:0,flowers:1,
+    workers:0,foragers:0,queens:0,level:1,
+    ...getData("lilacHive",{})
   };
 
   root.innerHTML=`
-    <div class="padded" style="height:100%">
-      <div style="text-align:center;font-size:65px">🐝🍯🌸</div>
-      <h2 id="hiveAmount" style="text-align:center"></h2>
-      <p id="hiveRate" style="text-align:center"></p>
-      <button id="collect">🌼 Collect nectar</button>
-      <div id="hiveUpgrades" style="display:grid;gap:7px"></div>
-    </div>`;
+    <div class="panel">
+      <div style="font-size:65px;text-align:center">🐝🍯🌸</div>
+      <h2 id="hive-amount" style="text-align:center"></h2>
+      <p id="hive-rate" style="text-align:center"></p>
+      <button id="hive-collect">🌼 Collect nectar</button>
+      <div id="hive-upgrades"
+        style="display:grid;gap:8px"></div>
+    </div>
+  `;
 
-  const amount=root.querySelector("#hiveAmount");
-  const rateText=root.querySelector("#hiveRate");
-  const upgradeBox=root.querySelector("#hiveUpgrades");
+  const amount=root.querySelector("#hive-amount");
+  const rateText=root.querySelector("#hive-rate");
+  const upgradesBox=root.querySelector("#hive-upgrades");
 
   const upgrades=[
     ["flowers","🌸 Grow flower",10,1.6],
@@ -699,68 +806,83 @@ function hiveApp(root,win){
     ["queens","👑 Queen bee",2000,1.6],
     ["level","🏠 Upgrade hive",100,3]
   ];
-  const rate=()=>(
-    hive.workers+hive.foragers*6+hive.queens*40
-  )*hive.level;
 
-  function cost(key,base,mult){
-    const count=key==="level"?hive.level-1:hive[key];
-    return Math.ceil(base*Math.pow(mult,count));
+  function rate(){
+    return (
+      hive.workers+
+      hive.foragers*6+
+      hive.queens*40
+    )*hive.level;
   }
+
+  function cost(key,base,multiplier){
+    return Math.ceil(base*Math.pow(
+      multiplier,
+      key==="level"?hive.level-1:hive[key]
+    ));
+  }
+
   function render(){
     amount.textContent="🍯 "+Math.floor(hive.nectar)+" Nectar";
-    rateText.textContent=`${rate()} nectar / second · Level ${hive.level}`;
-    upgradeBox.replaceChildren();
+    rateText.textContent=
+      `${rate()}/second · Hive level ${hive.level}`;
 
+    upgradesBox.replaceChildren();
     upgrades.forEach(([key,name,base,mult])=>{
       const price=cost(key,base,mult);
-      const btn=document.createElement("button");
-      btn.textContent=`${name} — ${price} nectar`;
-      btn.disabled=hive.nectar<price;
-      btn.onclick=()=>{
+      const button=document.createElement("button");
+      button.textContent=`${name} — ${price} nectar`;
+      button.disabled=hive.nectar<price;
+      button.onclick=()=>{
         if(hive.nectar<price)return;
         hive.nectar-=price;
         hive[key]++;
-        save("lilacHive",hive);
+        setData("lilacHive",hive);
         render();
       };
-      upgradeBox.append(btn);
+      upgradesBox.append(button);
     });
   }
-  root.querySelector("#collect").onclick=()=>{
+
+  root.querySelector("#hive-collect").onclick=()=>{
     const gained=hive.flowers*hive.level;
     hive.nectar+=gained;
     hive.total+=gained;
-    save("lilacHive",hive);
+    setData("lilacHive",hive);
     render();
-    beep(700);
+    beep(720);
   };
+
   const interval=setInterval(()=>{
     const gained=rate();
     hive.nectar+=gained;
     hive.total+=gained;
-    save("lilacHive",hive);
+    setData("lilacHive",hive);
     render();
   },1000);
+
   win.addEventListener("appclosed",()=>clearInterval(interval));
   render();
 }
 
-/* ========= HIVE CONSOLE ========= */
+/* ==============================
+   HIVE CONSOLE
+   ============================== */
 
-function consoleApp(root){
+function terminalApp(root){
   root.innerHTML=`
-    <div id="consoleOutput"
+    <div id="terminal-output"
       style="flex:1;overflow:auto;padding:12px;
-      color:var(--purple);font-family:monospace"></div>
-    <div class="flex" style="padding:10px">
+      color:var(--lav);font-family:monospace"></div>
+    <div class="row" style="padding:10px">
       <span>🐝 hive&gt;</span>
-      <input id="consoleInput" style="flex:1"
-        placeholder="Type help" autocomplete="off">
-    </div>`;
+      <input id="terminal-input" autocomplete="off"
+        placeholder="Type help" style="flex:1">
+    </div>
+  `;
 
-  const output=root.querySelector("#consoleOutput");
-  const input=root.querySelector("#consoleInput");
+  const output=root.querySelector("#terminal-output");
+  const input=root.querySelector("#terminal-input");
 
   function print(message){
     const line=document.createElement("div");
@@ -770,522 +892,633 @@ function consoleApp(root){
   }
 
   print("Hive Console v1.0");
-  print("Type 'help' to begin.");
+  print("Type help to see commands.");
 
   const commands={
     help:()=>print(
-      "Commands: help, clear, date, time, whoami, apps, hive, bees, flowers, open APP"
+      "help clear date time whoami bees flowers hive apps open"
     ),
     clear:()=>output.replaceChildren(),
     date:()=>print(new Date().toDateString()),
     time:()=>print(new Date().toLocaleTimeString()),
     whoami:()=>print("A very busy worker bee 🐝"),
-    apps:()=>print(Object.keys(apps).join(", ")),
-    hive:()=>openApp("hive"),
     bees:()=>print("🐝 Bzzzzzz!"),
-    flowers:()=>print("🌸 🌷 🪻 🌼 🌻"),
-    about:()=>print("Lilac OS — Nectar powered by Tavily")
+    flowers:()=>print("🌸 🌼 🪻 🌷 🌻"),
+    hive:()=>openApp("hive"),
+    apps:()=>print(Object.keys(apps).join(", ")),
+    about:()=>print("Lilac OS — powered by bees.")
   };
 
-  input.addEventListener("keydown",e=>{
+  input.onkeydown=e=>{
     if(e.key!=="Enter")return;
     const command=input.value.trim();
     print("> "+command);
     const [name,...args]=command.split(/\s+/);
+
     if(name==="open"){
-      const id=args[0]?.toLowerCase();
-      if(apps[id])openApp(id);
-      else print("Unknown app. Type apps.");
+      const app=args[0]?.toLowerCase();
+      if(apps[app])openApp(app);
+      else print("Unknown app.");
     }else if(commands[name?.toLowerCase()]){
       commands[name.toLowerCase()]();
     }else if(command){
       print("Unknown command: "+command);
     }
     input.value="";
-  });
+  };
   input.focus();
 }
 
-/* ========= SETTINGS ========= */
+/* ==============================
+   SETTINGS
+   ============================== */
 
 function settingsApp(root){
-  const wallpapers=[
-    "radial-gradient(circle at 20% 15%,#7958a3,transparent 55%),linear-gradient(135deg,#3a2a54,#21182f)",
-    "linear-gradient(135deg,#b89ce8,#dcc4f2,#f5c85b)",
-    "linear-gradient(135deg,#21182f,#594477,#f5c85b)"
+  const walls=[
+    "radial-gradient(circle at 20% 15%,#7a5cae,transparent 55%),linear-gradient(160deg,#3a2a54,#21182F)",
+    "linear-gradient(135deg,#B89CE8,#DCC4F2,#F5C85B)",
+    "linear-gradient(135deg,#21182F,#594477,#F5C85B)"
   ];
+
+  let settings={
+    wall:0,brightness:1,iconSize:49,
+    ...getData("lilacConfig",{})
+  };
+
   root.innerHTML=`
-    <div class="padded">
+    <div class="panel">
       <h2>⚙️ Settings</h2>
       <p>Wallpaper</p>
-      <div id="wallpapers" class="flex"></div>
+      <div id="wall-buttons" class="row"></div>
       <label>Brightness
         <input id="brightness" type="range"
-          min=".5" max="1.2" step=".05" value="1">
+          min=".5" max="1.2" step=".05">
       </label>
-      <label>Desktop icon size
-        <input id="iconSize" type="range"
-          min="32" max="80" value="48">
+      <label>Icon size
+        <input id="iconsize" type="range"
+          min="32" max="80">
       </label>
-      <p class="small">Your settings are saved in this browser.</p>
-    </div>`;
-  const saved=load("lilacSettings",{wallpaper:0,brightness:1,iconSize:48});
-  const wallpaperBox=root.querySelector("#wallpapers");
-  const brightness=root.querySelector("#brightness");
-  const iconSize=root.querySelector("#iconSize");
+      <p class="muted">Settings are saved on this device.</p>
+    </div>
+  `;
 
   function apply(){
-    desktop.style.background=wallpapers[saved.wallpaper];
-    desktop.style.filter=`brightness(${saved.brightness})`;
-    document.querySelectorAll(".icon .emoji").forEach(el=>
-      el.style.fontSize=saved.iconSize+"px"
-    );
-    save("lilacSettings",saved);
+    desktop.style.background=walls[settings.wall];
+    desktop.style.filter=`brightness(${settings.brightness})`;
+    document.querySelectorAll(".desktop-icon .emoji")
+      .forEach(icon=>icon.style.fontSize=settings.iconSize+"px");
+    setData("lilacConfig",settings);
   }
-  wallpapers.forEach((wallpaper,index)=>{
-    const btn=document.createElement("button");
-    btn.style.background=wallpaper;
-    btn.style.width="60px";
-    btn.style.height="45px";
-    btn.onclick=()=>{saved.wallpaper=index;apply()};
-    wallpaperBox.append(btn);
+
+  walls.forEach((wall,i)=>{
+    const button=document.createElement("button");
+    button.style.background=wall;
+    button.style.width="60px";
+    button.style.height="45px";
+    button.onclick=()=>{
+      settings.wall=i;
+      apply();
+    };
+    root.querySelector("#wall-buttons").append(button);
   });
-  brightness.value=saved.brightness;
-  iconSize.value=saved.iconSize;
-  brightness.oninput=()=>{
-    saved.brightness=Number(brightness.value);
+
+  const br=root.querySelector("#brightness");
+  const size=root.querySelector("#iconsize");
+  br.value=settings.brightness;
+  size.value=settings.iconSize;
+
+  br.oninput=()=>{
+    settings.brightness=+br.value;
     apply();
   };
-  iconSize.oninput=()=>{
-    saved.iconSize=Number(iconSize.value);
+  size.oninput=()=>{
+    settings.iconSize=+size.value;
     apply();
   };
   apply();
 }
 
-/* ========= MINI GAMES ========= */
+/* ==============================
+   MINI GAMES
+   ============================== */
 
 function gamesApp(root,win){
   root.innerHTML=`
-    <div class="padded">
-      <div class="flex" style="flex-wrap:wrap">
+    <div class="panel" style="padding-bottom:5px">
+      <div class="row" style="flex-wrap:wrap">
         <button data-game="flight">🐝 Bee Flight</button>
         <button data-game="catch">🌸 Petal Catcher</button>
         <button data-game="match">🪻 Flower Match</button>
         <button data-game="maze">🍯 Hive Maze</button>
       </div>
-      <div id="gameInfo">Choose a game!</div>
+      <div id="game-info" class="muted">Choose a game!</div>
     </div>
-    <div id="gameArea" class="gameCanvas"></div>`;
+    <div id="game-area"></div>
+  `;
 
-  const info=root.querySelector("#gameInfo");
-  const area=root.querySelector("#gameArea");
+  const area=root.querySelector("#game-area");
+  const info=root.querySelector("#game-info");
   let cleanup=()=>{};
-  let active=true;
 
-  function stopGame(){
+  function stop(){
     cleanup();
     cleanup=()=>{};
     area.replaceChildren();
+    area.removeAttribute("style");
   }
 
-  root.querySelectorAll("[data-game]").forEach(btn=>{
-    btn.onclick=()=>{
-      stopGame();
-      if(btn.dataset.game==="flight")flight();
-      if(btn.dataset.game==="catch")catcher();
-      if(btn.dataset.game==="match")match();
-      if(btn.dataset.game==="maze")maze();
-    };
-  });
-
-  function canvasGame(){
+  function setupCanvas(){
     const canvas=document.createElement("canvas");
     area.append(canvas);
     const ctx=canvas.getContext("2d");
     function resize(){
-      canvas.width=Math.max(area.clientWidth,250);
-      canvas.height=Math.max(area.clientHeight,200);
+      const w=Math.max(250,area.clientWidth);
+      const h=Math.max(200,area.clientHeight);
+      if(canvas.width!==w)canvas.width=w;
+      if(canvas.height!==h)canvas.height=h;
     }
     resize();
     return {canvas,ctx,resize};
   }
 
   function flight(){
-    const {canvas,ctx,resize}=canvasGame();
-    let y=110,velocity=0,score=0,over=false,started=false;
-    let pipes=[],last=performance.now(),frameId;
+    const {canvas,ctx,resize}=setupCanvas();
+    let y=100,velocity=0,score=0;
+    let started=false,over=false,pipes=[];
+    let last=performance.now(),frameID;
+
     const flap=()=>{
-      if(over){flightRestart();return}
+      if(over){stop();flight();return}
       started=true;
-      velocity=-320;
+      velocity=-310;
     };
-    function flightRestart(){
-      stopGame();
-      flight();
-    }
-    canvas.addEventListener("pointerdown",flap);
+    canvas.onpointerdown=flap;
+
     const key=e=>{
-      if(e.code==="Space"){e.preventDefault();flap()}
+      if(e.code==="Space"){
+        e.preventDefault();flap();
+      }
     };
     document.addEventListener("keydown",key);
 
-    function frame(now){
+    function frame(t){
       resize();
+      const dt=Math.min((t-last)/1000,.045);
+      last=t;
       const w=canvas.width,h=canvas.height;
-      const dt=Math.min((now-last)/1000,.04);
-      last=now;
+
       ctx.fillStyle="#594477";
       ctx.fillRect(0,0,w,h);
       if(!started)y=h/2;
+
       if(started&&!over){
         velocity+=850*dt;
         y+=velocity*dt;
+
         if(!pipes.length||pipes[pipes.length-1].x<w-230){
-          const gap=140,top=35+Math.random()*Math.max(10,h-gap-70);
-          pipes.push({x:w+30,top,gap,passed:false});
+          const gap=145;
+          pipes.push({
+            x:w+20,
+            top:30+Math.random()*Math.max(10,h-gap-60),
+            gap,passed:false
+          });
         }
-        for(const p of pipes){
+        pipes.forEach(p=>{
           p.x-=150*dt;
-          if(!p.passed&&p.x+45<w*.25){
-            p.passed=true;
-            score++;
+          if(!p.passed&&p.x+42<w*.25){
+            p.passed=true;score++;
           }
-          if(w*.25+12>p.x&&w*.25-12<p.x+45&&
+          if(w*.25+11>p.x&&w*.25-11<p.x+42&&
             (y-10<p.top||y+10>p.top+p.gap))over=true;
-        }
+        });
         pipes=pipes.filter(p=>p.x>-50);
         if(y<0||y>h)over=true;
       }
-      ctx.fillStyle="#f5c85b";
-      for(const p of pipes){
-        ctx.fillRect(p.x,0,45,p.top);
-        ctx.fillRect(p.x,p.top+p.gap,45,h);
-      }
+
+      ctx.fillStyle="#F5C85B";
+      pipes.forEach(p=>{
+        ctx.fillRect(p.x,0,42,p.top);
+        ctx.fillRect(p.x,p.top+p.gap,42,h);
+      });
+
       ctx.font="30px serif";
-      ctx.fillText("🐝",w*.25-15,y+10);
+      ctx.fillText("🐝",w*.25-15,y+9);
       ctx.fillStyle="white";
-      ctx.font="20px Arial";
-      ctx.fillText("Score: "+score,15,30);
-      if(!started)ctx.fillText("Click or Space to fly",30,h/2);
-      if(over)ctx.fillText("Game over — click to restart",30,h/2);
-      frameId=requestAnimationFrame(frame);
+      ctx.font="19px Arial";
+      ctx.fillText("Score: "+score,12,27);
+      if(!started)ctx.fillText("Click or Space to flap",20,h/2);
+      if(over)ctx.fillText("Game over! Click to restart",20,h/2);
+
+      frameID=requestAnimationFrame(frame);
     }
-    frameId=requestAnimationFrame(frame);
+
+    frameID=requestAnimationFrame(frame);
     cleanup=()=>{
-      cancelAnimationFrame(frameId);
+      cancelAnimationFrame(frameID);
       document.removeEventListener("keydown",key);
     };
-    info.textContent="Bee Flight — click or Space to flap";
+    info.textContent="Click or press Space to fly.";
   }
 
   function catcher(){
-    const {canvas,ctx,resize}=canvasGame();
-    let player=160,items=[],score=0,lives=3,over=false;
-    let last=performance.now(),timer=0,frameId;
-    const move=e=>{
-      player=e.clientX-canvas.getBoundingClientRect().left;
+    const {canvas,ctx,resize}=setupCanvas();
+    let x=170,score=0,lives=3,items=[];
+    let last=performance.now(),timer=0,over=false,frameID;
+
+    canvas.onpointermove=e=>{
+      x=e.clientX-canvas.getBoundingClientRect().left;
     };
-    canvas.addEventListener("pointermove",move);
     const key=e=>{
-      if(e.key==="ArrowLeft"||e.key==="a")player-=30;
-      if(e.key==="ArrowRight"||e.key==="d")player+=30;
+      if(e.key==="ArrowLeft"||e.key==="a")x-=30;
+      if(e.key==="ArrowRight"||e.key==="d")x+=30;
     };
     document.addEventListener("keydown",key);
 
-    function frame(now){
+    function frame(t){
       resize();
       const w=canvas.width,h=canvas.height;
-      const dt=Math.min((now-last)/1000,.05);
-      last=now;
+      const dt=Math.min((t-last)/1000,.05);
+      last=t;
+      x=Math.max(30,Math.min(w-30,x));
+
       ctx.fillStyle="#594477";
       ctx.fillRect(0,0,w,h);
-      player=Math.max(35,Math.min(w-35,player));
+
       if(!over){
         timer+=dt;
         if(timer>.65){
           timer=0;
           items.push({
             x:20+Math.random()*(w-40),
-            y:-10,
-            bad:Math.random()<.2
+            y:-10,bad:Math.random()<.2
           });
         }
-        for(const item of items){
-          item.y+=130*dt;
-          if(item.y>h-45&&Math.abs(item.x-player)<40){
+        items.forEach(item=>{
+          item.y+=140*dt;
+          if(item.y>h-45&&Math.abs(item.x-x)<37){
             if(item.bad)lives--;
             else score++;
             item.y=h+100;
           }
-        }
+        });
         items=items.filter(item=>item.y<h+20);
         if(lives<=0)over=true;
       }
+
       ctx.font="23px serif";
-      for(const item of items)
+      items.forEach(item=>{
         ctx.fillText(item.bad?"🌵":"🌸",item.x-10,item.y);
-      ctx.fillText("🍯",player-20,h-18);
+      });
+      ctx.fillText("🍯",x-18,h-15);
       ctx.fillStyle="white";
       ctx.font="18px Arial";
-      ctx.fillText(`Petals: ${score}   Lives: ${lives}`,10,25);
+      ctx.fillText(`Score: ${score}  Lives: ${lives}`,10,25);
       if(over)ctx.fillText("Game over!",w/3,h/2);
-      frameId=requestAnimationFrame(frame);
+
+      frameID=requestAnimationFrame(frame);
     }
-    frameId=requestAnimationFrame(frame);
+
+    frameID=requestAnimationFrame(frame);
     cleanup=()=>{
-      cancelAnimationFrame(frameId);
+      cancelAnimationFrame(frameID);
       document.removeEventListener("keydown",key);
     };
-    info.textContent="Catch flowers, avoid thorns!";
+    info.textContent="Catch flowers. Avoid thorns!";
   }
 
   function match(){
-    const flowers=["🌸","🌻","🌷","🪻","🌹","🌼","🌺","💐"];
-    const cards=[...flowers,...flowers].sort(()=>Math.random()-.5);
-    let picked=[],matched=new Set(),moves=0,locked=false;
+    const flowers=[
+      "🌸","🌼","🌷","🪻","🌻","🌹","🌺","💐"
+    ];
+    const cards=[...flowers,...flowers]
+      .sort(()=>Math.random()-.5);
+
+    let selected=[],matched=new Set();
+    let moves=0,locked=false;
+    const timeouts=[];
+
     area.style.display="grid";
     area.style.gridTemplateColumns="repeat(4,1fr)";
     area.style.gap="7px";
     area.style.padding="10px";
+
     const buttons=cards.map((flower,index)=>{
-      const btn=document.createElement("button");
-      btn.textContent="🐝";
-      btn.style.fontSize="26px";
-      btn.onclick=()=>{
-        if(locked||matched.has(index)||picked.includes(index))return;
-        btn.textContent=flower;
-        picked.push(index);
-        if(picked.length===2){
+      const button=document.createElement("button");
+      button.textContent="🐝";
+      button.style.fontSize="26px";
+      area.append(button);
+
+      button.onclick=()=>{
+        if(locked||matched.has(index)||
+           selected.includes(index))return;
+
+        button.textContent=flower;
+        selected.push(index);
+
+        if(selected.length===2){
           moves++;
-          const [a,b]=picked;
+          const [a,b]=selected;
+
           if(cards[a]===cards[b]){
             matched.add(a);matched.add(b);
-            picked=[];
-            info.textContent=`Moves: ${moves} · Pairs: ${matched.size/2}/8`;
+            selected=[];
+            info.textContent=
+              `Moves: ${moves} · Pairs: ${matched.size/2}/8`;
+            if(matched.size===16)
+              info.textContent="You won in "+moves+" moves!";
           }else{
             locked=true;
             const timeout=setTimeout(()=>{
               buttons[a].textContent="🐝";
               buttons[b].textContent="🐝";
-              picked=[];
+              selected=[];
               locked=false;
             },650);
             timeouts.push(timeout);
           }
-          if(matched.size===16)info.textContent="You won in "+moves+" moves!";
         }
       };
-      area.append(btn);
-      return btn;
+      return button;
     });
-    const timeouts=[];
-    cleanup=()=>{
-      timeouts.forEach(clearTimeout);
-      area.style.display="";
-      area.style.gridTemplateColumns="";
-      area.style.gap="";
-      area.style.padding="";
-    };
-    info.textContent="Match all eight flower pairs!";
+
+    cleanup=()=>timeouts.forEach(clearTimeout);
+    info.textContent="Match every flower pair!";
   }
 
   function maze(){
-    const size=9;
-    const cells=Array.from({length:size*size},()=>[1,1,1,1]);
+    const n=9;
+    const cells=Array.from({length:n*n},()=>[1,1,1,1]);
     const visited=new Set([0]);
     const stack=[0];
     const directions=[
       [0,-1,0,2],[1,0,1,3],
       [0,1,2,0],[-1,0,3,1]
     ];
+
     while(stack.length){
-      const index=stack[stack.length-1];
-      const x=index%size,y=Math.floor(index/size);
-      const options=directions.filter(d=>{
+      const i=stack[stack.length-1];
+      const x=i%n,y=Math.floor(i/n);
+      const possible=directions.filter(d=>{
         const nx=x+d[0],ny=y+d[1];
-        return nx>=0&&ny>=0&&nx<size&&ny<size&&
-          !visited.has(ny*size+nx);
+        return nx>=0&&ny>=0&&nx<n&&ny<n&&
+          !visited.has(ny*n+nx);
       });
-      if(!options.length){stack.pop();continue}
-      const d=options[Math.floor(Math.random()*options.length)];
-      const next=(y+d[1])*size+x+d[0];
-      cells[index][d[2]]=0;
+      if(!possible.length){
+        stack.pop();continue;
+      }
+      const d=possible[Math.floor(Math.random()*possible.length)];
+      const next=(y+d[1])*n+x+d[0];
+      cells[i][d[2]]=0;
       cells[next][d[3]]=0;
       visited.add(next);
       stack.push(next);
     }
 
-    const {canvas,ctx,resize}=canvasGame();
-    let position=0,frameId;
+    const {canvas,ctx,resize}=setupCanvas();
+    let position=0,frameID;
+
     const key=e=>{
-      const mapping={
+      const map={
         ArrowUp:0,w:0,ArrowRight:1,d:1,
         ArrowDown:2,s:2,ArrowLeft:3,a:3
       };
-      const dir=mapping[e.key];
+      const dir=map[e.key];
       if(dir===undefined)return;
       e.preventDefault();
       if(cells[position][dir])return;
-      position+=[-size,1,size,-1][dir];
-      if(position===size*size-1)
-        info.textContent="🏆 You escaped the hive!";
+
+      position+=[-n,1,n,-1][dir];
+      if(position===n*n-1)
+        info.textContent="🏆 You reached the honey!";
     };
     document.addEventListener("keydown",key);
+
     function frame(){
       resize();
       const w=canvas.width,h=canvas.height;
-      const s=Math.min((w-20)/size,(h-20)/size);
-      const ox=(w-size*s)/2,oy=(h-size*s)/2;
+      const cell=Math.min((w-20)/n,(h-20)/n);
+      const ox=(w-n*cell)/2,oy=(h-n*cell)/2;
+
       ctx.fillStyle="#21182f";
       ctx.fillRect(0,0,w,h);
-      ctx.strokeStyle="#dcc4f2";
+      ctx.strokeStyle="#DCC4F2";
       ctx.lineWidth=2;
+
       cells.forEach((walls,i)=>{
-        const x=ox+(i%size)*s;
-        const y=oy+Math.floor(i/size)*s;
-        if(walls[0]){ctx.beginPath();ctx.moveTo(x,y);ctx.lineTo(x+s,y);ctx.stroke()}
-        if(walls[1]){ctx.beginPath();ctx.moveTo(x+s,y);ctx.lineTo(x+s,y+s);ctx.stroke()}
-        if(walls[2]){ctx.beginPath();ctx.moveTo(x,y+s);ctx.lineTo(x+s,y+s);ctx.stroke()}
-        if(walls[3]){ctx.beginPath();ctx.moveTo(x,y);ctx.lineTo(x,y+s);ctx.stroke()}
+        const x=ox+(i%n)*cell;
+        const y=oy+Math.floor(i/n)*cell;
+        if(walls[0]){
+          ctx.beginPath();ctx.moveTo(x,y);
+          ctx.lineTo(x+cell,y);ctx.stroke();
+        }
+        if(walls[1]){
+          ctx.beginPath();ctx.moveTo(x+cell,y);
+          ctx.lineTo(x+cell,y+cell);ctx.stroke();
+        }
+        if(walls[2]){
+          ctx.beginPath();ctx.moveTo(x,y+cell);
+          ctx.lineTo(x+cell,y+cell);ctx.stroke();
+        }
+        if(walls[3]){
+          ctx.beginPath();ctx.moveTo(x,y);
+          ctx.lineTo(x,y+cell);ctx.stroke();
+        }
       });
-      ctx.font=Math.floor(s*.65)+"px serif";
-      ctx.fillText("🍯",ox+(size-.85)*s,oy+(size-.3)*s);
-      ctx.fillText("🐝",ox+(position%size+.1)*s,
-        oy+(Math.floor(position/size)+.75)*s);
-      frameId=requestAnimationFrame(frame);
+
+      ctx.font=Math.floor(cell*.7)+"px serif";
+      ctx.fillText("🍯",ox+(n-.85)*cell,oy+(n-.25)*cell);
+      ctx.fillText(
+        "🐝",
+        ox+(position%n+.05)*cell,
+        oy+(Math.floor(position/n)+.75)*cell
+      );
+
+      frameID=requestAnimationFrame(frame);
     }
-    frameId=requestAnimationFrame(frame);
+    frameID=requestAnimationFrame(frame);
     cleanup=()=>{
-      cancelAnimationFrame(frameId);
+      cancelAnimationFrame(frameID);
       document.removeEventListener("keydown",key);
     };
-    info.textContent="Use arrow keys or WASD to reach the honey.";
+    info.textContent="Use WASD or arrow keys to reach the honey.";
   }
 
-  win.addEventListener("appclosed",()=>{
-    active=false;
-    stopGame();
+  const games={
+    flight,catch:catcher,match,maze
+  };
+
+  root.querySelectorAll("[data-game]").forEach(button=>{
+    button.onclick=()=>{
+      stop();
+      games[button.dataset.game]();
+    };
   });
+
+  win.addEventListener("appclosed",stop);
+  flight();
 }
 
-/* ========= TASK MANAGER ========= */
+/* ==============================
+   TASK MANAGER
+   ============================== */
 
-function taskManagerApp(root,win){
-  root.classList.add("padded");
+function tasksApp(root,win){
+  root.classList.add("panel");
+
   function update(){
     root.replaceChildren();
-    const title=document.createElement("h3");
-    title.textContent="📊 Running Apps";
-    root.append(title);
+    const heading=document.createElement("h2");
+    heading.textContent="📊 Running apps";
+    root.append(heading);
+
     Object.keys(windows).forEach(id=>{
       const line=document.createElement("div");
-      line.className="flex";
+      line.className="row";
       const label=document.createElement("span");
       label.textContent=apps[id].icon+" "+apps[id].name;
-      const btn=document.createElement("button");
-      btn.textContent="End";
-      btn.onclick=()=>closeWindow(id);
-      line.append(label,btn);
+      label.style.flex="1";
+      const end=document.createElement("button");
+      end.textContent="End";
+      end.onclick=()=>closeApp(id);
+      line.append(label,end);
       root.append(line);
     });
   }
+
   update();
-  const timer=setInterval(update,1200);
-  win.addEventListener("appclosed",()=>clearInterval(timer));
+  const interval=setInterval(update,1200);
+  win.addEventListener("appclosed",()=>clearInterval(interval));
 }
 
-/* ========= APP REGISTRY ========= */
+/* ==============================
+   APPLICATIONS
+   ============================== */
 
 const apps={
-  nectar:{
-    name:"Nectar",icon:"🌸",
-    width:650,height:530,init:nectarApp
-  },
   hive:{
     name:"The Hive",icon:"🐝",
     width:520,height:530,init:hiveApp
   },
   notes:{
     name:"Notes",icon:"📓",
-    width:550,height:480,init:notesApp
+    width:550,height:430,init:notesApp
   },
   calc:{
     name:"Calculator",icon:"🧮",
-    width:330,height:460,init:calculatorApp
+    width:330,height:450,init:calculatorApp
   },
   term:{
     name:"Hive Console",icon:"💻",
-    width:570,height:380,init:consoleApp
+    width:560,height:380,init:terminalApp
+  },
+  nectar:{
+    name:"Nectar Browser",icon:"🌸",
+    width:670,height:550,init:nectarApp
   },
   games:{
     name:"Games",icon:"🎮",
-    width:590,height:550,init:gamesApp
+    width:580,height:520,init:gamesApp
   },
   tasks:{
     name:"Task Manager",icon:"📊",
-    width:400,height:370,init:taskManagerApp
+    width:410,height:380,init:tasksApp
   },
   set:{
     name:"Settings",icon:"⚙️",
-    width:420,height:440,init:settingsApp
+    width:410,height:420,init:settingsApp
   },
   about:{
     name:"About Lilac OS",icon:"🪻",
-    width:410,height:300,
+    width:420,height:310,
     init(root){
       root.innerHTML=`
-        <div class="padded">
+        <div class="panel">
           <h2>🪻 Lilac OS</h2>
-          <p>A little desktop powered by bees.</p>
-          <p>Nectar uses Tavily for web search.</p>
-          <p>Made with lilacs, honey and code.</p>
-        </div>`;
+          <p>A tiny desktop powered by bees.</p>
+          <p><strong>Nectar Browser</strong> uses Tavily
+          search through a Cloudflare Worker.</p>
+          <p>Apps, games, notes and more.</p>
+          <p class="muted">Made with lilacs and honey. 🐝</p>
+        </div>
+      `;
     }
   }
 };
 
-/* ========= DESKTOP ========= */
+/* ==============================
+   DESKTOP ICONS + START MENU
+   ============================== */
 
 Object.entries(apps).forEach(([id,app],i)=>{
   const icon=document.createElement("div");
-  icon.className="icon";
-  icon.style.left=(15+Math.floor(i/5)*110)+"px";
-  icon.style.top=(15+(i%5)*104)+"px";
+  icon.className="desktop-icon";
+  icon.style.left=(14+Math.floor(i/5)*110)+"px";
+  icon.style.top=(14+(i%5)*105)+"px";
+
   icon.innerHTML=`
     <span class="emoji">${app.icon}</span>
     ${escapeHTML(app.name)}
   `;
+
+  let moved=false,ox=0,oy=0;
+
+  icon.onpointerdown=e=>{
+    moved=false;
+    ox=e.clientX-icon.offsetLeft;
+    oy=e.clientY-icon.offsetTop;
+    icon.setPointerCapture(e.pointerId);
+  };
+  icon.onpointermove=e=>{
+    if(!icon.hasPointerCapture(e.pointerId))return;
+    moved=true;
+    icon.style.left=(e.clientX-ox)+"px";
+    icon.style.top=(e.clientY-oy)+"px";
+  };
+  icon.onpointerup=e=>{
+    if(!moved&&e.pointerType==="touch")openApp(id);
+  };
   icon.ondblclick=()=>openApp(id);
+
   desktop.append(icon);
 
-  const startItem=document.createElement("button");
-  startItem.textContent=app.icon+" "+app.name;
-  startItem.onclick=()=>{
+  const item=document.createElement("button");
+  item.textContent=app.icon+" "+app.name;
+  item.onclick=()=>{
     openApp(id);
-    $("#startMenu").classList.remove("open");
+    $("#startmenu").classList.remove("visible");
   };
-  $("#startMenu").append(startItem);
+  $("#startmenu").append(item);
 });
 
-$("#startButton").onclick=e=>{
+/* ==============================
+   TASKBAR
+   ============================== */
+
+$("#startbtn").onclick=e=>{
   e.stopPropagation();
-  $("#startMenu").classList.toggle("open");
+  $("#startmenu").classList.toggle("visible");
 };
+
 document.addEventListener("click",e=>{
-  if(!e.target.closest("#startMenu")&&
-     !e.target.closest("#startButton"))
-    $("#startMenu").classList.remove("open");
+  if(!e.target.closest("#startmenu")&&
+     !e.target.closest("#startbtn")){
+    $("#startmenu").classList.remove("visible");
+  }
 });
-$("#soundButton").onclick=()=>{
+
+$("#soundbtn").onclick=()=>{
   sound=!sound;
-  $("#soundButton").textContent=sound?"🔊":"🔇";
+  $("#soundbtn").textContent=sound?"🔊":"🔇";
 };
+
 $("#fullscreen").onclick=()=>{
-  if(document.fullscreenElement)
+  if(document.fullscreenElement){
     document.exitFullscreen();
-  else document.documentElement.requestFullscreen().catch(()=>{});
+  }else{
+    document.documentElement.requestFullscreen().catch(()=>{});
+  }
 };
+
 function updateClock(){
   $("#clock").textContent=new Date().toLocaleTimeString([],{
     hour:"2-digit",minute:"2-digit"
@@ -1294,11 +1527,39 @@ function updateClock(){
 updateClock();
 setInterval(updateClock,1000);
 
+/* ==============================
+   RESTORE SETTINGS
+   ============================== */
+
+const savedConfig=getData("lilacConfig",null);
+if(savedConfig){
+  const walls=[
+    "radial-gradient(circle at 20% 15%,#7a5cae,transparent 55%),linear-gradient(160deg,#3a2a54,#21182F)",
+    "linear-gradient(135deg,#B89CE8,#DCC4F2,#F5C85B)",
+    "linear-gradient(135deg,#21182F,#594477,#F5C85B)"
+  ];
+  desktop.style.background=walls[savedConfig.wall]||walls[0];
+  desktop.style.filter=`brightness(${savedConfig.brightness||1})`;
+  document.querySelectorAll(".desktop-icon .emoji")
+    .forEach(el=>{
+      el.style.fontSize=(savedConfig.iconSize||49)+"px";
+    });
+}
+
+/* ==============================
+   BOOT SCREEN
+   ============================== */
+
 const boot=$("#boot");
 setTimeout(()=>{
   boot.style.opacity="0";
   setTimeout(()=>boot.remove(),750);
 },2200);
+
+boot.onclick=()=>{
+  boot.style.opacity="0";
+  setTimeout(()=>boot.remove(),750);
+};
 
 </script>
 </body>
