@@ -1,295 +1,1305 @@
 <!DOCTYPE html>
-<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Lilac OS: a bee-and-lilac desktop in your browser</title>
-<meta name="description" content="Lilac OS is a bee-and-lilac themed desktop that runs in your browser, with notes, a calculator, a terminal, a living beehive and the Nectar search page.">
-<meta property="og:title" content="Lilac OS">
-<meta property="og:description" content="A tiny desktop OS with notes, a calculator, a terminal, a living beehive and the Nectar search page.">
-<meta property="og:type" content="website">
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Lilac OS</title>
 <style>
-:root{--lav:#B89CE8;--deep:#594477;--pink:#DCC4F2;--honey:#F5C85B;--cream:#FFF8E9;--dark:#21182F;--br:1;--is:56}
+:root {
+  --bg:#21182f;
+  --panel:#322444;
+  --purple:#b89ce8;
+  --pink:#dcc4f2;
+  --gold:#f5c85b;
+  --white:#fff8e9;
+}
 *{box-sizing:border-box}
-html,body{margin:0;height:100%;overflow:hidden;font-family:"Trebuchet MS",system-ui,sans-serif;color:var(--cream);background:var(--dark);user-select:none}
-#desk{position:fixed;inset:0 0 48px 0;filter:brightness(var(--br));background-size:cover}
-#desk::before{content:"";position:absolute;inset:0;pointer-events:none;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='28' height='49'%3E%3Cpath d='M14 2l12 7v14l-12 7-12-7V9z' fill='none' stroke='%23DCC4F2' stroke-opacity='.12'/%3E%3C/svg%3E")}
-.pt{position:absolute;top:-20px;width:12px;height:16px;border-radius:70% 0 70% 0;background:var(--pink);opacity:.7;pointer-events:none;animation:fall linear infinite}
-@keyframes fall{to{transform:translateY(110vh) rotate(540deg)}}
-.noanim .pt{display:none}
-.ic{position:absolute;width:calc(var(--is)*1px + 24px);text-align:center;cursor:pointer;font-size:12px;padding:6px;border-radius:12px;touch-action:none;z-index:1;transition:.2s}
-.ic:hover{background:#b89ce833;box-shadow:0 0 16px var(--lav)}
-.ic i{display:block;font-style:normal;font-size:calc(var(--is)*1px)}
-.win{position:absolute;min-width:260px;min-height:180px;max-width:100%;display:flex;flex-direction:column;background:rgba(40,28,62,.84);backdrop-filter:blur(14px);border:1px solid var(--lav);border-radius:14px;box-shadow:0 0 18px #b89ce844,0 12px 30px #0006;overflow:hidden;resize:both;animation:pop .25s}
-.win.on{box-shadow:0 0 26px #b89ce8aa,0 12px 30px #0008}
-.win.max{inset:0!important;width:auto!important;height:auto!important;border-radius:0;resize:none}
-.win.min{display:none}
-.win.dis{animation:dis .35s forwards;pointer-events:none}
-@keyframes pop{from{transform:scale(.85);opacity:0}}
-@keyframes dis{to{transform:scale(.7) rotate(4deg);opacity:0;filter:blur(4px)}}
-.noanim .win{animation:none!important}
-.tb{display:flex;justify-content:space-between;align-items:center;padding:8px 12px;background:linear-gradient(90deg,var(--deep),#7d62a6);cursor:grab;font-weight:bold;touch-action:none}
-.bt b{display:inline-block;width:26px;height:22px;line-height:22px;text-align:center;border-radius:6px;cursor:pointer;margin-left:4px}
-.bt b:hover{background:var(--honey);color:var(--dark)}
-.body{flex:1;min-height:0;display:flex;flex-direction:column;overflow:hidden}
-.in,.btn,textarea,select{font:inherit;color:var(--cream);background:rgba(255,255,255,.1);border:1px solid #b89ce888;border-radius:8px;padding:6px 8px}
-.in,textarea{user-select:text}
-.btn{cursor:pointer;background:var(--deep);transition:.15s}
-.btn:hover:not(:disabled){background:var(--honey);color:var(--dark)}
-.btn:disabled{opacity:.45;cursor:default}
-select option{color:#000}
-#bar{position:fixed;left:0;right:0;bottom:0;height:48px;display:flex;align-items:center;gap:8px;padding:0 8px;background:rgba(33,24,47,.92);backdrop-filter:blur(12px);border-top:1px solid var(--lav);z-index:99999}
-#tasks{display:flex;gap:6px;flex:1;overflow:hidden}
-.tbn{white-space:nowrap}.tbn.act{background:var(--honey);color:var(--dark)}
-#tray{display:flex;gap:10px;align-items:center;font-size:14px}#tray b{cursor:pointer}
-#start{position:fixed;left:8px;bottom:56px;width:250px;padding:10px;border-radius:16px;background:rgba(40,28,62,.94);border:1px solid var(--lav);box-shadow:0 0 24px #b89ce866;transform-origin:bottom left;transform:scale(0) rotate(-8deg);opacity:0;transition:.35s cubic-bezier(.3,1.5,.5,1);z-index:99999;display:flex;flex-direction:column;gap:4px}
-#start.on{transform:none;opacity:1}
-#start .btn{text-align:left;background:transparent;border-color:transparent}
-#boot{position:fixed;inset:0;z-index:999999;background:radial-gradient(circle,#3a2a54,var(--dark));display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;transition:opacity .8s;text-align:center}
-#boot .lg{font-size:84px;animation:glow 1.6s infinite alternate}
-#boot h1{letter-spacing:.4em;color:var(--pink);margin:0}#boot p{color:var(--honey);height:24px}
-@keyframes glow{to{filter:drop-shadow(0 0 28px var(--lav));transform:scale(1.1)}}
-.row{display:flex;flex:1;min-height:0}
-.side{width:38%;display:flex;flex-direction:column;gap:6px;padding:8px;border-right:1px solid #b89ce855}
-.ls{overflow:auto;flex:1}.li{padding:6px 8px;border-radius:8px;cursor:pointer;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.li.sel,.li:hover{background:#b89ce844}
-.ed{flex:1;display:flex;flex-direction:column;gap:6px;padding:8px;min-width:0}
-.ed textarea{flex:1;resize:none;background:repeating-linear-gradient(#fff8e9 0 26px,#dcc4f2 26px 27px);line-height:27px;color:var(--dark)}
-.dp{padding:14px;font-size:28px;text-align:right;background:#0004;min-height:64px;overflow:hidden}
-.kp{flex:1;display:grid;grid-template-columns:repeat(4,1fr);gap:6px;padding:8px;min-height:0}
-.k{font-size:18px}.k:active{transform:scale(.9)}
-.out{flex:1;overflow:auto;padding:10px;color:var(--lav);font-family:monospace;user-select:text}
-.pr{display:flex;padding:8px;color:var(--honey);font-family:monospace}
-.pr input{flex:1;background:none;border:0;outline:0;color:var(--cream);font:inherit;user-select:text}
-.cv{flex:1;min-height:0;position:relative;background:linear-gradient(#DCC4F2,#B89CE8)}
-.cv canvas{position:absolute;inset:0;width:100%;height:100%}
-.hv{padding:8px;display:flex;flex-wrap:wrap;gap:6px;align-items:center;background:#21182fcc}.hv>div{flex-basis:100%}
-.wp{display:flex;gap:8px}.wp button{width:56px;height:36px;border-radius:8px;border:2px solid var(--cream);cursor:pointer}
-.nb{display:flex;justify-content:space-between;align-items:center;padding:8px 12px;border-bottom:1px solid #b89ce855;font-weight:bold}
-.nx{flex:1;display:flex;flex-direction:column;min-height:0}
-.nh{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;padding:16px;text-align:center;overflow:auto}
-.nh form{display:flex;gap:6px;width:min(480px,100%)}.nh form input{flex:1;min-width:0;border-radius:20px;padding:10px 16px}
-.ns{flex:1;display:flex;min-height:0}
-.nt{width:132px;padding:10px;display:flex;flex-direction:column;gap:6px;border-right:1px solid #b89ce855}
-.np{flex:1;padding:16px;overflow:auto;display:flex;flex-direction:column;gap:12px}.np h3{margin:0}.np p{margin:0;opacity:.85}
-.card{background:#ffffff14;border:1px solid #b89ce833;border-radius:12px;padding:12px}
-.eg{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-.btn.on{background:var(--na,#B89CE8);color:var(--dark)}
-.sws i{display:inline-block;width:30px;height:30px;border-radius:50%;margin-right:8px;cursor:pointer;border:2px solid transparent}.sws i.on{border-color:var(--cream)}
-.nh.top{justify-content:flex-start}
-.nr{width:min(560px,100%);text-align:left;display:flex;flex-direction:column;gap:8px}
-.rs{display:block;padding:10px 12px;border-radius:10px;background:#ffffff14;color:inherit;text-decoration:none;user-select:text}.rs:hover{background:#ffffff26}
-.rs small{display:block;opacity:.6;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.rs span{font-size:13px;opacity:.9}
-.gb{display:flex;gap:6px;padding:8px;flex-wrap:wrap}
-.gs{padding:0 12px 6px;font-weight:bold;color:var(--honey);min-height:24px}
-.gst{flex:1;min-height:0;position:relative;background:#21182F;touch-action:none}
-.gst canvas{position:absolute;inset:0;width:100%;height:100%}
-.fc{display:grid;gap:8px;padding:12px;height:100%}
-.fc button{font-size:clamp(20px,6vw,40px);border-radius:12px;border:1px solid var(--lav);background:var(--deep);color:var(--cream);cursor:pointer;transition:.2s}
-.fc button.up{background:var(--cream)}.fc button.ok{background:var(--honey)}
-</style></head><body>
-<div id="desk"></div>
-<div id="start"></div>
-<div id="bar"><button class="btn" id="sb">🪻 Start</button><div id="tasks"></div><span id="tray"><b id="snd"></b><b id="fs" title="Fullscreen">⛶</b><span id="clk"></span></span></div>
-<div id="boot"><div class="lg">🪻</div><h1>LILAC OS</h1><p id="bt">Pollinating system...</p></div>
+body{
+  margin:0;
+  font-family:"Trebuchet MS",Arial,sans-serif;
+  background:var(--bg);
+  color:var(--white);
+  overflow:hidden;
+}
+button,input,textarea,select{font:inherit}
+button{
+  background:#594477;
+  color:var(--white);
+  border:1px solid #b89ce877;
+  border-radius:9px;
+  padding:8px 12px;
+  cursor:pointer;
+}
+button:hover{background:var(--purple);color:var(--bg)}
+input,textarea,select{
+  background:#ffffff18;
+  border:1px solid #b89ce888;
+  border-radius:8px;
+  padding:10px;
+  color:var(--white);
+}
+select option{color:black}
+input,textarea{user-select:text}
+#desktop{
+  position:fixed;
+  inset:0 0 48px;
+  background:
+    radial-gradient(circle at 20% 15%,#7958a3,transparent 55%),
+    radial-gradient(circle at 80% 85%,#594477,transparent 60%),
+    linear-gradient(135deg,#3a2a54,#21182f);
+  overflow:hidden;
+}
+.icon{
+  width:95px;
+  padding:8px;
+  text-align:center;
+  position:absolute;
+  border-radius:12px;
+  cursor:pointer;
+  font-size:12px;
+  user-select:none;
+}
+.icon:hover{background:#ffffff22}
+.icon .emoji{font-size:48px;display:block}
+.window{
+  position:absolute;
+  display:flex;
+  flex-direction:column;
+  min-width:270px;
+  min-height:190px;
+  background:#302341ef;
+  border:1px solid var(--purple);
+  border-radius:14px;
+  box-shadow:0 14px 38px #0008;
+  overflow:hidden;
+  resize:both;
+}
+.window.max{
+  left:0!important;
+  top:0!important;
+  width:100%!important;
+  height:100%!important;
+  resize:none;
+  border-radius:0;
+}
+.window.min{display:none}
+.titlebar{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  background:linear-gradient(90deg,#594477,#8062a9);
+  padding:7px 10px;
+  cursor:grab;
+  touch-action:none;
+  user-select:none;
+}
+.controls{display:flex;gap:4px}
+.controls button{padding:2px 9px}
+.content{
+  flex:1;
+  min-height:0;
+  overflow:auto;
+  display:flex;
+  flex-direction:column;
+}
+#taskbar{
+  position:fixed;
+  bottom:0;
+  left:0;
+  right:0;
+  height:48px;
+  background:#21182ff2;
+  display:flex;
+  align-items:center;
+  gap:7px;
+  padding:5px;
+  z-index:99999;
+  border-top:1px solid var(--purple);
+}
+#tasks{display:flex;flex:1;gap:5px;overflow:auto}
+#tasks button{white-space:nowrap}
+#startMenu{
+  display:none;
+  position:fixed;
+  left:8px;
+  bottom:53px;
+  width:230px;
+  max-height:70vh;
+  overflow:auto;
+  background:#302341;
+  border:1px solid var(--purple);
+  border-radius:13px;
+  padding:9px;
+  z-index:99998;
+}
+#startMenu.open{display:grid;gap:5px}
+#startMenu button{text-align:left}
+#clock{white-space:nowrap}
+.padded{padding:14px;display:flex;flex-direction:column;gap:10px}
+.flex{display:flex;gap:8px}
+.flex>*{min-width:0}
+.searchBox{
+  display:flex;
+  gap:7px;
+  width:min(100%,540px);
+}
+.searchBox input{flex:1;min-width:0}
+.result{
+  display:block;
+  padding:13px;
+  background:#ffffff12;
+  border:1px solid #ffffff1a;
+  border-radius:10px;
+  text-decoration:none;
+  color:var(--white);
+  overflow-wrap:anywhere;
+}
+.result:hover{background:#ffffff25}
+.result strong{display:block;color:var(--pink)}
+.result small{color:var(--gold)}
+.result p{font-size:13px;opacity:.85}
+#boot{
+  position:fixed;
+  inset:0;
+  background:radial-gradient(circle,#3a2a54,#21182f);
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  z-index:999999;
+  transition:opacity .7s;
+}
+#boot .logo{font-size:90px}
+#boot h1{letter-spacing:8px;color:var(--pink)}
+canvas{display:block;width:100%;height:100%}
+.gameCanvas{flex:1;min-height:180px;touch-action:none}
+.small{font-size:13px;opacity:.75}
+</style>
+</head>
+<body>
+
+<div id="desktop"></div>
+<div id="startMenu"></div>
+
+<div id="taskbar">
+  <button id="startButton">🪻 Start</button>
+  <div id="tasks"></div>
+  <button id="soundButton">🔊</button>
+  <button id="fullscreen">⛶</button>
+  <span id="clock"></span>
+</div>
+
+<div id="boot">
+  <div class="logo">🪻</div>
+  <h1>LILAC OS</h1>
+  <p>Pollinating system...</p>
+</div>
+
 <script>
-const $=s=>document.querySelector(s),T0=Date.now();
-const ld=(k,d)=>{try{const v=JSON.parse(localStorage.getItem(k));return v==null?d:v}catch(e){return d}};
-const sv=(k,v)=>{try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}};
-const WP=['radial-gradient(circle at 20% 15%,#7a5cae,transparent 55%),radial-gradient(circle at 80% 90%,#594477,transparent 60%),linear-gradient(160deg,#3a2a54,#21182F)','linear-gradient(135deg,#B89CE8,#DCC4F2 50%,#F5C85B)','linear-gradient(160deg,#21182F,#594477 70%,#F5C85B)'];
-let cfg={br:1,anim:1,snd:true,is:56,wall:0,...ld('cfg',{})};
-function apply(){const s=document.documentElement.style;s.setProperty('--br',cfg.br);s.setProperty('--is',cfg.is);$('#desk').style.backgroundImage=WP[cfg.wall]||WP[0];document.body.classList.toggle('noanim',!cfg.anim);$('#snd').textContent=cfg.snd?'🔊':'🔇';sv('cfg',cfg)}
-let AC;const beep=(f=520)=>{if(!cfg.snd)return;try{AC=AC||new AudioContext();const o=AC.createOscillator(),g=AC.createGain();o.frequency.value=f;g.gain.value=.05;o.connect(g);g.connect(AC.destination);o.start();g.gain.exponentialRampToValueAtTime(.001,AC.currentTime+.15);o.stop(AC.currentTime+.15)}catch(e){}};
-function burst(x,y,c='#B89CE8',n=10){for(let i=0;i<n*cfg.anim;i++){const p=document.createElement('div');p.style.cssText=`position:fixed;left:${x}px;top:${y}px;width:7px;height:7px;border-radius:50%;background:${c};pointer-events:none;z-index:999998`;document.body.append(p);const a=Math.random()*6.28,d=30+Math.random()*50;p.animate([{transform:'none',opacity:1},{transform:`translate(${Math.cos(a)*d}px,${Math.sin(a)*d}px)`,opacity:0}],{duration:700}).onfinish=()=>p.remove()}}
-function bee(){if(!cfg.anim)return;const b=document.createElement('div'),y=Math.random()*innerHeight*.8;b.textContent='🐝';b.style.cssText='position:fixed;top:0;left:0;font-size:26px;pointer-events:none;z-index:99998';document.body.append(b);b.animate([{transform:`translate(-50px,${y}px)`},{transform:`translate(${innerWidth*.4}px,${y-60}px)`},{transform:`translate(${innerWidth*.7}px,${y+50}px)`},{transform:`translate(${innerWidth+50}px,${y-30}px)`}],{duration:9000,easing:'ease-in-out'}).onfinish=()=>b.remove()}
-setInterval(()=>Math.random()<.6&&bee(),7000);
-function petal(loop){const p=document.createElement('div');p.className='pt';p.style.left=Math.random()*100+'%';p.style.animationDuration=8+Math.random()*10+'s';if(loop)p.style.animationDelay=-Math.random()*10+'s';else{p.style.animationIterationCount=1;p.style.animationDelay=Math.random()*2+'s';p.onanimationend=()=>p.remove()}$('#desk').prepend(p)}
-for(let i=0;i<14;i++)petal(true);
+"use strict";
 
-/* ---------- window manager ---------- */
-let z=10;const W={};
-function foc(id){Object.keys(W).forEach(k=>{W[k].el.classList.toggle('on',k==id);W[k].tbn.classList.toggle('act',k==id)});W[id].el.style.zIndex=++z}
-function mini(id){const w=W[id];w.el.classList.add('min');w.el.classList.remove('on');w.tbn.classList.remove('act')}
-function open(id){const a=apps[id];if(!a)return;if(W[id]){W[id].el.classList.remove('min');foc(id);return}
-const el=document.createElement('div'),n=Object.keys(W).length;el.className='win';
-el.style.cssText=`left:${80+n*30}px;top:${30+n*30}px;width:min(${a.w}px,95vw);height:min(${a.h}px,85vh)`;
-el.innerHTML=`<div class="tb"><span>${a.i} ${a.t}</span><span class="bt"><b data-a="min">–</b><b data-a="max">▢</b><b data-a="x">✕</b></span></div><div class="body"></div>`;
-$('#desk').append(el);
-const tbn=document.createElement('button');tbn.className='btn tbn';tbn.textContent=a.i+' '+a.t;
-tbn.onclick=()=>{const w=W[id];if(!w)return;if(w.el.classList.contains('on')&&!w.el.classList.contains('min'))mini(id);else{w.el.classList.remove('min');foc(id)}};
-$('#tasks').append(tbn);W[id]={el,tbn};
-const tb=el.firstChild;
-tb.onpointerdown=e=>{if(e.target.dataset.a||el.classList.contains('max'))return;const ox=e.clientX-el.offsetLeft,oy=e.clientY-el.offsetTop;tb.setPointerCapture(e.pointerId);tb.onpointermove=m=>{el.style.left=Math.max(-100,m.clientX-ox)+'px';el.style.top=Math.max(0,m.clientY-oy)+'px'};tb.onpointerup=()=>{tb.onpointermove=null}};
-el.onpointerdown=()=>W[id]&&foc(id);
-tb.ondblclick=e=>{if(!e.target.dataset.a)el.classList.toggle('max')};
-tb.onclick=e=>{const k=e.target.dataset.a;if(k=='min')mini(id);else if(k=='max')el.classList.toggle('max');else if(k=='x')close(id)};
-try{a.init(el.lastChild,id)}catch(err){el.lastChild.textContent='This app hit an error: '+err.message}
-foc(id);beep(660);const r=el.getBoundingClientRect();burst(r.left+r.width/2,r.top,'#DCC4F2')}
-function close(id){const w=W[id];if(!w)return;const r=w.el.getBoundingClientRect();burst(r.left+r.width/2,r.top+r.height/2,'#DCC4F2',16);w.el.classList.add('dis');w.tbn.remove();delete W[id];w.el.dispatchEvent(new Event('closed'));setTimeout(()=>w.el.remove(),350);beep(380)}
-const alive=(id,el)=>W[id]&&W[id].el===el;
+/* ========= CONFIGURATION ========= */
 
-/* ---------- apps ---------- */
+const TAVILY_WORKER =
+  "https://nectar-search.nathanjf2091.workers.dev/";
+
+const $ = s => document.querySelector(s);
+const desktop = $("#desktop");
+
+function load(key,fallback){
+  try {
+    const data=JSON.parse(localStorage.getItem(key));
+    return data===null?fallback:data;
+  }catch{
+    return fallback;
+  }
+}
+function save(key,data){
+  try{localStorage.setItem(key,JSON.stringify(data))}catch{}
+}
+function escapeHTML(value){
+  return String(value).replace(/[&<>"']/g,c=>({
+    "&":"&amp;","<":"&lt;",">":"&gt;",
+    '"':"&quot;","'":"&#39;"
+  })[c]);
+}
+
+let sound=true;
+let audioContext;
+function beep(freq=520){
+  if(!sound)return;
+  try{
+    audioContext ||= new AudioContext();
+    const osc=audioContext.createOscillator();
+    const gain=audioContext.createGain();
+    osc.frequency.value=freq;
+    gain.gain.value=.025;
+    osc.connect(gain);
+    gain.connect(audioContext.destination);
+    osc.start();
+    gain.gain.exponentialRampToValueAtTime(
+      .001,audioContext.currentTime+.12
+    );
+    osc.stop(audioContext.currentTime+.12);
+  }catch{}
+}
+
+/* ========= WINDOW MANAGER ========= */
+
+const windows={};
+let highestZ=10;
+
+function focusWindow(id){
+  if(!windows[id])return;
+  const w=windows[id];
+  w.style.zIndex=++highestZ;
+}
+
+function closeWindow(id){
+  const w=windows[id];
+  if(!w)return;
+  w.dispatchEvent(new Event("appclosed"));
+  w.remove();
+  delete windows[id];
+  document.getElementById("task-"+id)?.remove();
+  beep(350);
+}
+
+function openApp(id){
+  if(windows[id]){
+    windows[id].classList.remove("min");
+    focusWindow(id);
+    return;
+  }
+  const app=apps[id];
+  if(!app)return;
+
+  const win=document.createElement("div");
+  win.className="window";
+  win.style.left=(70+Object.keys(windows).length*28)+"px";
+  win.style.top=(35+Object.keys(windows).length*28)+"px";
+  win.style.width=`min(${app.width||520}px,95vw)`;
+  win.style.height=`min(${app.height||430}px,85vh)`;
+
+  win.innerHTML=`
+    <div class="titlebar">
+      <strong>${app.icon} ${app.name}</strong>
+      <div class="controls">
+        <button data-action="min">−</button>
+        <button data-action="max">□</button>
+        <button data-action="close">×</button>
+      </div>
+    </div>
+    <div class="content"></div>`;
+
+  desktop.appendChild(win);
+  windows[id]=win;
+  focusWindow(id);
+
+  const bar=win.querySelector(".titlebar");
+  let dragging=false,dx=0,dy=0;
+
+  bar.addEventListener("pointerdown",e=>{
+    if(e.target.closest("button")||win.classList.contains("max"))
+      return;
+    dragging=true;
+    dx=e.clientX-win.offsetLeft;
+    dy=e.clientY-win.offsetTop;
+    bar.setPointerCapture(e.pointerId);
+    focusWindow(id);
+  });
+  bar.addEventListener("pointermove",e=>{
+    if(!dragging)return;
+    win.style.left=Math.max(-100,e.clientX-dx)+"px";
+    win.style.top=Math.max(0,e.clientY-dy)+"px";
+  });
+  bar.addEventListener("pointerup",()=>dragging=false);
+  bar.addEventListener("pointercancel",()=>dragging=false);
+
+  win.querySelector(".controls").onclick=e=>{
+    const action=e.target.dataset.action;
+    if(action==="close")closeWindow(id);
+    if(action==="min")win.classList.add("min");
+    if(action==="max")win.classList.toggle("max");
+  };
+  win.addEventListener("pointerdown",()=>focusWindow(id));
+
+  const task=document.createElement("button");
+  task.id="task-"+id;
+  task.textContent=app.icon+" "+app.name;
+  task.onclick=()=>{
+    if(win.classList.contains("min")){
+      win.classList.remove("min");
+      focusWindow(id);
+    }else{
+      win.classList.add("min");
+    }
+  };
+  $("#tasks").append(task);
+
+  try{
+    app.init(win.querySelector(".content"),win);
+  }catch(err){
+    win.querySelector(".content").textContent=
+      "App error: "+err.message;
+  }
+  beep(650);
+}
+
+/* ========= NECTAR SEARCH ========= */
+
+function nectarApp(root,win){
+  let settings={
+    engine:"nectar",
+    history:false,
+    ...load("nectarSettings",{})
+  };
+  let history=load("nectarHistory",[]);
+  let lastQuery="";
+  let controller=null;
+
+  const engines={
+    nectar:["🌸 Nectar (Tavily)",""],
+    google:["Google","https://www.google.com/search?q="],
+    duck:["DuckDuckGo","https://duckduckgo.com/?q="],
+    bing:["Bing","https://www.bing.com/search?q="],
+    brave:["Brave","https://search.brave.com/search?q="]
+  };
+
+  if(!engines[settings.engine])settings.engine="nectar";
+  const persist=()=>save("nectarSettings",settings);
+
+  root.innerHTML=`
+    <div class="padded" style="align-items:center">
+      <div style="font-size:65px">🌸</div>
+      <h1 style="margin:0;color:var(--pink)">Nectar</h1>
+      <p class="small">Search the web with Tavily</p>
+      <form class="searchBox" id="nectarForm">
+        <input id="nectarInput"
+          placeholder="Search the internet..."
+          autocomplete="off" required>
+        <button>Search</button>
+      </form>
+      <div class="flex" style="flex-wrap:wrap">
+        <select id="nectarEngine"></select>
+        <button id="nectarClear">Clear results</button>
+      </div>
+      <label class="small">
+        <input id="nectarRemember" type="checkbox">
+        Remember recent searches on this device
+      </label>
+      <div id="nectarHistory" style="width:100%"></div>
+      <div id="nectarStatus" class="small" role="status"></div>
+      <div id="nectarResults"
+        style="width:100%;display:grid;gap:9px"></div>
+    </div>`;
+
+  const input=root.querySelector("#nectarInput");
+  const form=root.querySelector("#nectarForm");
+  const select=root.querySelector("#nectarEngine");
+  const status=root.querySelector("#nectarStatus");
+  const results=root.querySelector("#nectarResults");
+  const remember=root.querySelector("#nectarRemember");
+  const historyBox=root.querySelector("#nectarHistory");
+
+  select.innerHTML=Object.entries(engines).map(([id,value])=>
+    `<option value="${id}">${value[0]}</option>`
+  ).join("");
+  select.value=settings.engine;
+  remember.checked=settings.history;
+
+  function renderHistory(){
+    historyBox.replaceChildren();
+    if(!settings.history||!history.length)return;
+
+    const title=document.createElement("p");
+    title.textContent="Recent searches";
+    title.className="small";
+    historyBox.append(title);
+
+    history.slice(0,6).forEach(q=>{
+      const btn=document.createElement("button");
+      btn.textContent=q;
+      btn.style.margin="3px";
+      btn.onclick=()=>{
+        input.value=q;
+        performSearch(q);
+      };
+      historyBox.append(btn);
+    });
+  }
+
+  async function performSearch(query){
+    query=String(query).trim();
+    if(!query)return;
+    lastQuery=query;
+
+    if(settings.history){
+      history=[query,...history.filter(x=>x!==query)].slice(0,20);
+      save("nectarHistory",history);
+      renderHistory();
+    }
+
+    if(settings.engine!=="nectar"){
+      const base=engines[settings.engine][1];
+      window.open(base+encodeURIComponent(query),"_blank","noopener");
+      return;
+    }
+
+    controller?.abort();
+    controller=new AbortController();
+    const activeController=controller;
+    const timeout=setTimeout(()=>activeController.abort(),15000);
+
+    status.textContent="🌸 Searching with Tavily...";
+    results.replaceChildren();
+
+    try{
+      const url=TAVILY_WORKER+
+        (TAVILY_WORKER.includes("?")?"&":"?")+
+        "q="+encodeURIComponent(query);
+
+      const response=await fetch(url,{
+        method:"GET",
+        signal:activeController.signal,
+        cache:"no-store"
+      });
+
+      const raw=await response.text();
+      let data;
+      try{
+        data=JSON.parse(raw);
+      }catch{
+        throw new Error("Worker did not return valid JSON.");
+      }
+
+      if(!response.ok){
+        throw new Error(
+          typeof data.error==="string"
+            ? data.error
+            : "Worker returned HTTP "+response.status
+        );
+      }
+
+      const items=Array.isArray(data.results)?data.results:[];
+      status.textContent=items.length
+        ?`Found ${items.length} results for "${query}"`
+        :"No results found.";
+
+      for(const item of items){
+        if(!/^https?:\/\//i.test(item.url||""))continue;
+        const a=document.createElement("a");
+        a.className="result";
+        a.href=item.url;
+        a.target="_blank";
+        a.rel="noopener noreferrer";
+
+        const name=document.createElement("strong");
+        name.textContent=item.title||item.url;
+
+        const link=document.createElement("small");
+        link.textContent=item.url;
+
+        const description=document.createElement("p");
+        description.textContent=(item.content||"").slice(0,350);
+
+        a.append(name,link,description);
+        results.append(a);
+      }
+    }catch(err){
+      if(err.name==="AbortError"){
+        status.textContent="Search timed out or was cancelled.";
+      }else{
+        status.textContent="Search error: "+err.message;
+      }
+    }finally{
+      clearTimeout(timeout);
+    }
+  }
+
+  form.onsubmit=e=>{
+    e.preventDefault();
+    performSearch(input.value);
+  };
+
+  select.onchange=()=>{
+    settings.engine=select.value;
+    persist();
+    controller?.abort();
+    status.textContent="";
+    results.replaceChildren();
+  };
+
+  remember.onchange=()=>{
+    settings.history=remember.checked;
+    if(!settings.history){
+      history=[];
+      save("nectarHistory",[]);
+    }
+    persist();
+    renderHistory();
+  };
+
+  root.querySelector("#nectarClear").onclick=()=>{
+    controller?.abort();
+    results.replaceChildren();
+    status.textContent="";
+    input.value="";
+  };
+
+  win.addEventListener("appclosed",()=>controller?.abort());
+  renderHistory();
+  input.focus();
+}
+
+/* ========= NOTES ========= */
+
+function notesApp(root){
+  let notes=load("lilacNotes",[
+    {id:1,title:"Welcome",body:"Welcome to Lilac OS! 🪻"}
+  ]);
+  let current=notes[0]?.id;
+
+  root.innerHTML=`
+    <div class="padded">
+      <div class="flex">
+        <button id="newNote">+ New note</button>
+        <button id="deleteNote">Delete</button>
+      </div>
+      <select id="noteList"></select>
+      <input id="noteTitle" placeholder="Note title">
+      <textarea id="noteBody" placeholder="Start writing..."
+        style="min-height:180px;flex:1;resize:vertical"></textarea>
+    </div>`;
+
+  const list=root.querySelector("#noteList");
+  const title=root.querySelector("#noteTitle");
+  const body=root.querySelector("#noteBody");
+
+  function render(){
+    list.replaceChildren();
+    notes.forEach(note=>{
+      const opt=document.createElement("option");
+      opt.value=note.id;
+      opt.textContent=note.title||"Untitled";
+      list.append(opt);
+    });
+    const note=notes.find(n=>n.id===current);
+    list.value=current||"";
+    title.value=note?.title||"";
+    body.value=note?.body||"";
+  }
+  function persist(){save("lilacNotes",notes)}
+  root.querySelector("#newNote").onclick=()=>{
+    const note={id:Date.now(),title:"New note",body:""};
+    notes.unshift(note);
+    current=note.id;
+    persist();
+    render();
+  };
+  root.querySelector("#deleteNote").onclick=()=>{
+    notes=notes.filter(n=>n.id!==current);
+    current=notes[0]?.id;
+    persist();
+    render();
+  };
+  list.onchange=()=>{current=Number(list.value);render()};
+  function update(){
+    const note=notes.find(n=>n.id===current);
+    if(!note)return;
+    note.title=title.value;
+    note.body=body.value;
+    persist();
+    const selected=list.selectedOptions[0];
+    if(selected)selected.textContent=note.title||"Untitled";
+  }
+  title.oninput=body.oninput=update;
+  render();
+}
+
+/* ========= CALCULATOR ========= */
+
+function calculatorApp(root){
+  let expression="";
+  root.innerHTML=`
+    <div class="padded" style="height:100%">
+      <div id="calcDisplay"
+        style="font-size:30px;text-align:right;padding:12px;
+        background:#0004;border-radius:8px">0</div>
+      <div id="calcKeys"
+        style="display:grid;grid-template-columns:repeat(4,1fr);
+        gap:7px;flex:1"></div>
+    </div>`;
+  const display=root.querySelector("#calcDisplay");
+  const keys=root.querySelector("#calcKeys");
+  const values=[
+    "C","⌫","(",")",
+    "7","8","9","/",
+    "4","5","6","*",
+    "1","2","3","-",
+    "0",".","=","+"
+  ];
+  function press(value){
+    if(value==="C")expression="";
+    else if(value==="⌫")expression=expression.slice(0,-1);
+    else if(value==="="){
+      try{
+        if(!/^[0-9+\-*/.() ]+$/.test(expression))
+          throw Error("Invalid");
+        const tokens=expression.match(/\d+(?:\.\d+)?|[()+*/-]/g);
+        if(!tokens||tokens.join("")!==expression.replace(/\s/g,""))
+          throw Error("Invalid");
+
+        // Evaluate only a validated arithmetic expression.
+        const answer=Function('"use strict";return ('+expression+')')();
+        expression=Number.isFinite(answer)?String(answer):"Error";
+      }catch{
+        expression="Error";
+      }
+    }else{
+      if(expression==="Error")expression="";
+      expression+=value;
+    }
+    display.textContent=expression||"0";
+  }
+  values.forEach(value=>{
+    const btn=document.createElement("button");
+    btn.textContent=value;
+    btn.onclick=()=>press(value);
+    keys.append(btn);
+  });
+}
+
+/* ========= HIVE ========= */
+
+function hiveApp(root,win){
+  let hive={
+    nectar:0,total:0,flowers:1,workers:0,
+    foragers:0,queens:0,level:1,
+    ...load("lilacHive",{})
+  };
+
+  root.innerHTML=`
+    <div class="padded" style="height:100%">
+      <div style="text-align:center;font-size:65px">🐝🍯🌸</div>
+      <h2 id="hiveAmount" style="text-align:center"></h2>
+      <p id="hiveRate" style="text-align:center"></p>
+      <button id="collect">🌼 Collect nectar</button>
+      <div id="hiveUpgrades" style="display:grid;gap:7px"></div>
+    </div>`;
+
+  const amount=root.querySelector("#hiveAmount");
+  const rateText=root.querySelector("#hiveRate");
+  const upgradeBox=root.querySelector("#hiveUpgrades");
+
+  const upgrades=[
+    ["flowers","🌸 Grow flower",10,1.6],
+    ["workers","🐝 Worker bee",25,1.5],
+    ["foragers","🍯 Forager bee",200,1.5],
+    ["queens","👑 Queen bee",2000,1.6],
+    ["level","🏠 Upgrade hive",100,3]
+  ];
+  const rate=()=>(
+    hive.workers+hive.foragers*6+hive.queens*40
+  )*hive.level;
+
+  function cost(key,base,mult){
+    const count=key==="level"?hive.level-1:hive[key];
+    return Math.ceil(base*Math.pow(mult,count));
+  }
+  function render(){
+    amount.textContent="🍯 "+Math.floor(hive.nectar)+" Nectar";
+    rateText.textContent=`${rate()} nectar / second · Level ${hive.level}`;
+    upgradeBox.replaceChildren();
+
+    upgrades.forEach(([key,name,base,mult])=>{
+      const price=cost(key,base,mult);
+      const btn=document.createElement("button");
+      btn.textContent=`${name} — ${price} nectar`;
+      btn.disabled=hive.nectar<price;
+      btn.onclick=()=>{
+        if(hive.nectar<price)return;
+        hive.nectar-=price;
+        hive[key]++;
+        save("lilacHive",hive);
+        render();
+      };
+      upgradeBox.append(btn);
+    });
+  }
+  root.querySelector("#collect").onclick=()=>{
+    const gained=hive.flowers*hive.level;
+    hive.nectar+=gained;
+    hive.total+=gained;
+    save("lilacHive",hive);
+    render();
+    beep(700);
+  };
+  const interval=setInterval(()=>{
+    const gained=rate();
+    hive.nectar+=gained;
+    hive.total+=gained;
+    save("lilacHive",hive);
+    render();
+  },1000);
+  win.addEventListener("appclosed",()=>clearInterval(interval));
+  render();
+}
+
+/* ========= HIVE CONSOLE ========= */
+
+function consoleApp(root){
+  root.innerHTML=`
+    <div id="consoleOutput"
+      style="flex:1;overflow:auto;padding:12px;
+      color:var(--purple);font-family:monospace"></div>
+    <div class="flex" style="padding:10px">
+      <span>🐝 hive&gt;</span>
+      <input id="consoleInput" style="flex:1"
+        placeholder="Type help" autocomplete="off">
+    </div>`;
+
+  const output=root.querySelector("#consoleOutput");
+  const input=root.querySelector("#consoleInput");
+
+  function print(message){
+    const line=document.createElement("div");
+    line.textContent=message;
+    output.append(line);
+    output.scrollTop=output.scrollHeight;
+  }
+
+  print("Hive Console v1.0");
+  print("Type 'help' to begin.");
+
+  const commands={
+    help:()=>print(
+      "Commands: help, clear, date, time, whoami, apps, hive, bees, flowers, open APP"
+    ),
+    clear:()=>output.replaceChildren(),
+    date:()=>print(new Date().toDateString()),
+    time:()=>print(new Date().toLocaleTimeString()),
+    whoami:()=>print("A very busy worker bee 🐝"),
+    apps:()=>print(Object.keys(apps).join(", ")),
+    hive:()=>openApp("hive"),
+    bees:()=>print("🐝 Bzzzzzz!"),
+    flowers:()=>print("🌸 🌷 🪻 🌼 🌻"),
+    about:()=>print("Lilac OS — Nectar powered by Tavily")
+  };
+
+  input.addEventListener("keydown",e=>{
+    if(e.key!=="Enter")return;
+    const command=input.value.trim();
+    print("> "+command);
+    const [name,...args]=command.split(/\s+/);
+    if(name==="open"){
+      const id=args[0]?.toLowerCase();
+      if(apps[id])openApp(id);
+      else print("Unknown app. Type apps.");
+    }else if(commands[name?.toLowerCase()]){
+      commands[name.toLowerCase()]();
+    }else if(command){
+      print("Unknown command: "+command);
+    }
+    input.value="";
+  });
+  input.focus();
+}
+
+/* ========= SETTINGS ========= */
+
+function settingsApp(root){
+  const wallpapers=[
+    "radial-gradient(circle at 20% 15%,#7958a3,transparent 55%),linear-gradient(135deg,#3a2a54,#21182f)",
+    "linear-gradient(135deg,#b89ce8,#dcc4f2,#f5c85b)",
+    "linear-gradient(135deg,#21182f,#594477,#f5c85b)"
+  ];
+  root.innerHTML=`
+    <div class="padded">
+      <h2>⚙️ Settings</h2>
+      <p>Wallpaper</p>
+      <div id="wallpapers" class="flex"></div>
+      <label>Brightness
+        <input id="brightness" type="range"
+          min=".5" max="1.2" step=".05" value="1">
+      </label>
+      <label>Desktop icon size
+        <input id="iconSize" type="range"
+          min="32" max="80" value="48">
+      </label>
+      <p class="small">Your settings are saved in this browser.</p>
+    </div>`;
+  const saved=load("lilacSettings",{wallpaper:0,brightness:1,iconSize:48});
+  const wallpaperBox=root.querySelector("#wallpapers");
+  const brightness=root.querySelector("#brightness");
+  const iconSize=root.querySelector("#iconSize");
+
+  function apply(){
+    desktop.style.background=wallpapers[saved.wallpaper];
+    desktop.style.filter=`brightness(${saved.brightness})`;
+    document.querySelectorAll(".icon .emoji").forEach(el=>
+      el.style.fontSize=saved.iconSize+"px"
+    );
+    save("lilacSettings",saved);
+  }
+  wallpapers.forEach((wallpaper,index)=>{
+    const btn=document.createElement("button");
+    btn.style.background=wallpaper;
+    btn.style.width="60px";
+    btn.style.height="45px";
+    btn.onclick=()=>{saved.wallpaper=index;apply()};
+    wallpaperBox.append(btn);
+  });
+  brightness.value=saved.brightness;
+  iconSize.value=saved.iconSize;
+  brightness.oninput=()=>{
+    saved.brightness=Number(brightness.value);
+    apply();
+  };
+  iconSize.oninput=()=>{
+    saved.iconSize=Number(iconSize.value);
+    apply();
+  };
+  apply();
+}
+
+/* ========= MINI GAMES ========= */
+
+function gamesApp(root,win){
+  root.innerHTML=`
+    <div class="padded">
+      <div class="flex" style="flex-wrap:wrap">
+        <button data-game="flight">🐝 Bee Flight</button>
+        <button data-game="catch">🌸 Petal Catcher</button>
+        <button data-game="match">🪻 Flower Match</button>
+        <button data-game="maze">🍯 Hive Maze</button>
+      </div>
+      <div id="gameInfo">Choose a game!</div>
+    </div>
+    <div id="gameArea" class="gameCanvas"></div>`;
+
+  const info=root.querySelector("#gameInfo");
+  const area=root.querySelector("#gameArea");
+  let cleanup=()=>{};
+  let active=true;
+
+  function stopGame(){
+    cleanup();
+    cleanup=()=>{};
+    area.replaceChildren();
+  }
+
+  root.querySelectorAll("[data-game]").forEach(btn=>{
+    btn.onclick=()=>{
+      stopGame();
+      if(btn.dataset.game==="flight")flight();
+      if(btn.dataset.game==="catch")catcher();
+      if(btn.dataset.game==="match")match();
+      if(btn.dataset.game==="maze")maze();
+    };
+  });
+
+  function canvasGame(){
+    const canvas=document.createElement("canvas");
+    area.append(canvas);
+    const ctx=canvas.getContext("2d");
+    function resize(){
+      canvas.width=Math.max(area.clientWidth,250);
+      canvas.height=Math.max(area.clientHeight,200);
+    }
+    resize();
+    return {canvas,ctx,resize};
+  }
+
+  function flight(){
+    const {canvas,ctx,resize}=canvasGame();
+    let y=110,velocity=0,score=0,over=false,started=false;
+    let pipes=[],last=performance.now(),frameId;
+    const flap=()=>{
+      if(over){flightRestart();return}
+      started=true;
+      velocity=-320;
+    };
+    function flightRestart(){
+      stopGame();
+      flight();
+    }
+    canvas.addEventListener("pointerdown",flap);
+    const key=e=>{
+      if(e.code==="Space"){e.preventDefault();flap()}
+    };
+    document.addEventListener("keydown",key);
+
+    function frame(now){
+      resize();
+      const w=canvas.width,h=canvas.height;
+      const dt=Math.min((now-last)/1000,.04);
+      last=now;
+      ctx.fillStyle="#594477";
+      ctx.fillRect(0,0,w,h);
+      if(!started)y=h/2;
+      if(started&&!over){
+        velocity+=850*dt;
+        y+=velocity*dt;
+        if(!pipes.length||pipes[pipes.length-1].x<w-230){
+          const gap=140,top=35+Math.random()*Math.max(10,h-gap-70);
+          pipes.push({x:w+30,top,gap,passed:false});
+        }
+        for(const p of pipes){
+          p.x-=150*dt;
+          if(!p.passed&&p.x+45<w*.25){
+            p.passed=true;
+            score++;
+          }
+          if(w*.25+12>p.x&&w*.25-12<p.x+45&&
+            (y-10<p.top||y+10>p.top+p.gap))over=true;
+        }
+        pipes=pipes.filter(p=>p.x>-50);
+        if(y<0||y>h)over=true;
+      }
+      ctx.fillStyle="#f5c85b";
+      for(const p of pipes){
+        ctx.fillRect(p.x,0,45,p.top);
+        ctx.fillRect(p.x,p.top+p.gap,45,h);
+      }
+      ctx.font="30px serif";
+      ctx.fillText("🐝",w*.25-15,y+10);
+      ctx.fillStyle="white";
+      ctx.font="20px Arial";
+      ctx.fillText("Score: "+score,15,30);
+      if(!started)ctx.fillText("Click or Space to fly",30,h/2);
+      if(over)ctx.fillText("Game over — click to restart",30,h/2);
+      frameId=requestAnimationFrame(frame);
+    }
+    frameId=requestAnimationFrame(frame);
+    cleanup=()=>{
+      cancelAnimationFrame(frameId);
+      document.removeEventListener("keydown",key);
+    };
+    info.textContent="Bee Flight — click or Space to flap";
+  }
+
+  function catcher(){
+    const {canvas,ctx,resize}=canvasGame();
+    let player=160,items=[],score=0,lives=3,over=false;
+    let last=performance.now(),timer=0,frameId;
+    const move=e=>{
+      player=e.clientX-canvas.getBoundingClientRect().left;
+    };
+    canvas.addEventListener("pointermove",move);
+    const key=e=>{
+      if(e.key==="ArrowLeft"||e.key==="a")player-=30;
+      if(e.key==="ArrowRight"||e.key==="d")player+=30;
+    };
+    document.addEventListener("keydown",key);
+
+    function frame(now){
+      resize();
+      const w=canvas.width,h=canvas.height;
+      const dt=Math.min((now-last)/1000,.05);
+      last=now;
+      ctx.fillStyle="#594477";
+      ctx.fillRect(0,0,w,h);
+      player=Math.max(35,Math.min(w-35,player));
+      if(!over){
+        timer+=dt;
+        if(timer>.65){
+          timer=0;
+          items.push({
+            x:20+Math.random()*(w-40),
+            y:-10,
+            bad:Math.random()<.2
+          });
+        }
+        for(const item of items){
+          item.y+=130*dt;
+          if(item.y>h-45&&Math.abs(item.x-player)<40){
+            if(item.bad)lives--;
+            else score++;
+            item.y=h+100;
+          }
+        }
+        items=items.filter(item=>item.y<h+20);
+        if(lives<=0)over=true;
+      }
+      ctx.font="23px serif";
+      for(const item of items)
+        ctx.fillText(item.bad?"🌵":"🌸",item.x-10,item.y);
+      ctx.fillText("🍯",player-20,h-18);
+      ctx.fillStyle="white";
+      ctx.font="18px Arial";
+      ctx.fillText(`Petals: ${score}   Lives: ${lives}`,10,25);
+      if(over)ctx.fillText("Game over!",w/3,h/2);
+      frameId=requestAnimationFrame(frame);
+    }
+    frameId=requestAnimationFrame(frame);
+    cleanup=()=>{
+      cancelAnimationFrame(frameId);
+      document.removeEventListener("keydown",key);
+    };
+    info.textContent="Catch flowers, avoid thorns!";
+  }
+
+  function match(){
+    const flowers=["🌸","🌻","🌷","🪻","🌹","🌼","🌺","💐"];
+    const cards=[...flowers,...flowers].sort(()=>Math.random()-.5);
+    let picked=[],matched=new Set(),moves=0,locked=false;
+    area.style.display="grid";
+    area.style.gridTemplateColumns="repeat(4,1fr)";
+    area.style.gap="7px";
+    area.style.padding="10px";
+    const buttons=cards.map((flower,index)=>{
+      const btn=document.createElement("button");
+      btn.textContent="🐝";
+      btn.style.fontSize="26px";
+      btn.onclick=()=>{
+        if(locked||matched.has(index)||picked.includes(index))return;
+        btn.textContent=flower;
+        picked.push(index);
+        if(picked.length===2){
+          moves++;
+          const [a,b]=picked;
+          if(cards[a]===cards[b]){
+            matched.add(a);matched.add(b);
+            picked=[];
+            info.textContent=`Moves: ${moves} · Pairs: ${matched.size/2}/8`;
+          }else{
+            locked=true;
+            const timeout=setTimeout(()=>{
+              buttons[a].textContent="🐝";
+              buttons[b].textContent="🐝";
+              picked=[];
+              locked=false;
+            },650);
+            timeouts.push(timeout);
+          }
+          if(matched.size===16)info.textContent="You won in "+moves+" moves!";
+        }
+      };
+      area.append(btn);
+      return btn;
+    });
+    const timeouts=[];
+    cleanup=()=>{
+      timeouts.forEach(clearTimeout);
+      area.style.display="";
+      area.style.gridTemplateColumns="";
+      area.style.gap="";
+      area.style.padding="";
+    };
+    info.textContent="Match all eight flower pairs!";
+  }
+
+  function maze(){
+    const size=9;
+    const cells=Array.from({length:size*size},()=>[1,1,1,1]);
+    const visited=new Set([0]);
+    const stack=[0];
+    const directions=[
+      [0,-1,0,2],[1,0,1,3],
+      [0,1,2,0],[-1,0,3,1]
+    ];
+    while(stack.length){
+      const index=stack[stack.length-1];
+      const x=index%size,y=Math.floor(index/size);
+      const options=directions.filter(d=>{
+        const nx=x+d[0],ny=y+d[1];
+        return nx>=0&&ny>=0&&nx<size&&ny<size&&
+          !visited.has(ny*size+nx);
+      });
+      if(!options.length){stack.pop();continue}
+      const d=options[Math.floor(Math.random()*options.length)];
+      const next=(y+d[1])*size+x+d[0];
+      cells[index][d[2]]=0;
+      cells[next][d[3]]=0;
+      visited.add(next);
+      stack.push(next);
+    }
+
+    const {canvas,ctx,resize}=canvasGame();
+    let position=0,frameId;
+    const key=e=>{
+      const mapping={
+        ArrowUp:0,w:0,ArrowRight:1,d:1,
+        ArrowDown:2,s:2,ArrowLeft:3,a:3
+      };
+      const dir=mapping[e.key];
+      if(dir===undefined)return;
+      e.preventDefault();
+      if(cells[position][dir])return;
+      position+=[-size,1,size,-1][dir];
+      if(position===size*size-1)
+        info.textContent="🏆 You escaped the hive!";
+    };
+    document.addEventListener("keydown",key);
+    function frame(){
+      resize();
+      const w=canvas.width,h=canvas.height;
+      const s=Math.min((w-20)/size,(h-20)/size);
+      const ox=(w-size*s)/2,oy=(h-size*s)/2;
+      ctx.fillStyle="#21182f";
+      ctx.fillRect(0,0,w,h);
+      ctx.strokeStyle="#dcc4f2";
+      ctx.lineWidth=2;
+      cells.forEach((walls,i)=>{
+        const x=ox+(i%size)*s;
+        const y=oy+Math.floor(i/size)*s;
+        if(walls[0]){ctx.beginPath();ctx.moveTo(x,y);ctx.lineTo(x+s,y);ctx.stroke()}
+        if(walls[1]){ctx.beginPath();ctx.moveTo(x+s,y);ctx.lineTo(x+s,y+s);ctx.stroke()}
+        if(walls[2]){ctx.beginPath();ctx.moveTo(x,y+s);ctx.lineTo(x+s,y+s);ctx.stroke()}
+        if(walls[3]){ctx.beginPath();ctx.moveTo(x,y);ctx.lineTo(x,y+s);ctx.stroke()}
+      });
+      ctx.font=Math.floor(s*.65)+"px serif";
+      ctx.fillText("🍯",ox+(size-.85)*s,oy+(size-.3)*s);
+      ctx.fillText("🐝",ox+(position%size+.1)*s,
+        oy+(Math.floor(position/size)+.75)*s);
+      frameId=requestAnimationFrame(frame);
+    }
+    frameId=requestAnimationFrame(frame);
+    cleanup=()=>{
+      cancelAnimationFrame(frameId);
+      document.removeEventListener("keydown",key);
+    };
+    info.textContent="Use arrow keys or WASD to reach the honey.";
+  }
+
+  win.addEventListener("appclosed",()=>{
+    active=false;
+    stopGame();
+  });
+}
+
+/* ========= TASK MANAGER ========= */
+
+function taskManagerApp(root,win){
+  root.classList.add("padded");
+  function update(){
+    root.replaceChildren();
+    const title=document.createElement("h3");
+    title.textContent="📊 Running Apps";
+    root.append(title);
+    Object.keys(windows).forEach(id=>{
+      const line=document.createElement("div");
+      line.className="flex";
+      const label=document.createElement("span");
+      label.textContent=apps[id].icon+" "+apps[id].name;
+      const btn=document.createElement("button");
+      btn.textContent="End";
+      btn.onclick=()=>closeWindow(id);
+      line.append(label,btn);
+      root.append(line);
+    });
+  }
+  update();
+  const timer=setInterval(update,1200);
+  win.addEventListener("appclosed",()=>clearInterval(timer));
+}
+
+/* ========= APP REGISTRY ========= */
+
 const apps={
-hive:{t:'The Hive',i:'🐝',w:620,h:480,init(b,id){const el=b.parentNode;let H={n:0,tot:0,fl:1,wk:0,fg:0,qn:0,lv:1,...ld('hive',{})};
-b.innerHTML='<div class="cv"><canvas></canvas></div><div class="hv"></div>';
-const cv=b.querySelector('canvas'),g=cv.getContext('2d'),hv=b.querySelector('.hv');
-const cost={fl:()=>Math.ceil(10*1.6**(H.fl-1)),wk:()=>Math.ceil(25*1.5**H.wk),fg:()=>Math.ceil(200*1.5**H.fg),qn:()=>Math.ceil(2000*1.6**H.qn),lv:()=>Math.ceil(100*3**(H.lv-1))};
-const defs=[['fl','🌸 Grow flower (+1 per click)',1],['wk','🐝 Worker bee (+1/s)',1],['fg','🍯 Forager bee (+6/s)',2],['qn','👑 Queen bee (+40/s)',3],['lv','🏠 Upgrade hive (x2 output)',1]];
-const rate=()=>(H.wk+6*H.fg+40*H.qn)*H.lv;
-function ui(){const goal=[100,1e3,1e4,1e5,1e6].find(x=>H.tot<x);
-hv.innerHTML=`<div>🍯 <b>${Math.floor(H.n)}</b> nectar · ${rate()}/s · Hive level ${H.lv}</div><div>${goal?`Goal: collect ${goal.toLocaleString()} nectar in total (${Math.floor(H.tot)} so far)`:'All goals done: your hive is legendary!'}</div><button class="btn" data-c="1">🌼 Collect nectar (+${H.fl*H.lv})</button>`+defs.map(([k,t,l])=>H.lv>=l?`<button class="btn" data-k="${k}" ${H.n<cost[k]()?'disabled':''}>${t} · ${cost[k]()} (${H[k]})</button>`:`<button class="btn" disabled>🔒 Unlocks at hive level ${l}</button>`).join('')}
-hv.onclick=e=>{const x=e.target.closest('button');if(!x)return;if(x.dataset.c){const v=H.fl*H.lv;H.n+=v;H.tot+=v;burst(e.clientX,e.clientY,'#F5C85B',8);beep(700)}else if(x.dataset.k){const k=x.dataset.k,c=cost[k]();if(H.n>=c){H.n-=c;H[k]++;burst(e.clientX,e.clientY,'#B89CE8',12);beep(520)}}sv('hive',H);ui()};
-const pts=[];for(let q=-2;q<=2;q++)for(let r=-2;r<=2;r++)if(Math.abs(q+r)<=2)pts.push([q+r/2,r]);pts.sort((a,b)=>Math.hypot(a[0],a[1])-Math.hypot(b[0],b[1]));
-const hex=(x,y,r)=>{g.beginPath();for(let k=0;k<6;k++)g.lineTo(x+r*Math.cos(k*1.047+.52),y+r*Math.sin(k*1.047+.52));g.closePath();g.fill();g.stroke()};
-function draw(t){if(!alive(id,el))return;cv.width=cv.clientWidth;cv.height=cv.clientHeight;const w=cv.width,h=cv.height,cx=w/2,cy=h*.45,r=Math.min(w,h)/12;
-g.fillStyle='#F5C85B';g.strokeStyle='#594477';g.lineWidth=2;pts.slice(0,Math.min(19,2+H.lv*3)).forEach(p=>hex(cx+p[0]*r*1.75,cy+p[1]*r*1.5,r));
-for(let i=0;i<Math.min(H.fl,30);i++){const x=(i+.5)*w/Math.min(H.fl,30);g.strokeStyle='#594477';g.beginPath();g.moveTo(x,h);g.lineTo(x,h-30);g.stroke();g.fillStyle=i%2?'#594477':'#FFF8E9';g.beginPath();g.arc(x,h-34,9,0,6.3);g.fill()}
-g.font='20px serif';const nb=Math.min(1+H.wk+H.fg+H.qn,40);for(let i=0;i<nb;i++)g.fillText(i<H.qn?'👑':'🐝',cx+Math.cos(t/600+i*2.4)*(70+i%5*28)*(w/600+.4)-10,cy+Math.sin(t/450+i*1.7)*(45+i%4*18)+8);
-requestAnimationFrame(draw)}
-const iv=setInterval(()=>{if(!alive(id,el))return clearInterval(iv);const v=rate();H.n+=v;H.tot+=v;sv('hive',H);ui()},1000);
-ui();requestAnimationFrame(draw)}},
-notes:{t:'Notes',i:'📓',w:540,h:400,init(b){let N=ld('notes',[{id:1,t:'Welcome',b:'Write something sweet 🪻'}]),cur=N[0]&&N[0].id,q='';
-b.innerHTML='<div class="row"><div class="side"><input class="in" placeholder="Search notes"><button class="btn">+ New note</button><div class="ls"></div></div><div class="ed"><input class="in" placeholder="Title"><textarea placeholder="Start writing..."></textarea><button class="btn">Delete note</button></div></div>';
-const sq=b.querySelector('.side input'),nw=b.querySelector('.side button'),ls=b.querySelector('.ls'),ti=b.querySelector('.ed input'),ta=b.querySelector('textarea'),del=b.querySelector('.ed button');
-const save=()=>sv('notes',N),get=()=>N.find(n=>n.id==cur);
-function list(){ls.innerHTML='';N.filter(n=>(n.t+n.b).toLowerCase().includes(q)).forEach(n=>{const d=document.createElement('div');d.className='li'+(n.id==cur?' sel':'');d.textContent=n.t||'Untitled';d.onclick=()=>{cur=n.id;list();load()};ls.append(d)})}
-function load(){const n=get();ti.value=n?n.t:'';ta.value=n?n.b:'';ti.disabled=ta.disabled=del.disabled=!n}
-sq.oninput=()=>{q=sq.value.toLowerCase();list()};
-nw.onclick=()=>{const n={id:Date.now(),t:'New note',b:''};N.unshift(n);cur=n.id;save();list();load();ti.focus();ti.select()};
-del.onclick=()=>{N=N.filter(n=>n.id!=cur);cur=N[0]&&N[0].id;save();list();load()};
-ti.oninput=ta.oninput=()=>{const n=get();if(n){n.t=ti.value;n.b=ta.value;save();list()}};
-list();load()}},
-calc:{t:'Calculator',i:'🧮',w:300,h:420,init(b){let ex='';b.innerHTML='<div class="dp">0</div><div class="kp"></div>';const dp=b.firstChild,kp=b.lastChild;
-const p=k=>{if(k=='C')ex='';else if(k=='⌫')ex=ex.slice(0,-1);else if(k=='='){if(/^[\d+\-*/.() ]+$/.test(ex)){try{const r=Function('return '+ex)();ex=isFinite(r)?String(+r.toFixed(10)):'Error'}catch(e){ex='Error'}}}else{if(ex=='Error')ex='';ex+=k}dp.textContent=ex||'0'};
-'C ⌫ ( ) 7 8 9 / 4 5 6 * 1 2 3 - 0 . = +'.split(' ').forEach(k=>{const x=document.createElement('button');x.textContent=k;x.className='btn k';x.onclick=()=>p(k);kp.append(x)});
-const h=e=>{if(!b.parentNode.classList.contains('on'))return;const k=e.key;if(/^[\d+\-*/.()]$/.test(k))p(k);else if(k=='Enter'||k=='=')p('=');else if(k=='Backspace')p('⌫');else if(k=='Escape')p('C')};
-document.addEventListener('keydown',h);b.parentNode.addEventListener('closed',()=>document.removeEventListener('keydown',h))}},
-term:{t:'Hive Console',i:'💻',w:560,h:380,init(b){b.innerHTML='<div class="out"></div><div class="pr">🐝 hive&gt;&nbsp;<input spellcheck="false"></div>';const o=b.firstChild,i=b.querySelector('input');
-const say=(t,c)=>{const d=document.createElement('div');d.textContent=t;if(c)d.style.color=c;o.append(d);o.scrollTop=1e9};
-say('Hive Console v1.0. Type help to begin.','#F5C85B');
-const C={help:()=>say('Commands: help clear date time whoami hive flowers bees about open <app>'),clear:()=>{o.innerHTML=''},date:()=>say(new Date().toDateString()),time:()=>say(new Date().toLocaleTimeString()),whoami:()=>say('a very busy worker bee'),hive:()=>say('🐝 The hive is warm and humming. Open The Hive app to grow it.'),flowers:()=>say('🪻 lilac  🌸 blossom  🌼 daisy  🌷 tulip'),bees:()=>{say('🐝 bzzz...');bee()},about:()=>say('Lilac OS 1.0, made with nectar.'),open:a=>apps[a]?open(a):say('No app called "'+a+'". Try: '+Object.keys(apps).join(', ')),bzz:()=>{say('SWARM!','#F5C85B');for(let k=0;k<8;k++)setTimeout(bee,k*250)},honey:()=>{say('🍯 sweet!','#F5C85B');burst(innerWidth/2,innerHeight/2,'#F5C85B',40)},lilac:()=>{say('🪻 petal storm');for(let k=0;k<30;k++)petal()}};
-i.onkeydown=e=>{if(e.key!='Enter')return;const[v='',...r]=i.value.trim().split(/\s+/),k=v.toLowerCase();say('> '+i.value,'#DCC4F2');if(v)Object.hasOwn(C,k)?C[k](r.join(' ').toLowerCase()):say('Unknown command: '+v,'#F5C85B');i.value=''};
-b.onclick=()=>i.focus();setTimeout(()=>i.focus(),50)}},
-tasks:{t:'Task Manager',i:'📊',w:380,h:300,init(b,id){const el=b.parentNode;
-const d=()=>{b.innerHTML=`<p style="margin:10px">Open windows: ${Object.keys(W).length} · Uptime: ${Math.floor((Date.now()-T0)/1000)}s</p><div style="overflow:auto">`+Object.keys(W).map(k=>`<div class="li">${apps[k].i} ${apps[k].t}<button class="btn" data-x="${k}" style="float:right">End</button></div>`).join('')+'</div>'};
-d();const iv=setInterval(()=>alive(id,el)?d():clearInterval(iv),1000);b.onclick=e=>{if(e.target.dataset.x){close(e.target.dataset.x);setTimeout(d,50)}}}},
-set:{t:'Settings',i:'⚙️',w:380,h:420,init(b){b.style.cssText+='padding:14px;gap:12px;overflow:auto';
-b.innerHTML=`<div>Wallpaper</div><div class="wp">${WP.map((w,k)=>`<button data-w="${k}" style="background:${w}"></button>`).join('')}</div><label>Brightness<br><input type="range" min=".5" max="1.2" step=".05" value="${cfg.br}"></label><label>Animations<br><select><option value="0">Off</option><option value="1">Calm</option><option value="2">Lively</option></select></label><label><input type="checkbox" ${cfg.snd?'checked':''}> Sound effects</label><label>Icon size<br><input type="range" min="36" max="96" value="${cfg.is}"></label>`;
-const r=b.querySelectorAll('input[type=range]'),s=b.querySelector('select'),c=b.querySelector('input[type=checkbox]');s.value=cfg.anim;
-b.querySelector('.wp').onclick=e=>{if(e.target.dataset.w){cfg.wall=+e.target.dataset.w;apply()}};
-r[0].oninput=()=>{cfg.br=+r[0].value;apply()};r[1].oninput=()=>{cfg.is=+r[1].value;apply()};s.onchange=()=>{cfg.anim=+s.value;apply()};c.onchange=()=>{cfg.snd=c.checked;apply()}}},
-nectar:{t:'Nectar',i:'🌸',w:600,h:470,init(b){
-const ENG={google:['Google','https://www.google.com/search?q='],duckduckgo:['DuckDuckGo','https://duckduckgo.com/?q='],brave:['Brave Search','https://search.brave.com/search?q='],bing:['Microsoft Bing','https://www.bing.com/search?q='],nectar:['Nectar results','']};
-const TAVILY_WORKER='https://nectar-search.nathanjf2091.workers.dev/'; // paste your Cloudflare Worker address between the quotes
-const AC=['#B89CE8','#F5C85B','#E58CC0','#7FB7A4','#6C8EEF'],esc=x=>String(x).replace(/[&<>"']/g,c=>'&#'+c.charCodeAt(0)+';');
-const LG='<svg viewBox="0 0 128 128" width="84" height="84"><defs><linearGradient id="ng" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#DCC4F2"/><stop offset="1" stop-color="#594477"/></linearGradient></defs><path d="M64 6l50 29v58l-50 29-50-29V35z" fill="url(#ng)" stroke="#F5C85B" stroke-width="5" stroke-linejoin="round"/><g fill="#FFF8E9"><ellipse cx="64" cy="40" rx="11" ry="20"/><ellipse cx="64" cy="40" rx="11" ry="20" transform="rotate(120 64 64)"/><ellipse cx="64" cy="40" rx="11" ry="20" transform="rotate(240 64 64)"/></g><circle cx="64" cy="64" r="11" fill="#F5C85B"/></svg>';
-let S={engine:'duckduckgo',hist:false,accent:AC[0],...ld('nectar',{})},H=ld('nectarH',[]),v='home',tab='s',R=null,LQ='';
-if(!ENG[S.engine])S.engine='duckduckgo';
-const save=()=>sv('nectar',S);
-async function run(q){q=String(q).trim();if(!q)return;LQ=q;if(S.hist){H=[q,...H.filter(x=>x!=q)].slice(0,20);sv('nectarH',H)}
-if(S.engine=='nectar'){if(!TAVILY_WORKER){R={s:'err',m:'Nectar results are not set up yet. Add your worker address to the Nectar code first.'};r();return}
-R={s:'load'};r();try{const res=await fetch(TAVILY_WORKER+'?q='+encodeURIComponent(q));const d=await res.json();if(!res.ok)throw new Error('bad');R={s:'ok',items:(d.results||[]).filter(x=>/^https?:\/\//.test(x.url))}}catch(e){R={s:'err',m:'The search failed. Try again in a moment.'}}r();return}
-R=null;window.open(ENG[S.engine][1]+encodeURIComponent(q),'_blank','noopener');if(v=='home')r()}
-function r(){b.style.setProperty('--na',S.accent);const E=Object.entries(ENG);let body;const res=R?(R.s=='load'?'<p>Searching…</p>':R.s=='err'?`<p>${esc(R.m)}</p>`:R.items.length?`<div class="nr">${R.items.map(x=>`<a class="rs" href="${esc(x.url)}" target="_blank" rel="noopener"><b>${esc(x.title||x.url)}</b><small>${esc(x.url)}</small><span>${esc((x.content||'').slice(0,220))}</span></a>`).join('')}</div>`:'<p>No results found.</p>'):'';
-if(v=='home')body=`<div class="nh${R?' top':''}">${LG}<h2 style="margin:0">Nectar</h2><p style="margin:0;opacity:.8">One search box for four search engines</p><form><select class="in" id="ne">${E.map(([k,x])=>`<option value="${k}"${k==S.engine?' selected':''}>${x[0]}</option>`).join('')}</select><input class="in" id="nq" placeholder="Search with ${ENG[S.engine][0]}" autocomplete="off"><button class="btn on">Search</button></form>${S.hist&&H.length?`<div>${H.slice(0,6).map(q=>`<button class="btn" data-h="${esc(q)}">${esc(q)}</button>`).join(' ')}</div>`:''}${res}<small style="opacity:.7">Other engines open in a new tab. "Nectar results" shows results here.</small></div>`;
-else{let pn;
-if(tab=='s')pn=`<h3>Search engine</h3><p>Choose which engine Nectar uses for your searches.</p><div class="eg">${E.map(([k,x])=>`<button class="btn${k==S.engine?' on':''}" data-e="${k}">${x[0]}</button>`).join('')}</div><div class="card">Nectar is searching with <b>${ENG[S.engine][0]}</b>. You can switch any time, including on the Nectar home screen.</div>`;
-else if(tab=='a')pn=`<h3>Look</h3><p>Pick an accent color for Nectar.</p><div class="sws">${AC.map(c=>`<i data-c="${c}" class="${c==S.accent?'on':''}" style="background:${c}"></i>`).join('')}</div><div class="card">Your choice is saved on this device.</div>`;
-else pn=`<h3>Privacy</h3><label><input type="checkbox" id="nh"${S.hist?' checked':''}> Remember my recent searches on this device</label><div><button class="btn" data-clr="1">Clear recent searches</button></div><div class="card">Nectar keeps nothing by default. If you turn this on, recent searches are stored only in this browser on this device. Your searches go to the engine you pick, and nowhere else.</div>`;
-body=`<div class="ns"><div class="nt">${[['s','🔎 Search'],['a','🎨 Look'],['p','🔒 Privacy']].map(([k,l])=>`<button class="btn${tab==k?' on':''}" data-t="${k}">${l}</button>`).join('')}</div><div class="np">${pn}</div></div>`}
-b.innerHTML=`<div class="nx"><div class="nb"><span>🌸 Nectar</span><button class="btn" data-v="${v=='home'?'set':'home'}">${v=='home'?'⚙ Settings':'← Back'}</button></div>${body}</div>`;
-const f=b.querySelector('form');if(f)f.onsubmit=e=>{e.preventDefault();run(b.querySelector('#nq').value)};
-const ne=b.querySelector('#ne');if(ne)ne.onchange=()=>{S.engine=ne.value;R=null;save();r()};
-const nh=b.querySelector('#nh');if(nh)nh.onchange=()=>{S.hist=nh.checked;if(!S.hist){H=[];sv('nectarH',H)}save()};
-const q=b.querySelector('#nq');if(q){q.value=LQ;q.focus()}}
-b.onclick=e=>{const d=e.target.dataset;if(d.v){v=d.v;r()}else if(d.t){tab=d.t;r()}else if(d.e){S.engine=d.e;R=null;save();r()}else if(d.c){S.accent=d.c;save();r()}else if(d.h)run(d.h);else if(d.clr){H=[];sv('nectarH',H);e.target.textContent='Cleared ✓'}};
-r()}},
-games:{t:'Games',i:'🎮',w:540,h:520,init(b,id){const el=b.parentNode;
-const GN=[['flight','🐝 Bee Flight'],['catch','🌸 Petal Catcher'],['match','🪻 Flower Match'],['maze','🍯 Hive Maze']];
-let G='flight',tok=0,B=ld('gbest',{}),keys={},onKey=null;
-b.innerHTML='<div class="gb"></div><div class="gs"></div><div class="gst"></div>';
-const bar=b.querySelector('.gb'),sc=b.querySelector('.gs'),st=b.querySelector('.gst');
-const say=t=>{sc.textContent=t},best=(k,v,low)=>{if(B[k]==null||(low?v<B[k]:v>B[k])){B[k]=v;sv('gbest',B)}};
-const run=my=>tok==my&&W[id]&&W[id].el===el;
-const cvs=()=>{st.innerHTML='<canvas></canvas>';return st.firstChild};
-const dB=(g,x,y,s,t)=>{g.save();g.translate(x,y);g.scale(s,s);g.fillStyle='rgba(255,248,233,.85)';g.beginPath();g.ellipse(-3,-9,6,9+Math.sin(t/60)*2,-.5,0,6.3);g.fill();g.fillStyle='#F5C85B';g.beginPath();g.ellipse(0,0,13,9,0,0,6.3);g.fill();g.fillStyle='#21182F';g.fillRect(-5,-8,3,16);g.fillRect(2,-8,3,16);g.beginPath();g.arc(10,-2,1.8,0,6.3);g.fill();g.restore()};
-const txt=(g,t,w,h,sz)=>{g.fillStyle='#FFF8E9';g.font='bold '+(sz||22)+'px Trebuchet MS,sans-serif';g.textAlign='center';g.fillText(t,w/2,h/2);g.textAlign='left'};
-const sky=(g,w,h)=>{const q=g.createLinearGradient(0,0,0,h);q.addColorStop(0,'#594477');q.addColorStop(1,'#B89CE8');g.fillStyle=q;g.fillRect(0,0,w,h)};
-const kd=e=>{if(!el.classList.contains('on')||/INPUT|TEXTAREA/.test(e.target.tagName))return;keys[e.key]=1;if(onKey)onKey(e)},ku=e=>{delete keys[e.key]};
-document.addEventListener('keydown',kd);document.addEventListener('keyup',ku);
-el.addEventListener('closed',()=>{tok++;document.removeEventListener('keydown',kd);document.removeEventListener('keyup',ku)});
-bar.onclick=e=>{const d=e.target.dataset;if(d.g){G=d.g;start()}else if(d.r)start()};
-function start(){tok++;onKey=null;st.onpointerdown=st.onpointermove=null;st.innerHTML='';st.style.background='';
-bar.innerHTML=GN.map(([k,l])=>`<button class="btn${k==G?' on':''}" data-g="${k}">${l}</button>`).join('')+'<button class="btn" data-r="1">↻ Restart</button>';
-({flight,catcher,match,maze})[G==='catch'?'catcher':G](tok)}
-
-function flight(my){const cv=cvs(),g=cv.getContext('2d');let y=0,vy=0,P=[],D=[],pts=0,state=0,last=performance.now();
-const flap=()=>{if(state==2){start();return}state=1;vy=-330};
-st.onpointerdown=flap;onKey=e=>{if(e.key==' '||e.key=='ArrowUp'){e.preventDefault();flap()}};
-const frame=t=>{if(!run(my))return;const dt=Math.min((t-last)/1000,.05);last=t;cv.width=cv.clientWidth;cv.height=cv.clientHeight;const w=cv.width,h=cv.height,bx=w*.25,vx=130+pts*2;
-if(state==0)y=h/2+Math.sin(t/250)*10;
-if(state==1){vy+=900*dt;y+=vy*dt;
-if(!P.length||P[P.length-1].x<w-230){const gp=Math.max(120,175-pts*2),gy=50+Math.random()*Math.max(10,h-gp-100);P.push({x:w+20,gy,gp,ok:0});if(Math.random()<.7)D.push({x:w+135,y:gy+gp/2+(Math.random()-.5)*gp*.4})}
-P.forEach(p=>p.x-=vx*dt);D.forEach(d=>d.x-=vx*dt);P=P.filter(p=>p.x>-60);
-D=D.filter(d=>{if(Math.hypot(d.x-bx,d.y-y)<20){pts+=3;return false}return d.x>-20});
-P.forEach(p=>{if(!p.ok&&p.x+46<bx){p.ok=1;pts++}if(bx+11>p.x&&bx-11<p.x+46&&(y-9<p.gy||y+9>p.gy+p.gp))state=2});
-if(y<0||y>h)state=2;if(state==2)best('flight',pts)}
-sky(g,w,h);P.forEach(p=>{g.fillStyle='#3d2d57';g.fillRect(p.x,0,46,p.gy);g.fillRect(p.x,p.gy+p.gp,46,h);g.fillStyle='#E58CC0';[p.gy,p.gy+p.gp].forEach(yy=>{g.beginPath();g.arc(p.x+23,yy,19,0,6.3);g.fill()});g.fillStyle='#F5C85B';[p.gy,p.gy+p.gp].forEach(yy=>{g.beginPath();g.arc(p.x+23,yy,6,0,6.3);g.fill()})});
-D.forEach(d=>{g.fillStyle='#F5C85B';g.beginPath();g.arc(d.x,d.y,8,0,6.3);g.fill();g.fillStyle='#FFF8E9';g.beginPath();g.arc(d.x-2,d.y-3,2.5,0,6.3);g.fill()});
-dB(g,bx,y,1.2,t);say(`Score: ${pts} · Best: ${B.flight||0}`);
-if(state==0)txt(g,'Tap, click or press Space to flap',w,h);if(state==2)txt(g,'Game over! Tap to try again',w,h);
-requestAnimationFrame(frame)};requestAnimationFrame(frame)}
-
-function catcher(my){const cv=cvs(),g=cv.getContext('2d');let x=200,I=[],pts=0,lives=3,over=0,acc=0,last=performance.now();
-st.onpointermove=e=>{x=e.clientX-st.getBoundingClientRect().left};st.onpointerdown=e=>{if(over)start()};
-const frame=t=>{if(!run(my))return;const dt=Math.min((t-last)/1000,.05);last=t;cv.width=cv.clientWidth;cv.height=cv.clientHeight;const w=cv.width,h=cv.height;
-if(!over){if(keys.ArrowLeft||keys.a)x-=440*dt;if(keys.ArrowRight||keys.d)x+=440*dt;x=Math.max(34,Math.min(w-34,x));acc-=dt;
-if(acc<=0){acc=Math.max(.3,.8-pts/150);const r=Math.random();I.push({x:20+Math.random()*(w-40),y:-20,k:r<.15?2:r<.3?1:0,a:Math.random()*6})}
-I.forEach(i=>{i.y+=(130+pts*1.5)*dt;i.a+=dt*3});
-I=I.filter(i=>{if(i.y>h-40&&i.y<h-8&&Math.abs(i.x-x)<38){if(i.k==2){lives--;if(lives<=0){over=1;best('catch',pts)}}else pts+=i.k?3:1;return false}return i.y<h+20})}
-sky(g,w,h);I.forEach(i=>{g.save();g.translate(i.x,i.y);if(i.k==0){g.rotate(i.a);g.fillStyle='#DCC4F2';g.beginPath();g.ellipse(0,0,6,11,0,0,6.3);g.fill()}else if(i.k==1){g.fillStyle='#F5C85B';g.beginPath();g.arc(0,0,9,0,6.3);g.fill();g.fillStyle='#FFF8E9';g.beginPath();g.arc(-3,-3,3,0,6.3);g.fill()}else{g.rotate(i.a);g.fillStyle='#21182F';g.strokeStyle='#E5584F';g.lineWidth=2;g.beginPath();for(let k=0;k<8;k++){const r=k%2?6:13,an=k*.785;g.lineTo(Math.cos(an)*r,Math.sin(an)*r)}g.closePath();g.fill();g.stroke()}g.restore()});
-g.fillStyle='#F5C85B';g.strokeStyle='#594477';g.lineWidth=3;g.beginPath();g.moveTo(x-38,h-34);g.lineTo(x+38,h-34);g.lineTo(x+26,h-8);g.lineTo(x-26,h-8);g.closePath();g.fill();g.stroke();
-say(`Petals: ${pts} · Lives: ${'♥'.repeat(Math.max(0,lives))} · Best: ${B.catch||0}`);
-if(over)txt(g,'Game over! Tap to try again',w,h);requestAnimationFrame(frame)};requestAnimationFrame(frame);
-if(!st.title)st.title='Move the mouse or use the arrow keys. Catch petals and nectar, dodge thorns.'}
-
-function match(my){const E=['🌸','🌼','🌷','🪻','🌻','🌹','🌺','💐'],C=[...E,...E].sort(()=>Math.random()-.5);let open=[],moves=0,done=0,lock=0;
-st.style.background='#2d2142';st.innerHTML='<div class="fc" style="grid-template:repeat(4,1fr)/repeat(4,1fr)">'+C.map((c,i)=>`<button data-i="${i}">🐝</button>`).join('')+'</div>';
-const f=st.firstChild,btn=i=>f.children[i],info=()=>say(`Moves: ${moves} · Pairs: ${done}/8 · Best: ${B.match||'none'}`);info();
-f.onclick=e=>{const i=+e.target.dataset.i;if(isNaN(i)||lock||open.includes(i)||btn(i).classList.contains('ok'))return;
-btn(i).textContent=C[i];btn(i).classList.add('up');open.push(i);
-if(open.length==2){moves++;lock=1;const[a,c]=open;setTimeout(()=>{if(tok!=my)return;if(C[a]==C[c]){[a,c].forEach(k=>{btn(k).classList.remove('up');btn(k).classList.add('ok')});done++}else[a,c].forEach(k=>{btn(k).textContent='🐝';btn(k).classList.remove('up')});open=[];lock=0;info();
-if(done==8){best('match',moves,1);say(`You matched every pair in ${moves} moves! Best: ${B.match}`)}},650)}}}
-
-function maze(my){const cv=cvs(),g=cv.getContext('2d');let n=9,lvl=1,pol=0,M,p,pl;
-const mk=n=>{const c=[...Array(n*n)].map(()=>[1,1,1,1]),seen=Array(n*n).fill(0),s=[0],D=[[0,-1,0,2],[1,0,1,3],[0,1,2,0],[-1,0,3,1]];seen[0]=1;
-while(s.length){const i=s[s.length-1],x=i%n,y=(i/n)|0,o=D.filter(d=>{const a=x+d[0],q=y+d[1];return a>=0&&q>=0&&a<n&&q<n&&!seen[q*n+a]});
-if(!o.length){s.pop();continue}const d=o[Math.random()*o.length|0],j=(y+d[1])*n+x+d[0];c[i][d[2]]=0;c[j][d[3]]=0;seen[j]=1;s.push(j)}return c};
-const gen=()=>{M=mk(n);p=0;pl=new Set([...Array(n*n).keys()].slice(1,-1).sort(()=>Math.random()-.5).slice(0,n))};gen();
-onKey=e=>{const m={ArrowUp:0,w:0,ArrowRight:1,d:1,ArrowDown:2,s:2,ArrowLeft:3,a:3}[e.key];if(m==null)return;e.preventDefault();if(M[p][m])return;p+=[-n,1,n,-1][m];if(pl.delete(p)){pol++;best('maze',pol)}
-if(p==n*n-1){lvl++;n=Math.min(15,8+lvl);gen()}};
-const frame=t=>{if(!run(my))return;cv.width=cv.clientWidth;cv.height=cv.clientHeight;const w=cv.width,h=cv.height,s=Math.min((w-20)/n,(h-20)/n),ox=(w-s*n)/2,oy=(h-s*n)/2;
-g.fillStyle='#21182F';g.fillRect(0,0,w,h);g.strokeStyle='#B89CE8';g.lineWidth=3;g.lineCap='round';g.beginPath();
-M.forEach((c,i)=>{const x=ox+(i%n)*s,y=oy+((i/n)|0)*s;if(c[0]){g.moveTo(x,y);g.lineTo(x+s,y)}if(c[1]){g.moveTo(x+s,y);g.lineTo(x+s,y+s)}if(c[2]){g.moveTo(x,y+s);g.lineTo(x+s,y+s)}if(c[3]){g.moveTo(x,y);g.lineTo(x,y+s)}});g.stroke();
-g.fillStyle='#F5C85B';pl.forEach(i=>{g.beginPath();g.arc(ox+(i%n+.5)*s,oy+(((i/n)|0)+.5)*s,s*.12,0,6.3);g.fill()});
-const gx=ox+(n-.5)*s,gy=oy+(n-.5)*s;g.fillStyle='#DCC4F2';g.beginPath();for(let k=0;k<6;k++)g.lineTo(gx+s*.32*Math.cos(k*1.047+.52),gy+s*.32*Math.sin(k*1.047+.52));g.closePath();g.fill();
-dB(g,ox+(p%n+.5)*s,oy+(((p/n)|0)+.5)*s,s/34,t);
-say(`Pollen: ${pol} · Level ${lvl} · Best: ${B.maze||0} · Arrow keys or WASD to move to the hive`);requestAnimationFrame(frame)};requestAnimationFrame(frame)}
-start()}},
-about:{t:'About Lilac OS',i:'🪻',w:420,h:300,init(b){b.style.cssText+='padding:20px;overflow:auto;gap:8px;user-select:text';b.innerHTML='<h2 style="margin:0">🪻 Lilac OS 1.0</h2><p>A tiny desktop that lives in your browser, powered by bees.</p><p><b>v1.0, first bloom:</b> desktop, draggable and resizable windows, The Hive, Notes, Calculator, Hive Console, Task Manager, Settings, Nectar search and four bee games.</p>'}}
+  nectar:{
+    name:"Nectar",icon:"🌸",
+    width:650,height:530,init:nectarApp
+  },
+  hive:{
+    name:"The Hive",icon:"🐝",
+    width:520,height:530,init:hiveApp
+  },
+  notes:{
+    name:"Notes",icon:"📓",
+    width:550,height:480,init:notesApp
+  },
+  calc:{
+    name:"Calculator",icon:"🧮",
+    width:330,height:460,init:calculatorApp
+  },
+  term:{
+    name:"Hive Console",icon:"💻",
+    width:570,height:380,init:consoleApp
+  },
+  games:{
+    name:"Games",icon:"🎮",
+    width:590,height:550,init:gamesApp
+  },
+  tasks:{
+    name:"Task Manager",icon:"📊",
+    width:400,height:370,init:taskManagerApp
+  },
+  set:{
+    name:"Settings",icon:"⚙️",
+    width:420,height:440,init:settingsApp
+  },
+  about:{
+    name:"About Lilac OS",icon:"🪻",
+    width:410,height:300,
+    init(root){
+      root.innerHTML=`
+        <div class="padded">
+          <h2>🪻 Lilac OS</h2>
+          <p>A little desktop powered by bees.</p>
+          <p>Nectar uses Tavily for web search.</p>
+          <p>Made with lilacs, honey and code.</p>
+        </div>`;
+    }
+  }
 };
 
-/* ---------- desktop shell ---------- */
-Object.keys(apps).forEach((k,i)=>{const d=document.createElement('div'),step=cfg.is+46;d.className='ic';d.style.cssText=`left:${14+Math.floor(i/5)*110}px;top:${14+(i%5)*step}px`;d.innerHTML=`<i>${apps[k].i}</i>${apps[k].t}`;
-d.onpointerdown=e=>{const ox=e.clientX-d.offsetLeft,oy=e.clientY-d.offsetTop;let mv=0;d.setPointerCapture(e.pointerId);d.onpointermove=m=>{mv=1;d.style.left=m.clientX-ox+'px';d.style.top=m.clientY-oy+'px'};d.onpointerup=()=>{d.onpointermove=null;if(!mv&&e.pointerType=='touch')open(k)}};
-d.ondblclick=()=>open(k);$('#desk').append(d)});
-const st=$('#start');Object.keys(apps).forEach(k=>{const x=document.createElement('button');x.className='btn';x.textContent=apps[k].i+' '+apps[k].t;x.onclick=()=>{open(k);st.classList.remove('on')};st.append(x)});
-$('#sb').onclick=e=>{e.stopPropagation();st.classList.toggle('on');beep(600)};
-document.addEventListener('click',e=>{if(!st.contains(e.target))st.classList.remove('on')});
-$('#snd').onclick=()=>{cfg.snd=!cfg.snd;apply();beep()};
-$('#fs').onclick=()=>{try{document.fullscreenElement?document.exitFullscreen():document.documentElement.requestFullscreen()}catch(e){}};
-const tick=()=>{$('#clk').textContent=new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'})};tick();setInterval(tick,1000);
-apply();
+/* ========= DESKTOP ========= */
 
-/* ---------- boot ---------- */
-const L=['Pollinating system...','Collecting nectar...','Initializing hive...','WELCOME TO THE HIVE 🐝'],boot=$('#boot');let bi=0,iv;
-function done(){clearInterval(iv);boot.style.opacity=0;setTimeout(()=>boot.remove(),800)}
-iv=setInterval(()=>{bi++;if(bi<L.length)$('#bt').textContent=L[bi];else{clearInterval(iv);setTimeout(done,900)}},800);
-boot.onclick=done;
-</script></body></html>
+Object.entries(apps).forEach(([id,app],i)=>{
+  const icon=document.createElement("div");
+  icon.className="icon";
+  icon.style.left=(15+Math.floor(i/5)*110)+"px";
+  icon.style.top=(15+(i%5)*104)+"px";
+  icon.innerHTML=`
+    <span class="emoji">${app.icon}</span>
+    ${escapeHTML(app.name)}
+  `;
+  icon.ondblclick=()=>openApp(id);
+  desktop.append(icon);
+
+  const startItem=document.createElement("button");
+  startItem.textContent=app.icon+" "+app.name;
+  startItem.onclick=()=>{
+    openApp(id);
+    $("#startMenu").classList.remove("open");
+  };
+  $("#startMenu").append(startItem);
+});
+
+$("#startButton").onclick=e=>{
+  e.stopPropagation();
+  $("#startMenu").classList.toggle("open");
+};
+document.addEventListener("click",e=>{
+  if(!e.target.closest("#startMenu")&&
+     !e.target.closest("#startButton"))
+    $("#startMenu").classList.remove("open");
+});
+$("#soundButton").onclick=()=>{
+  sound=!sound;
+  $("#soundButton").textContent=sound?"🔊":"🔇";
+};
+$("#fullscreen").onclick=()=>{
+  if(document.fullscreenElement)
+    document.exitFullscreen();
+  else document.documentElement.requestFullscreen().catch(()=>{});
+};
+function updateClock(){
+  $("#clock").textContent=new Date().toLocaleTimeString([],{
+    hour:"2-digit",minute:"2-digit"
+  });
+}
+updateClock();
+setInterval(updateClock,1000);
+
+const boot=$("#boot");
+setTimeout(()=>{
+  boot.style.opacity="0";
+  setTimeout(()=>boot.remove(),750);
+},2200);
+
+</script>
+</body>
+</html>
