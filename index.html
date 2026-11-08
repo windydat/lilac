@@ -176,7 +176,7 @@ b.querySelector('.wp').onclick=e=>{if(e.target.dataset.w){cfg.wall=+e.target.dat
 r[0].oninput=()=>{cfg.br=+r[0].value;apply()};r[1].oninput=()=>{cfg.is=+r[1].value;apply()};s.onchange=()=>{cfg.anim=+s.value;apply()};c.onchange=()=>{cfg.snd=c.checked;apply()}}},
 nectar:{t:'Nectar',i:'🌸',w:600,h:470,init(b){
 const ENG={google:['Google','https://www.google.com/search?q='],duckduckgo:['DuckDuckGo','https://duckduckgo.com/?q='],brave:['Brave Search','https://search.brave.com/search?q='],bing:['Microsoft Bing','https://www.bing.com/search?q='],nectar:['Nectar results','']};
-const TAVILY_WORKER=''; // paste your Cloudflare Worker address between the quotes
+const TAVILY_WORKER='https://nectar-search.nathanjf2091.workers.dev/'; // paste your Cloudflare Worker address between the quotes
 const AC=['#B89CE8','#F5C85B','#E58CC0','#7FB7A4','#6C8EEF'],esc=x=>String(x).replace(/[&<>"']/g,c=>'&#'+c.charCodeAt(0)+';');
 const LG='<svg viewBox="0 0 128 128" width="84" height="84"><defs><linearGradient id="ng" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#DCC4F2"/><stop offset="1" stop-color="#594477"/></linearGradient></defs><path d="M64 6l50 29v58l-50 29-50-29V35z" fill="url(#ng)" stroke="#F5C85B" stroke-width="5" stroke-linejoin="round"/><g fill="#FFF8E9"><ellipse cx="64" cy="40" rx="11" ry="20"/><ellipse cx="64" cy="40" rx="11" ry="20" transform="rotate(120 64 64)"/><ellipse cx="64" cy="40" rx="11" ry="20" transform="rotate(240 64 64)"/></g><circle cx="64" cy="64" r="11" fill="#F5C85B"/></svg>';
 let S={engine:'duckduckgo',hist:false,accent:AC[0],...ld('nectar',{})},H=ld('nectarH',[]),v='home',tab='s',R=null,LQ='';
