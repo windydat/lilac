@@ -3,2599 +3,1422 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Lilac OS</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Lilac OS · SCP Edition</title>
 <style>
-:root {
-  --bg:#21182f;
-  --pane:#302342;
-  --lav:#b89ce8;
-  --pink:#dcc4f2;
-  --gold:#f5c85b;
-  --text:#fff8e9;
-}
+:root{--lav:#c4a7f5;--cream:#fff7ff;--panel:#281d3b;--accent:#b68de7}
 *{box-sizing:border-box}
-html,body{
-  width:100%;
-  height:100%;
-  margin:0;
-  overflow:hidden;
-  font:14px system-ui,'Trebuchet MS',sans-serif;
-  background:var(--bg);
-  color:var(--text);
-}
-button,input,textarea,select{
-  font:inherit;
-  border:1px solid #b89ce877;
-  border-radius:9px;
-  padding:8px;
-}
-button{
-  cursor:pointer;
-  color:var(--text);
-  background:#594477;
-}
-button:hover{
-  background:var(--lav);
-  color:var(--bg);
-}
-button:disabled{
-  opacity:.5;
-  cursor:default;
-}
-input,textarea,select{
-  background:#ffffff18;
-  color:var(--text);
-}
-input,textarea{user-select:text}
-select option{color:#111}
-#desktop{
-  position:fixed;
-  inset:0 0 48px;
-  overflow:hidden;
-  background:
-    radial-gradient(circle at 22% 15%,#8260b4,transparent 54%),
-    radial-gradient(circle at 85% 85%,#594477,transparent 58%),
-    linear-gradient(145deg,#3a2a54,#21182f);
-}
-#desktop:before{
-  content:"";
-  position:absolute;
-  inset:0;
-  pointer-events:none;
-  background:
-    radial-gradient(#e8d8ff30 1px,transparent 1px)
-    0 0/27px 27px;
-}
-.desktop-icon{
-  position:absolute;
-  width:105px;
-  text-align:center;
-  padding:8px;
-  border-radius:12px;
-  cursor:pointer;
-  user-select:none;
-  touch-action:none;
-  font-size:12px;
-}
-.desktop-icon:hover{background:#ffffff22}
-.desktop-icon .emoji{
-  display:block;
-  font-size:45px;
-}
-.window{
-  position:absolute;
-  display:flex;
-  flex-direction:column;
-  min-width:285px;
-  min-height:200px;
-  max-width:100%;
-  overflow:hidden;
-  resize:both;
-  background:#302342f5;
-  border:1px solid var(--lav);
-  border-radius:14px;
-  box-shadow:0 12px 35px #0009;
-}
-.window.max{
-  inset:0!important;
-  width:100%!important;
-  height:100%!important;
-  resize:none;
-  border-radius:0;
-}
-.window.min{display:none}
-.window.active{
-  box-shadow:0 0 20px #b89ce866,0 12px 35px #0009;
-}
-.titlebar{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:10px;
-  background:linear-gradient(90deg,#594477,#8364ad);
-  padding:7px 11px;
-  cursor:grab;
-  touch-action:none;
-  user-select:none;
-}
-.titlebar button{padding:3px 9px}
-.window-body{
-  flex:1;
-  display:flex;
-  flex-direction:column;
-  min-height:0;
-  overflow:auto;
-}
-#taskbar{
-  position:fixed;
-  bottom:0;
-  left:0;
-  right:0;
-  height:48px;
-  padding:5px 8px;
-  z-index:99999;
-  display:flex;
-  align-items:center;
-  gap:7px;
-  background:#21182ff2;
-  border-top:1px solid var(--lav);
-}
-#tasks{
-  flex:1;
-  display:flex;
-  gap:5px;
-  overflow-x:auto;
-}
+html,body{height:100%;margin:0;overflow:hidden;background:#151021;color:var(--cream);font:14px system-ui,sans-serif}
+button,input,textarea{font:inherit;border-radius:8px;padding:8px;border:1px solid #bca2e588}
+button{background:#624b83;color:white;cursor:pointer}
+button:hover{background:#a888d6}
+input,textarea{background:#ffffff15;color:white;min-width:0}
+a{color:#ffda80}
+.row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.col{display:flex;flex-direction:column;gap:10px;padding:14px}
+.muted{color:#c6b8d5;font-size:12px}
+.panel{padding:12px;border:1px solid #ffffff35;border-radius:12px;background:#ffffff11}
+.grow{flex:1;min-height:0}
+h1,h2,h3{margin:7px 0}
+#desktop{position:fixed;inset:0 0 46px;overflow:hidden;background:radial-gradient(circle at 20% 18%,#7d59ab,transparent 51%),radial-gradient(circle at 80% 85%,#554177,transparent 55%),#20172e}
+#desktop::before{content:"";position:absolute;inset:0;pointer-events:none;background:radial-gradient(#ffffff25 1px,transparent 1px) 0 0/29px 29px}
+.icon{position:absolute;width:104px;min-height:90px;padding:7px;text-align:center;cursor:pointer;border-radius:10px;font-size:12px;user-select:none;touch-action:none}
+.icon:hover{background:#ffffff20}
+.icon span{display:block;font-size:43px}
+.win{position:absolute;display:flex;flex-direction:column;min-width:290px;min-height:190px;max-width:100%;resize:both;overflow:hidden;background:#281d3bf6;border:1px solid var(--lav);border-radius:13px;box-shadow:0 16px 40px #0009}
+.win.hidden{display:none}
+.win.max{left:0!important;top:0!important;width:100%!important;height:100%!important;resize:none;border-radius:0}
+.bar{background:linear-gradient(90deg,#574071,#9271be);display:flex;justify-content:space-between;align-items:center;gap:8px;padding:6px 10px;cursor:grab;user-select:none;touch-action:none}
+.bar button{padding:3px 9px}
+.body{flex:1;min-height:0;display:flex;flex-direction:column;overflow:auto}
+#taskbar{position:fixed;bottom:0;left:0;right:0;height:46px;display:flex;align-items:center;gap:7px;background:#1a122af4;border-top:1px solid #bca2e588;padding:4px 8px;z-index:99999}
+#tasks{flex:1;display:flex;gap:5px;overflow:auto}
 #tasks button{white-space:nowrap}
-#clock{white-space:nowrap}
-#startmenu{
-  position:fixed;
-  bottom:55px;
-  left:8px;
-  width:255px;
-  max-height:65vh;
-  display:none;
-  overflow:auto;
-  padding:9px;
-  z-index:99998;
-  background:#302342;
-  border:1px solid var(--lav);
-  border-radius:14px;
-  box-shadow:0 12px 26px #0009;
-}
-#startmenu.show{
-  display:grid;
-  gap:5px;
-}
+#clock{white-space:nowrap;font-size:12px}
+#startmenu{position:fixed;bottom:51px;left:8px;width:255px;max-height:65vh;overflow:auto;display:none;z-index:99998;background:#281d3b;border:1px solid var(--lav);border-radius:13px;padding:8px;box-shadow:0 8px 28px #000a}
+#startmenu.show{display:grid;gap:6px}
 #startmenu button{text-align:left}
-#boot{
-  position:fixed;
-  inset:0;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  justify-content:center;
-  z-index:999999;
-  background:radial-gradient(circle,#45345d,#21182f);
-  transition:opacity .5s;
+canvas{display:block;max-width:100%}
+.game{position:relative;flex:1;min-height:0;overflow:hidden;background:#080e18}
+.game canvas{width:100%;height:100%;object-fit:contain;outline:none;touch-action:none}
+.overlay{position:absolute;inset:0;background:#050b16ef;padding:16px;overflow:auto;z-index:2}
+.hud{padding:8px;background:#0b1621;display:flex;align-items:center;gap:8px;flex-wrap:wrap;font-size:12px}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(215px,1fr));gap:12px}
+.fightcard{border:1px solid var(--accent);background:linear-gradient(135deg,var(--tint),#171021);border-radius:13px;padding:15px;display:flex;flex-direction:column;gap:10px}
+.fightcard b{font-size:18px}
+.fightcard p{flex:1;font-size:12px}
+.result{padding:12px;border:1px solid #a888d655;border-radius:9px;display:block;text-decoration:none;background:#ffffff0b;margin:7px 0;overflow-wrap:anywhere}
+.result b{display:block;color:#e6d1ff}
+.result small{display:block;color:#ffda80}
+.result p{font-size:12px;color:white}
+@media(max-width:600px){
+.icon{width:85px}
+.icon span{font-size:35px}
 }
-#boot .flower{font-size:78px}
-#boot h1{
-  letter-spacing:7px;
-  color:var(--pink);
-}
-.panel{
-  padding:14px;
-  display:flex;
-  flex-direction:column;
-  gap:10px;
-}
-.row{
-  display:flex;
-  align-items:center;
-  gap:7px;
-}
-.row input{
-  min-width:0;
-  flex:1;
-}
-.muted{
-  opacity:.8;
-  font-size:12px;
-}
-.card{
-  background:#ffffff12;
-  border:1px solid #b89ce833;
-  border-radius:12px;
-  padding:12px;
-}
-.result{
-  display:block;
-  text-decoration:none;
-  color:var(--text);
-  padding:12px;
-  border-radius:11px;
-  border:1px solid #b89ce855;
-  background:#ffffff10;
-  overflow-wrap:anywhere;
-}
-.result:hover{background:#ffffff22}
-.result b{
-  display:block;
-  color:var(--pink);
-}
-.result small{
-  display:block;
-  color:var(--gold);
-  margin:5px 0;
-}
-.result p{
-  font-size:12px;
-  margin:0;
-}
-.gamecanvas{
-  display:block;
-  width:100%;
-  height:100%;
-  touch-action:none;
-  outline:none;
-}
-a{color:var(--gold)}
 </style>
 </head>
 <body>
-
 <div id="desktop"></div>
 <div id="startmenu"></div>
-
 <div id="taskbar">
-  <button id="startbtn">🪻 Start</button>
-  <div id="tasks"></div>
-  <button id="fullscreen">⛶</button>
-  <span id="clock"></span>
+<button id="start">🪻 Start</button>
+<div id="tasks"></div>
+<button id="full">⛶</button>
+<span id="clock"></span>
 </div>
-
-<div id="boot">
-  <div class="flower">🪻</div>
-  <h1>LILAC OS</h1>
-  <p>Starting up...</p>
-</div>
-
 <script>
 'use strict';
 
-/* =====================================
-   CLOUDFARE + GAME JOLT
-===================================== */
+const WORKER='https://nectar-search.nathanjf2091.workers.dev/';
+const $=s=>document.querySelector(s);
+const E=(t,p={})=>Object.assign(document.createElement(t),p);
+const desktop=$('#desktop'),apps={},wins={};
+let topZ=5;
 
-const TAVILY_WORKER =
-  'https://nectar-search.nathanjf2091.workers.dev/';
+const read=(k,d)=>{
+try{return JSON.parse(localStorage.getItem(k))??d}
+catch{return d}
+};
+const write=(k,v)=>{
+try{localStorage.setItem(k,JSON.stringify(v))}
+catch{}
+};
 
-const GAME_JOLT_URL =
-  'https://gamejolt.com/games/nightmarebh2023/858818';
-
-/* =====================================
-   MAIN SYSTEM
-===================================== */
-
-const $ = s => document.querySelector(s);
-const desktop = $('#desktop');
-
-const apps = {};
-const windows = {};
-
-let highest = 10;
-
-const node = (tag,props={}) =>
-  Object.assign(document.createElement(tag),props);
-
-function saved(key,fallback){
-  try {
-    return JSON.parse(localStorage.getItem(key)) ?? fallback;
-  } catch {
-    return fallback;
-  }
+function app(id,title,icon,build,w=640,ht=520){
+apps[id]={title,icon,build,w,ht}
 }
 
-function store(key,value){
-  try {
-    localStorage.setItem(key,JSON.stringify(value));
-  } catch {}
+function focus(id){
+Object.keys(wins).forEach(i=>wins[i].classList.toggle('active',i===id));
+wins[id].style.zIndex=++topZ
 }
 
-function focusApp(id){
-  if(!windows[id]) return;
-
-  Object.keys(windows).forEach(k =>
-    windows[k].classList.toggle('active',k===id)
-  );
-
-  windows[id].style.zIndex=++highest;
-}
-
-function closeApp(id){
-  const w=windows[id];
-  if(!w) return;
-
-  w.dispatchEvent(new Event('appclosed'));
-  w.remove();
-
-  delete windows[id];
-
-  document.getElementById('task-'+id)?.remove();
+function close(id){
+let w=wins[id];
+if(!w)return;
+w.dispatchEvent(new Event('closed'));
+w.remove();
+delete wins[id];
+$('#task-'+id)?.remove()
 }
 
 function openApp(id){
-  const app=apps[id];
-  if(!app) return null;
-
-  if(windows[id]){
-    windows[id].classList.remove('min');
-    focusApp(id);
-    return windows[id];
-  }
-
-  const count=Object.keys(windows).length;
-  const w=node('div',{className:'window'});
-
-  w.style.left=(70+count*25)+'px';
-  w.style.top=(32+count*25)+'px';
-  w.style.width=`min(${app.width||520}px,94vw)`;
-  w.style.height=`min(${app.height||450}px,85vh)`;
-
-  w.innerHTML=`
-    <div class="titlebar">
-      <strong>${app.icon} ${app.title}</strong>
-      <span>
-        <button data-action="min">−</button>
-        <button data-action="max">□</button>
-        <button data-action="close">×</button>
-      </span>
-    </div>
-    <div class="window-body"></div>
-  `;
-
-  desktop.append(w);
-  windows[id]=w;
-  focusApp(id);
-
-  const bar=w.querySelector('.titlebar');
-
-  let dragging=false;
-  let dx=0;
-  let dy=0;
-
-  bar.onpointerdown=e=>{
-    if(
-      e.target.closest('button') ||
-      w.classList.contains('max')
-    ) return;
-
-    dragging=true;
-
-    dx=e.clientX-w.offsetLeft;
-    dy=e.clientY-w.offsetTop;
-
-    bar.setPointerCapture(e.pointerId);
-    focusApp(id);
-  };
-
-  bar.onpointermove=e=>{
-    if(dragging){
-      w.style.left=
-        Math.max(-120,e.clientX-dx)+'px';
-
-      w.style.top=
-        Math.max(0,e.clientY-dy)+'px';
-    }
-  };
-
-  bar.onpointerup=
-  bar.onpointercancel=()=>dragging=false;
-
-  bar.ondblclick=e=>{
-    if(!e.target.closest('button'))
-      w.classList.toggle('max');
-  };
-
-  bar.onclick=e=>{
-    const a=e.target.dataset.action;
-
-    if(a==='close') closeApp(id);
-    if(a==='min') w.classList.add('min');
-    if(a==='max') w.classList.toggle('max');
-  };
-
-  w.addEventListener('pointerdown',()=>focusApp(id));
-
-  const task=node('button',{
-    id:'task-'+id,
-    textContent:app.icon+' '+app.title
-  });
-
-  task.onclick=()=>{
-    if(w.classList.contains('min')){
-      w.classList.remove('min');
-      focusApp(id);
-    } else {
-      w.classList.add('min');
-    }
-  };
-
-  $('#tasks').append(task);
-
-  try {
-    app.init(w.querySelector('.window-body'),w);
-  } catch(err){
-    w.querySelector('.window-body').textContent=
-      'App error: '+err.message;
-
-    console.error(err);
-  }
-
-  return w;
+const a=apps[id];
+if(!a)return;
+if(wins[id]){
+wins[id].classList.remove('hidden');
+focus(id);
+return wins[id]
+}
+let n=Object.keys(wins).length,w=E('div',{className:'win'});
+w.style.cssText=`left:${70+n*27}px;top:${30+n*25}px;width:min(${a.w}px,95vw);height:min(${a.ht}px,85vh)`;
+w.innerHTML=`<div class="bar"><b>${a.icon} ${a.title}</b><span><button data-a="min">−</button><button data-a="max">□</button><button data-a="close">×</button></span></div><div class="body"></div>`;
+desktop.append(w);
+wins[id]=w;
+focus(id);
+const bar=w.querySelector('.bar');
+let drag=false,ox=0,oy=0;
+bar.onpointerdown=e=>{
+if(e.target.closest('button')||w.classList.contains('max'))return;
+drag=true;
+ox=e.clientX-w.offsetLeft;
+oy=e.clientY-w.offsetTop;
+bar.setPointerCapture(e.pointerId)
+};
+bar.onpointermove=e=>{
+if(drag){
+w.style.left=Math.max(-100,e.clientX-ox)+'px';
+w.style.top=Math.max(0,e.clientY-oy)+'px'
+}
+};
+bar.onpointerup=bar.onpointercancel=()=>drag=false;
+bar.ondblclick=e=>{
+if(!e.target.closest('button'))w.classList.toggle('max')
+};
+bar.onclick=e=>{
+let a=e.target.dataset.a;
+if(a==='close')close(id);
+if(a==='min')w.classList.add('hidden');
+if(a==='max')w.classList.toggle('max')
+};
+w.addEventListener('pointerdown',()=>focus(id));
+let task=E('button',{id:'task-'+id,textContent:a.icon+' '+a.title});
+task.onclick=()=>{
+w.classList.remove('hidden');
+focus(id)
+};
+$('#tasks').append(task);
+try{a.build(w.querySelector('.body'),w)}
+catch(e){
+w.querySelector('.body').textContent='App error: '+e.message;
+console.error(e)
+}
+return w
 }
 
-/* =====================================
-   URL HANDLING
-===================================== */
-
-function normalizeURL(text){
-  try {
-    const s=String(text).trim();
-    if(!s) return null;
-
-    const u=new URL(
-      /^https?:\/\//i.test(s)
-        ? s
-        : 'https://'+s
-    );
-
-    return ['https:','http:'].includes(u.protocol)
-      ? u.href
-      : null;
-  } catch {
-    return null;
-  }
+function url(s){
+try{
+let u=new URL(/^https?:\/\//i.test(s)?s:'https://'+s);
+return ['https:','http:'].includes(u.protocol)?u.href:null
+}catch{return null}
+}
+function browse(s){
+let w=openApp('browser');
+w?.tab?.(url(s))
 }
 
-function openInLilac(url){
-  const fixed=normalizeURL(url);
-  if(!fixed) return;
+/* ============== NECTAR ============== */
 
-  const w=openApp('browser');
-  w?.newBrowserTab?.(fixed);
+app('nectar','Nectar Search','🌸',(root,w)=>{
+root.innerHTML=`
+<div class="col">
+<div style="text-align:center">
+<div style="font-size:64px">🌸</div>
+<h1>Nectar</h1>
+<p class="muted">Tavily search, powered by your Cloudflare Worker</p>
+</div>
+<form id="sf" class="row">
+<input id="sq" class="grow" placeholder="Search the web" required>
+<button>Search</button>
+</form>
+<div class="muted" id="stat"></div>
+<div id="results"></div>
+</div>`;
+let q=root.querySelector('#sq'),
+out=root.querySelector('#results'),
+stat=root.querySelector('#stat'),ctrl;
+root.querySelector('#sf').onsubmit=async e=>{
+e.preventDefault();
+ctrl?.abort();
+ctrl=new AbortController();
+out.replaceChildren();
+stat.textContent='Searching...';
+try{
+const r=await fetch(WORKER+'?q='+encodeURIComponent(q.value),{signal:ctrl.signal});
+const data=await r.json();
+if(!r.ok)throw Error(data.error||'Search failed');
+let list=Array.isArray(data.results)?data.results:[];
+stat.textContent=list.length+' results';
+list.forEach(item=>{
+if(!url(item.url))return;
+let a=E('a',{className:'result',href:item.url});
+a.append(
+E('b',{textContent:item.title||item.url}),
+E('small',{textContent:item.url}),
+E('p',{textContent:String(item.content||'').slice(0,300)})
+);
+a.onclick=e=>{
+e.preventDefault();
+browse(item.url)
+};
+out.append(a)
+})
+}catch(err){
+if(err.name!=='AbortError')
+stat.textContent='Search error: '+err.message
+}
+};
+w.addEventListener('closed',()=>ctrl?.abort())
+},680,580);
+
+/* ============== LILAC BROWSER ============== */
+
+app('browser','Lilac Browser','🌐',(root,w)=>{
+root.style.overflow='hidden';
+root.innerHTML=`
+<div class="row" id="tabs" style="padding:6px;background:#392850"></div>
+<div class="row" style="padding:8px">
+<button id="back">←</button>
+<button id="forward">→</button>
+<input id="address" style="flex:1" placeholder="Website address">
+<button id="go">Go</button>
+<button id="external">↗</button>
+</div>
+<div id="views" class="grow" style="position:relative;background:#fff"></div>
+<small class="muted" style="padding:6px">
+Some websites, including Game Jolt, block embedded viewing. Use ↗.
+</small>`;
+let tabs=[],selected=-1,
+tabbar=root.querySelector('#tabs'),
+view=root.querySelector('#views'),
+address=root.querySelector('#address');
+
+function show(){
+tabbar.replaceChildren();
+tabs.forEach((t,i)=>{
+t.frame.style.display=i===selected?'block':'none';
+let b=E('button',{
+textContent:t.link?new URL(t.link).hostname:'New tab'
+});
+b.onclick=()=>{
+selected=i;
+show()
+};
+tabbar.append(b)
+});
+let plus=E('button',{textContent:'+'});
+plus.onclick=()=>newTab();
+tabbar.append(plus);
+address.value=tabs[selected]?.link||''
 }
 
-/* =====================================
-   NECTAR SEARCH
-===================================== */
+function load(s){
+let v=url(s),t=tabs[selected];
+if(!v||!t)return;
+t.link=v;
+t.history=t.history.slice(0,t.index+1);
+t.history.push(v);
+t.index++;
+t.frame.removeAttribute('srcdoc');
+t.frame.src=v;
+show()
+}
 
-apps.nectar={
-  title:'Nectar Search',
-  icon:'🌸',
-  width:660,
-  height:540,
+function newTab(s){
+let f=E('iframe',{title:'Lilac browser preview'});
+f.style.cssText='position:absolute;inset:0;width:100%;height:100%;border:0;background:white';
+f.srcdoc='<body style="font-family:system-ui;text-align:center;padding:15vh 20px;color:#574071"><h2>🌐 Lilac Browser</h2><p>Enter a website above.</p><small>Not every site permits embedding.</small>';
+view.append(f);
+tabs.push({frame:f,link:'',history:[],index:-1});
+selected=tabs.length-1;
+if(s)load(s);
+else show()
+}
 
-  init(root,w){
-    root.innerHTML=`
-      <div class="panel"
-        style="overflow:auto;height:100%">
+root.querySelector('#go').onclick=()=>load(address.value);
+address.onkeydown=e=>{
+if(e.key==='Enter')load(address.value)
+};
+root.querySelector('#external').onclick=()=>{
+let s=tabs[selected]?.link;
+if(s)window.open(s,'_blank','noopener,noreferrer')
+};
+root.querySelector('#back').onclick=()=>{
+let t=tabs[selected];
+if(t.index>0){
+t.frame.src=t.history[--t.index];
+t.link=t.history[t.index];
+show()
+}
+};
+root.querySelector('#forward').onclick=()=>{
+let t=tabs[selected];
+if(t.index<t.history.length-1){
+t.frame.src=t.history[++t.index];
+t.link=t.history[t.index];
+show()
+}
+};
+w.tab=newTab;
+newTab()
+},880,600);
 
-        <div style="text-align:center">
-          <div style="font-size:64px">🌸</div>
+/* ============== THE REAL DEAL ============== */
 
-          <h1 style="margin:0;color:var(--pink)">
-            Nectar
-          </h1>
-
-          <p class="muted">Powered by Tavily</p>
-        </div>
-
-        <form id="nsform" class="row">
-          <input id="nsq"
-            placeholder="Search the web"
-            required autocomplete="off">
-          <button>Search</button>
-        </form>
-
-        <div class="row">
-          <button id="nsclear">Clear</button>
-
-          <label class="muted">
-            <input id="nsmemory" type="checkbox">
-            Save recent searches
-          </label>
-        </div>
-
-        <div id="nshistory"></div>
-
-        <div id="nsstatus"
-          class="muted"
-          role="status"></div>
-
-        <div id="nsresults"
-          style="display:grid;gap:8px"></div>
-      </div>
-    `;
-
-    const q=root.querySelector('#nsq');
-    const status=root.querySelector('#nsstatus');
-    const results=root.querySelector('#nsresults');
-    const historyBox=root.querySelector('#nshistory');
-    const remember=root.querySelector('#nsmemory');
-
-    let history=saved('nectarHistory',[]);
-    let remembering=saved('nectarRemember',false);
-    let controller=null;
-    let requestID=0;
-
-    remember.checked=remembering;
-
-    function historyUI(){
-      historyBox.replaceChildren();
-
-      if(!remembering) return;
-
-      history.slice(0,5).forEach(t=>{
-        const b=node('button',{textContent:t});
-
-        b.style.margin='3px';
-
-        b.onclick=()=>{
-          q.value=t;
-          search(t);
-        };
-
-        historyBox.append(b);
-      });
-    }
-
-    async function search(query){
-      query=query.trim();
-      if(!query) return;
-
-      controller?.abort();
-
-      const id=++requestID;
-
-      controller=new AbortController();
-      const current=controller;
-
-      const timeout=setTimeout(
-        ()=>current.abort(),
-        15000
-      );
-
-      status.textContent='Searching...';
-      results.replaceChildren();
-
-      if(remembering){
-        history=[
-          query,
-          ...history.filter(t=>t!==query)
-        ].slice(0,15);
-
-        store('nectarHistory',history);
-        historyUI();
-      }
-
-      try {
-        const response=await fetch(
-          TAVILY_WORKER+
-          '?q='+encodeURIComponent(query),
-          {signal:current.signal}
-        );
-
-        const data=await response.json();
-
-        if(!response.ok){
-          throw Error(
-            typeof data.error==='string'
-              ? data.error
-              : 'Search error '+response.status
-          );
-        }
-
-        if(id!==requestID) return;
-
-        const items=Array.isArray(data.results)
-          ? data.results.filter(
-              item=>normalizeURL(item.url)
-            )
-          : [];
-
-        status.textContent=items.length
-          ? `Found ${items.length} results`
-          : 'No results found';
-
-        for(const item of items){
-          const a=node('a',{
-            className:'result',
-            href:item.url
-          });
-
-          a.append(
-            node('b',{
-              textContent:item.title||item.url
-            }),
-            node('small',{
-              textContent:item.url
-            }),
-            node('p',{
-              textContent:
-                String(item.content||'').slice(0,300)
-            })
-          );
-
-          a.onclick=e=>{
-            e.preventDefault();
-            openInLilac(item.url);
-          };
-
-          results.append(a);
-        }
-      } catch(err){
-        if(id===requestID){
-          status.textContent=
-            err.name==='AbortError'
-              ? 'Search timed out'
-              : 'Search error: '+err.message;
-        }
-      } finally {
-        clearTimeout(timeout);
-      }
-    }
-
-    root.querySelector('#nsform').onsubmit=e=>{
-      e.preventDefault();
-      search(q.value);
-    };
-
-    root.querySelector('#nsclear').onclick=()=>{
-      controller?.abort();
-      requestID++;
-      results.replaceChildren();
-      status.textContent='';
-      q.value='';
-    };
-
-    remember.onchange=()=>{
-      remembering=remember.checked;
-
-      store('nectarRemember',remembering);
-
-      if(!remembering){
-        history=[];
-        store('nectarHistory',history);
-      }
-
-      historyUI();
-    };
-
-    w.addEventListener(
-      'appclosed',
-      ()=>controller?.abort()
-    );
-
-    historyUI();
-    q.focus();
-  }
+const bosses={
+nightmare:{
+name:'Nightmare Sans',
+symbol:'☾',
+color:'#b58dff',
+accent:'#65ffe5',
+tint:'#382053',
+url:'https://gamejolt.com/games/nightmarebh2023/858818'
+},
+lethal:{
+name:'Lethal Deal',
+symbol:'♦',
+color:'#fa5371',
+accent:'#ffd17f',
+tint:'#4b1c32',
+url:'https://gamejolt.com/games/BhldRemake/956177'
+},
+fatal:{
+name:'Fatal Error Sans',
+symbol:'⌁',
+color:'#fc5277',
+accent:'#46e8ff',
+tint:'#4b203a',
+url:'https://gamejolt.com/games/BhFeRemake/990760'
+},
+error404:{
+name:'Error 404',
+symbol:'404',
+color:'#5aa5ff',
+accent:'#ffffff',
+tint:'#182d62',
+url:'https://scratch.mit.edu/projects/995708492/'
+}
 };
 
-/* =====================================
-   LILAC BROWSER
-===================================== */
-
-apps.browser={
-  title:'Lilac Browser',
-  icon:'🌐',
-  width:930,
-  height:620,
-
-  init(root,w){
-    root.style.overflow='hidden';
-
-    root.innerHTML=`
-      <div style="
-        height:100%;
-        min-height:0;
-        display:flex;
-        flex-direction:column">
-
-        <div id="btabs" class="row" style="
-          padding:6px;
-          overflow:auto;
-          background:#3d2c50"></div>
-
-        <div class="row" style="
-          padding:7px;
-          background:#281d39">
-
-          <button id="bback">←</button>
-          <button id="bforward">→</button>
-          <button id="breload">↻</button>
-
-          <input id="baddress"
-            placeholder="https://example.com">
-
-          <button id="bgo">Go</button>
-
-          <button id="bexternal"
-            title="Open site in browser">↗</button>
-        </div>
-
-        <div id="bview" style="
-          position:relative;
-          flex:1;
-          min-height:0;
-          background:#f9f5ff"></div>
-
-        <div class="muted" id="bstatus" style="
-          padding:7px;
-          background:#281d39">
-          Some websites block iframe embedding.
-        </div>
-      </div>
-    `;
-
-    const tabs=[];
-    const bar=root.querySelector('#btabs');
-    const view=root.querySelector('#bview');
-    const addr=root.querySelector('#baddress');
-    const status=root.querySelector('#bstatus');
-
-    let active=-1;
-
-    function update(){
-      bar.replaceChildren();
-
-      tabs.forEach((t,i)=>{
-        const btn=node('button',{
-          textContent:t.url
-            ? new URL(t.url).hostname
-            : 'New tab'
-        });
-
-        if(i===active)
-          btn.style.background='#916fbb';
-
-        btn.onclick=()=>{
-          active=i;
-          update();
-        };
-
-        bar.append(btn);
-
-        const x=node('button',{textContent:'×'});
-
-        x.onclick=()=>{
-          t.frame.remove();
-          tabs.splice(i,1);
-
-          if(!tabs.length){
-            active=-1;
-            newTab();
-            return;
-          }
-
-          if(i<active) active--;
-
-          if(active>=tabs.length)
-            active=tabs.length-1;
-
-          update();
-        };
-
-        bar.append(x);
-
-        t.frame.style.display=
-          i===active?'block':'none';
-      });
-
-      const plus=node('button',{textContent:'+'});
-
-      plus.onclick=()=>newTab();
-
-      bar.append(plus);
-
-      const t=tabs[active];
-
-      addr.value=t?.url||'';
-
-      root.querySelector('#bback').disabled=
-        !t||t.index<=0;
-
-      root.querySelector('#bforward').disabled=
-        !t||t.index>=t.history.length-1;
-    }
-
-    function newTab(url){
-      const frame=node('iframe',{
-        title:'Lilac browser website viewer'
-      });
-
-      frame.style.cssText=`
-        position:absolute;
-        inset:0;
-        width:100%;
-        height:100%;
-        border:0;
-        background:#faf8ff
-      `;
-
-      frame.setAttribute(
-        'sandbox',
-        'allow-scripts allow-forms allow-same-origin'
-      );
-
-      frame.referrerPolicy='no-referrer';
-
-      frame.srcdoc=`
-        <!doctype html>
-        <html>
-        <body style="
-          font:18px system-ui;
-          text-align:center;
-          padding:14vh 15px;
-          background:#faf5ff;
-          color:#594477">
-
-          <h2>🌐 Lilac Browser</h2>
-
-          <p>
-            Enter an address above or
-            open a Nectar result.
-          </p>
-
-          <small>
-            Sites may refuse embedded viewing.
-          </small>
-        </body>
-        </html>
-      `;
-
-      view.append(frame);
-
-      tabs.push({
-        frame,
-        url:'',
-        history:[],
-        index:-1
-      });
-
-      active=tabs.length-1;
-
-      if(url) navigate(url);
-      else update();
-    }
-
-    function navigate(text,record=true){
-      const url=normalizeURL(text);
-
-      if(!url){
-        status.textContent='Invalid web address';
-        return;
-      }
-
-      const t=tabs[active];
-      if(!t) return;
-
-      t.url=url;
-
-      if(record){
-        t.history=t.history.slice(0,t.index+1);
-        t.history.push(url);
-        t.index=t.history.length-1;
-      }
-
-      t.frame.removeAttribute('srcdoc');
-      t.frame.src=url;
-
-      status.textContent=
-        'Opening '+url+
-        ' (some sites prohibit embedding)';
-
-      update();
-    }
-
-    root.querySelector('#bgo').onclick=
-      ()=>navigate(addr.value);
-
-    addr.onkeydown=e=>{
-      if(e.key==='Enter') navigate(addr.value);
-    };
-
-    root.querySelector('#bback').onclick=()=>{
-      const t=tabs[active];
-
-      if(t?.index>0)
-        navigate(t.history[--t.index],false);
-    };
-
-    root.querySelector('#bforward').onclick=()=>{
-      const t=tabs[active];
-
-      if(t&&t.index<t.history.length-1)
-        navigate(t.history[++t.index],false);
-    };
-
-    root.querySelector('#breload').onclick=()=>{
-      const t=tabs[active];
-
-      if(t?.url)
-        t.frame.src=t.url;
-    };
-
-    root.querySelector('#bexternal').onclick=()=>{
-      const url=tabs[active]?.url;
-
-      if(url)
-        window.open(
-          url,
-          '_blank',
-          'noopener,noreferrer'
-        );
-    };
-
-    w.newBrowserTab=newTab;
-
-    w.addEventListener('appclosed',()=>{
-      delete w.newBrowserTab;
-    });
-
-    newTab();
-  }
+app('deal','The Real Deal','🌘',(root,w)=>{
+root.style.overflow='hidden';
+root.innerHTML=`
+<div class="hud" style="background:#171020">
+<b style="flex:1">🌘 THE REAL DEAL</b>
+<button id="home">Boss Select</button>
+<button id="lock">🔒 Lock</button>
+</div>
+<div id="dealarea" class="grow"
+style="display:flex;flex-direction:column;overflow:auto;background:#0b0b18"></div>`;
+
+let area=root.querySelector('#dealarea'),
+home=root.querySelector('#home'),
+lock=root.querySelector('#lock'),
+cleanup=()=>{},unlocked=false;
+
+function clear(){
+cleanup();
+cleanup=()=>{};
+area.replaceChildren()
+}
+
+function gate(){
+clear();
+unlocked=false;
+home.style.display=lock.style.display='none';
+area.innerHTML=`
+<form id="gate" class="col"
+style="margin:auto;text-align:center;max-width:380px;width:100%">
+<div style="font-size:72px">🌘</div>
+<h1>ACCESS LOCKED</h1>
+<p>Password required to enter The Real Deal</p>
+<input id="pw" type="password"
+placeholder="Password" autocomplete="off" required>
+<button>UNLOCK</button>
+<small id="bad" style="color:#ff8ca6"></small>
+</form>`;
+area.querySelector('#gate').onsubmit=e=>{
+e.preventDefault();
+if(area.querySelector('#pw').value==='death'){
+unlocked=true;
+menu()
+}else{
+area.querySelector('#bad').textContent='Incorrect password'
+}
+}
+}
+
+function menu(){
+if(!unlocked)return;
+clear();
+home.style.display=lock.style.display='';
+area.innerHTML=`
+<div class="col">
+<h2>Choose a Boss Fight</h2>
+<p class="muted">
+Four original fan-made dodge games with neon visuals and two phases.
+Links lead to BossHim’s original projects; embedded releases may refuse to connect.
+</p>
+<div id="bosslist" class="cards"></div>
+</div>`;
+const list=area.querySelector('#bosslist');
+Object.entries(bosses).forEach(([id,b])=>{
+let c=E('div',{className:'fightcard'});
+c.style.setProperty('--accent',b.color);
+c.style.setProperty('--tint',b.tint);
+c.innerHTML=`
+<div style="font-size:52px;color:${b.color}">${b.symbol}</div>
+<b>${b.name}</b>
+<div class="muted">2 phases · original Lilac recreation</div>`;
+let buttons=E('div',{className:'row'}),
+play=E('button',{textContent:'▶ Play'}),
+orig=E('button',{textContent:'Original ↗'});
+play.onclick=()=>fight(id);
+orig.onclick=()=>window.open(b.url,'_blank','noopener,noreferrer');
+buttons.append(play,orig);
+c.append(buttons);
+list.append(c)
+})
+}
+
+function fight(id){
+clear();
+let b=bosses[id],
+canvas=E('canvas',{width:800,height:490,tabIndex:0}),
+box=E('div',{className:'game'}),
+info=E('div',{
+className:'hud',
+textContent:'WASD / arrows: move · Space: pulse · Enter: start or retry · Touch: drag the heart'
+});
+box.append(canvas);
+area.append(box,info);
+
+const ctx=canvas.getContext('2d'),
+keys={},balls=[],lasers=[];
+let p,time=0,shots=.5,beamt=2,inv=0,pulse=0,
+playing=false,finished='',last=performance.now(),raf=0;
+
+function reset(){
+p={x:400,y:365,hp:9};
+time=0;
+shots=.5;
+beamt=2;
+inv=pulse=0;
+playing=false;
+finished='';
+balls.length=0;
+lasers.length=0;
+last=performance.now()
+}
+
+function keydown(e){
+if(!w.classList.contains('active'))return;
+let k=e.key.toLowerCase();
+keys[k]=true;
+if(['arrowup','arrowdown','arrowleft','arrowright',' ','enter'].includes(k))
+e.preventDefault();
+if(k==='enter'){
+if(finished)reset();
+playing=true
+}
+if(k===' '&&pulse===0){
+pulse=4;
+inv=.4;
+for(let i=balls.length-1;i>=0;i--)
+if(Math.hypot(balls[i].x-p.x,balls[i].y-p.y)<125)
+balls.splice(i,1)
+}
+}
+
+function keyup(e){
+keys[e.key.toLowerCase()]=false
+}
+document.addEventListener('keydown',keydown);
+document.addEventListener('keyup',keyup);
+
+let moving=false;
+
+canvas.onpointerdown=e=>{
+moving=true;
+canvas.setPointerCapture(e.pointerId);
+if(finished)reset();
+playing=true;
+moveTouch(e);
+canvas.focus()
 };
-
-/* =====================================
-   THE REAL DEAL
-===================================== */
-
-apps.realDeal={
-  title:'The Real Deal',
-  icon:'🌘',
-  width:860,
-  height:630,
-
-  init(root,w){
-    root.style.overflow='hidden';
-
-    root.innerHTML=`
-      <div style="
-        height:100%;
-        display:flex;
-        flex-direction:column;
-        min-height:0;
-        background:#100b1a">
-
-        <div class="row" style="
-          padding:8px;
-          background:#39264e;
-          flex-wrap:wrap">
-
-          <strong style="margin-right:auto">
-            🌘 THE REAL DEAL
-          </strong>
-
-          <button id="dplay">
-            Play Shadow Trial
-          </button>
-
-          <button id="djolt">
-            BossHim Game Jolt
-          </button>
-
-          <button id="drestart">
-            ↻ Restart
-          </button>
-        </div>
-
-        <div id="dtitle" class="muted" style="
-          padding:7px;
-          background:#241832"></div>
-
-        <div id="dstage" style="
-          flex:1;
-          position:relative;
-          min-height:0;
-          display:flex;
-          align-items:center;
-          justify-content:center"></div>
-
-        <div id="dfooter" class="muted" style="
-          padding:7px;
-          background:#241832"></div>
-      </div>
-    `;
-
-    const stage=root.querySelector('#dstage');
-    const caption=root.querySelector('#dtitle');
-    const footer=root.querySelector('#dfooter');
-
-    let cleanup=()=>{};
-    let restart=()=>{};
-
-    function stop(){
-      cleanup();
-      cleanup=()=>{};
-      stage.replaceChildren();
-    }
-
-    /* BOSSHIM GAME JOLT */
-
-    function gameJolt(){
-      stop();
-
-      caption.textContent=
-        'BossHim’s Nightmare Sans fight — '+
-        'official Game Jolt page';
-
-      footer.textContent=
-        'Game Jolt may block embedding. '+
-        'Use the official game page if preview fails.';
-
-      const panel=node('div',{className:'card'});
-
-      panel.style.cssText=`
-        max-width:520px;
-        text-align:center;
-        margin:20px;
-        display:grid;
-        gap:12px
-      `;
-
-      const heading=node('h2',{
-        textContent:'🌘 Nightmare Sans Fight'
-      });
-
-      const desc=node('p',{
-        textContent:
-          'Original release by BossHim on Game Jolt. '+
-          'The Game Jolt page may offer a download '+
-          'rather than an in-browser game.'
-      });
-
-      const link=node('a',{
-        textContent:'Open official Game Jolt page ↗',
-        href:GAME_JOLT_URL,
-        target:'_blank',
-        rel:'noopener noreferrer'
-      });
-
-      const preview=node('button',{
-        textContent:'Try viewing Game Jolt inside Lilac'
-      });
-
-      preview.onclick=()=>{
-        stage.replaceChildren();
-
-        const iframe=node('iframe',{
-          title:'BossHim Game Jolt page',
-          src:GAME_JOLT_URL
-        });
-
-        iframe.style.cssText=`
-          width:100%;
-          height:100%;
-          border:0;
-          background:#100b1a
-        `;
-
-        stage.append(iframe);
-
-        footer.textContent=
-          'If the preview is blank or blocked, '+
-          'use the official Game Jolt page.';
-      };
-
-      panel.append(heading,desc,link,preview);
-      stage.append(panel);
-
-      restart=gameJolt;
-    }
-
-    /* ORIGINAL SHADOW TRIAL */
-
-    function play(){
-      stop();
-
-      caption.textContent=
-        'Shadow Trial — an original two-phase '+
-        'dodge challenge, not BossHim’s original game';
-
-      footer.textContent=
-        'WASD / arrows: Move • Space: Pulse '+
-        '• Enter or click: Start/retry';
-
-      const cv=node('canvas',{
-        width:760,
-        height:440,
-        className:'gamecanvas',
-        tabIndex:0
-      });
-
-      cv.style.objectFit='contain';
-      stage.append(cv);
-
-      const g=cv.getContext('2d');
-      const keys={};
-
-      let player,orbs,lasers,elapsed;
-      let orbTimer,laserTimer,inv,pulse;
-      let playing,result,last,raf;
-      let touch=false;
-
-      function reset(){
-        player={x:380,y:300,hp:9};
-        orbs=[];
-        lasers=[];
-        elapsed=0;
-        orbTimer=.35;
-        laserTimer=2;
-        inv=0;
-        pulse=0;
-        playing=false;
-        result='';
-        last=performance.now();
-      }
-
-      reset();
-
-      function keydown(e){
-        if(!w.classList.contains('active')) return;
-
-        const k=e.key.toLowerCase();
-
-        if([
-          'arrowup','arrowdown',
-          'arrowleft','arrowright',
-          'w','a','s','d',' ','enter'
-        ].includes(k))
-          e.preventDefault();
-
-        keys[k]=true;
-
-        if(k==='enter'){
-          if(result) reset();
-          playing=true;
-        }
-
-        if(
-          k===' ' &&
-          playing &&
-          !result &&
-          pulse<=0
-        ){
-          pulse=4;
-          inv=Math.max(inv,.3);
-
-          orbs=orbs.filter(o=>
-            Math.hypot(
-              o.x-player.x,
-              o.y-player.y
-            )>110
-          );
-        }
-      }
-
-      function keyup(e){
-        keys[e.key.toLowerCase()]=false;
-      }
-
-      document.addEventListener('keydown',keydown);
-      document.addEventListener('keyup',keyup);
-
-      function pointer(e){
-        if(!touch) return;
-
-        const rect=cv.getBoundingClientRect();
-
-        const scale=Math.min(
-          rect.width/760,
-          rect.height/440
-        );
-
-        const ox=(rect.width-760*scale)/2;
-        const oy=(rect.height-440*scale)/2;
-
-        player.x=Math.max(
-          106,
-          Math.min(
-            654,
-            (e.clientX-rect.left-ox)/scale
-          )
-        );
-
-        player.y=Math.max(
-          175,
-          Math.min(
-            385,
-            (e.clientY-rect.top-oy)/scale
-          )
-        );
-      }
-
-      cv.onpointerdown=e=>{
-        if(result) reset();
-
-        playing=true;
-        touch=true;
-
-        cv.setPointerCapture(e.pointerId);
-        pointer(e);
-        cv.focus();
-      };
-
-      cv.onpointermove=pointer;
-
-      cv.onpointerup=
-      cv.onpointercancel=()=>touch=false;
-
-      function hurt(){
-        if(inv>0||result) return;
-
-        player.hp--;
-        inv=.8;
-
-        if(player.hp<=0){
-          result='lost';
-          playing=false;
-        }
-      }
-
-      function draw(now){
-        const dt=Math.min(
-          .045,
-          (now-last)/1000||0
-        );
-
-        last=now;
-
-        const phase=elapsed<20?1:2;
-
-        if(playing&&!result){
-          elapsed+=dt;
-
-          if(elapsed>=40){
-            result='won';
-            playing=false;
-          }
-
-          inv=Math.max(0,inv-dt);
-          pulse=Math.max(0,pulse-dt);
-
-          const dx=
-            Number(!!(keys.d||keys.arrowright))-
-            Number(!!(keys.a||keys.arrowleft));
-
-          const dy=
-            Number(!!(keys.s||keys.arrowdown))-
-            Number(!!(keys.w||keys.arrowup));
-
-          const len=Math.max(
-            1,
-            Math.hypot(dx,dy)
-          );
-
-          player.x=Math.max(
-            105,
-            Math.min(
-              655,
-              player.x+dx/len*200*dt
-            )
-          );
-
-          player.y=Math.max(
-            173,
-            Math.min(
-              385,
-              player.y+dy/len*200*dt
-            )
-          );
-
-          orbTimer-=dt;
-          laserTimer-=dt;
-
-          if(orbTimer<=0){
-            const left=Math.random()<.5;
-
-            orbs.push({
-              x:left?90:670,
-              y:174+Math.random()*205,
-              vx:left
-                ?(phase===2?225:160)
-                :-(phase===2?225:160),
-              vy:(Math.random()-.5)*65
-            });
-
-            orbTimer=phase===2?.27:.49;
-          }
-
-          if(laserTimer<=0){
-            lasers.push({
-              x:125+Math.random()*510,
-              width:phase===2?29:19,
-              warning:.9,
-              active:.55
-            });
-
-            laserTimer=phase===2?1.3:2.25;
-          }
-
-          orbs.forEach(o=>{
-            o.x+=o.vx*dt;
-            o.y+=o.vy*dt;
-
-            if(
-              Math.hypot(
-                o.x-player.x,
-                o.y-player.y
-              )<16
-            ) hurt();
-          });
-
-          orbs=orbs.filter(
-            o=>o.x>85&&o.x<675
-          );
-
-          lasers.forEach(l=>{
-            if(l.warning>0){
-              l.warning-=dt;
-            } else {
-              l.active-=dt;
-
-              if(
-                Math.abs(l.x-player.x)<
-                l.width/2+8
-              ) hurt();
-            }
-          });
-
-          lasers=lasers.filter(
-            l=>l.warning>0||l.active>0
-          );
-        }
-
-        const glow=phase===2
-          ?'#f77baa'
-          :'#b89ce8';
-
-        /* BACKGROUND */
-
-        g.fillStyle='#0d0918';
-        g.fillRect(0,0,760,440);
-
-        g.textAlign='center';
-        g.fillStyle='#f2eaff';
-        g.font='bold 27px monospace';
-
-        g.fillText(
-          'SHADOW TRIAL',
-          380,30
-        );
-
-        g.font='13px monospace';
-        g.fillStyle=glow;
-
-        g.fillText(
-          phase===2
-            ?'PHASE II — SHADOW STORM'
-            :'PHASE I — APPROACH',
-          380,51
-        );
-
-        /* BOSS */
-
-        g.save();
-        g.translate(380,107);
-
-        g.strokeStyle=glow;
-        g.lineWidth=5;
-
-        for(const side of [-1,1]){
-          for(let i=0;i<3;i++){
-            g.beginPath();
-
-            g.moveTo(side*28,10);
-
-            g.bezierCurveTo(
-              side*(65+i*16),-38,
-              side*(90+i*18),70,
-              side*(150+i*12),-7
-            );
-
-            g.stroke();
-          }
-        }
-
-        g.fillStyle='#171123';
-
-        g.beginPath();
-        g.arc(0,0,38,0,Math.PI*2);
-        g.fill();
-        g.stroke();
-
-        g.fillStyle=glow;
-        g.fillRect(-24,-10,17,7);
-        g.fillRect(7,-10,17,7);
-
-        g.restore();
-
-        /* ARENA */
-
-        g.fillStyle='#1b142a';
-        g.fillRect(91,158,578,242);
-
-        g.strokeStyle=glow;
-        g.lineWidth=3;
-        g.strokeRect(91,158,578,242);
-
-        /* LASERS */
-
-        lasers.forEach(l=>{
-          g.globalAlpha=l.warning>0?.3:.92;
-
-          g.fillStyle=l.warning>0
-            ?'#dbaaff'
-            :'#ff8dbb';
-
-          g.fillRect(
-            l.x-l.width/2,
-            160,
-            l.width,
-            238
-          );
-        });
-
-        g.globalAlpha=1;
-
-        /* ORBS */
-
-        g.fillStyle=glow;
-
-        orbs.forEach(o=>{
-          g.beginPath();
-          g.arc(o.x,o.y,7,0,Math.PI*2);
-          g.fill();
-        });
-
-        /* PLAYER */
-
-        g.save();
-        g.translate(player.x,player.y);
-
-        if(inv>0&&Math.floor(inv*13)%2)
-          g.globalAlpha=.3;
-
-        g.rotate(Math.PI/4);
-
-        g.fillStyle='#70e8f7';
-        g.shadowColor='#70e8f7';
-        g.shadowBlur=16;
-
-        g.fillRect(-9,-9,18,18);
-        g.restore();
-
-        /* HEALTH */
-
-        g.font='bold 14px monospace';
-        g.textAlign='left';
-        g.fillStyle='#fff';
-
-        g.fillText('HP',92,428);
-
-        g.fillStyle='#4a304e';
-        g.fillRect(125,416,160,12);
-
-        g.fillStyle='#f5c85b';
-
-        g.fillRect(
-          125,416,
-          160*player.hp/9,
-          12
-        );
-
-        g.fillStyle='#fff';
-
-        g.fillText(
-          player.hp+'/9',
-          293,428
-        );
-
-        /* PULSE */
-
-        g.textAlign='right';
-
-        g.fillStyle=pulse<=0
-          ?'#70e8f7'
-          :'#d9c7e7';
-
-        g.fillText(
-          pulse<=0
-            ?'SPACE: PULSE READY'
-            :'PULSE '+pulse.toFixed(1)+'s',
-          666,428
-        );
-
-        /* TIMER */
-
-        g.textAlign='center';
-        g.fillStyle='#fff';
-
-        g.fillText(
-          'TIME '+
-          Math.min(40,elapsed).toFixed(1)+
-          '/40s',
-          380,151
-        );
-
-        /* START SCREEN */
-
-        if(!playing){
-          g.fillStyle='#090615e8';
-          g.fillRect(95,163,570,230);
-
-          g.fillStyle='#fff';
-          g.font='bold 28px monospace';
-
-          g.fillText(
-            result==='won'
-              ?'YOU SURVIVED'
-              :result==='lost'
-                ?'TRY AGAIN'
-                :'READY?',
-            380,244
-          );
-
-          g.font='15px monospace';
-          g.fillStyle=glow;
-
-          g.fillText(
-            result
-              ?'Press Enter or click to retry'
-              :'Press Enter or click to begin',
-            380,278
-          );
-        }
-
-        raf=requestAnimationFrame(draw);
-      }
-
-      raf=requestAnimationFrame(draw);
-
-      cleanup=()=>{
-        cancelAnimationFrame(raf);
-
-        document.removeEventListener(
-          'keydown',keydown
-        );
-
-        document.removeEventListener(
-          'keyup',keyup
-        );
-      };
-
-      restart=()=>{
-        reset();
-        cv.focus();
-      };
-
-      cv.focus();
-    }
-
-    root.querySelector('#dplay').onclick=play;
-
-    root.querySelector('#djolt').onclick=gameJolt;
-
-    root.querySelector('#drestart').onclick=
-      ()=>restart();
-
-    w.addEventListener('appclosed',stop);
-
-    play();
-  }
-};
-
-/* =====================================
-   NOTES
-===================================== */
-
-apps.notes={
-  title:'Notes',
-  icon:'📓',
-  width:520,
-  height:440,
-
-  init(root){
-    let notes=saved('lilacNotes',[
-      {
-        id:1,
-        title:'Welcome',
-        body:'Welcome to Lilac OS! 🪻'
-      }
-    ]);
-
-    let current=notes[0]?.id;
-
-    root.innerHTML=`
-      <div class="panel" style="height:100%">
-
-        <div class="row">
-          <button id="noteadd">+ Note</button>
-          <button id="notedel">Delete</button>
-        </div>
-
-        <select id="notelist"></select>
-
-        <input id="notetitle"
-          placeholder="Note title">
-
-        <textarea id="notetext"
-          placeholder="Start writing..."
-          style="
-            flex:1;
-            min-height:160px;
-            resize:none"></textarea>
-      </div>
-    `;
-
-    const list=root.querySelector('#notelist');
-    const title=root.querySelector('#notetitle');
-    const body=root.querySelector('#notetext');
-
-    function paint(){
-      list.replaceChildren();
-
-      notes.forEach(n=>
-        list.add(new Option(
-          n.title||'Untitled',
-          n.id
-        ))
-      );
-
-      list.value=current||'';
-
-      const n=notes.find(n=>n.id===current);
-
-      title.value=n?.title||'';
-      body.value=n?.body||'';
-    }
-
-    function saveNotes(){
-      store('lilacNotes',notes);
-    }
-
-    root.querySelector('#noteadd').onclick=()=>{
-      const n={
-        id:Date.now(),
-        title:'New note',
-        body:''
-      };
-
-      notes.unshift(n);
-      current=n.id;
-
-      saveNotes();
-      paint();
-    };
-
-    root.querySelector('#notedel').onclick=()=>{
-      notes=notes.filter(n=>n.id!==current);
-      current=notes[0]?.id;
-
-      saveNotes();
-      paint();
-    };
-
-    list.onchange=()=>{
-      current=+list.value;
-      paint();
-    };
-
-    title.oninput=body.oninput=()=>{
-      const n=notes.find(n=>n.id===current);
-      if(!n) return;
-
-      n.title=title.value;
-      n.body=body.value;
-
-      saveNotes();
-
-      if(list.selectedOptions[0]){
-        list.selectedOptions[0].textContent=
-          n.title||'Untitled';
-      }
-    };
-
-    paint();
-  }
-};
-
-/* =====================================
-   CALCULATOR
-===================================== */
-
-apps.calc={
-  title:'Calculator',
-  icon:'🧮',
-  width:325,
-  height:430,
-
-  init(root){
-    let expr='';
-
-    root.innerHTML=`
-      <div class="panel" style="height:100%">
-        <div id="calcdisplay" class="card"
-          style="font-size:28px;text-align:right">
-          0
-        </div>
-
-        <div id="calckeys" style="
-          flex:1;
-          display:grid;
-          grid-template-columns:repeat(4,1fr);
-          gap:6px"></div>
-      </div>
-    `;
-
-    const display=root.querySelector('#calcdisplay');
-
-    function press(k){
-      if(k==='C'){
-        expr='';
-      }else if(k==='⌫'){
-        expr=expr.slice(0,-1);
-      }else if(k==='='){
-        try {
-          if(!/^[\d+*/().\- ]+$/.test(expr))
-            throw Error();
-
-          const result=Function(
-            '"use strict";return ('+expr+')'
-          )();
-
-          expr=Number.isFinite(result)
-            ?String(result)
-            :'Error';
-        }catch{
-          expr='Error';
-        }
-      }else{
-        if(expr==='Error') expr='';
-        expr+=k;
-      }
-
-      display.textContent=expr||'0';
-    }
-
-    'C ⌫ ( ) 7 8 9 / 4 5 6 * 1 2 3 - 0 . = +'
-      .split(' ')
-      .forEach(k=>{
-        const b=node('button',{
-          textContent:k
-        });
-
-        b.onclick=()=>press(k);
-
-        root.querySelector('#calckeys').append(b);
-      });
-  }
-};
-
-/* =====================================
-   THE HIVE
-===================================== */
-
-apps.hive={
-  title:'The Hive',
-  icon:'🐝',
-  width:500,
-  height:500,
-
-  init(root,w){
-    let s={
-      nectar:0,
-      flowers:1,
-      workers:0,
-      foragers:0,
-      queens:0,
-      level:1,
-      ...saved('hiveSave',{})
-    };
-
-    root.innerHTML=`
-      <div class="panel" style="text-align:center">
-        <div style="font-size:66px">🐝🍯🌸</div>
-        <h2 id="hnectar"></h2>
-        <p id="hrate"></p>
-        <button id="hcollect">🌼 Collect nectar</button>
-        <div id="hup"
-          style="display:grid;gap:8px"></div>
-      </div>
-    `;
-
-    const rate=()=>
-      s.level*(
-        s.workers+
-        6*s.foragers+
-        40*s.queens
-      );
-
-    const upgrades=[
-      ['flowers','🌸 Flower',10,1.6],
-      ['workers','🐝 Worker',25,1.5],
-      ['foragers','🍯 Forager',200,1.5],
-      ['queens','👑 Queen',2000,1.6],
-      ['level','🏠 Hive level',100,3]
-    ];
-
-    function paint(){
-      root.querySelector('#hnectar').textContent=
-        Math.floor(s.nectar)+' nectar';
-
-      root.querySelector('#hrate').textContent=
-        rate()+'/second · Level '+s.level;
-
-      const box=root.querySelector('#hup');
-      box.replaceChildren();
-
-      upgrades.forEach(([key,label,base,mult])=>{
-        const price=Math.ceil(
-          base*Math.pow(
-            mult,
-            key==='level'?s.level-1:s[key]
-          )
-        );
-
-        const b=node('button',{
-          textContent:label+' — '+price,
-          disabled:s.nectar<price
-        });
-
-        b.onclick=()=>{
-          if(s.nectar<price) return;
-
-          s.nectar-=price;
-          s[key]++;
-
-          store('hiveSave',s);
-          paint();
-        };
-
-        box.append(b);
-      });
-    }
-
-    root.querySelector('#hcollect').onclick=()=>{
-      s.nectar+=s.flowers*s.level;
-
-      store('hiveSave',s);
-      paint();
-    };
-
-    const timer=setInterval(()=>{
-      s.nectar+=rate();
-
-      store('hiveSave',s);
-      paint();
-    },1000);
-
-    w.addEventListener(
-      'appclosed',
-      ()=>clearInterval(timer)
-    );
-
-    paint();
-  }
-};
-
-/* =====================================
-   HIVE CONSOLE
-===================================== */
-
-apps.term={
-  title:'Hive Console',
-  icon:'💻',
-  width:550,
-  height:370,
-
-  init(root){
-    root.innerHTML=`
-      <div id="termout" style="
-        flex:1;
-        overflow:auto;
-        padding:12px;
-        color:#b89ce8;
-        font:13px monospace"></div>
-
-      <div class="row" style="padding:9px">
-        <span>🐝 hive&gt;</span>
-        <input id="termcmd" placeholder="Type help">
-      </div>
-    `;
-
-    const out=root.querySelector('#termout');
-    const cmd=root.querySelector('#termcmd');
-
-    function say(t){
-      out.append(node('div',{textContent:t}));
-      out.scrollTop=out.scrollHeight;
-    }
-
-    say('Hive Console — type help');
-
-    cmd.onkeydown=e=>{
-      if(e.key!=='Enter') return;
-
-      const text=cmd.value.trim();
-      const [name,arg]=text.split(' ');
-
-      say('> '+text);
-
-      if(name==='help'){
-        say(
-          'help, clear, time, date, apps, '+
-          'open [app], whoami'
-        );
-      }else if(name==='clear'){
-        out.replaceChildren();
-      }else if(name==='time'){
-        say(new Date().toLocaleTimeString());
-      }else if(name==='date'){
-        say(new Date().toDateString());
-      }else if(name==='apps'){
-        say(Object.keys(apps).join(', '));
-      }else if(name==='open'){
-        apps[arg]
-          ?openApp(arg)
-          :say('Unknown app');
-      }else if(name==='whoami'){
-        say('A very busy bee 🐝');
-      }else if(text){
-        say('Unknown command');
-      }
-
-      cmd.value='';
-    };
-
-    cmd.focus();
-  }
-};
-
-/* =====================================
-   SETTINGS
-===================================== */
-
-apps.settings={
-  title:'Settings',
-  icon:'⚙️',
-  width:390,
-  height:400,
-
-  init(root){
-    const wallpapers=[
-      'radial-gradient(circle at 22% 15%,#8260b4,transparent 54%),linear-gradient(145deg,#3a2a54,#21182f)',
-      'linear-gradient(135deg,#b89ce8,#dcc4f2,#f5c85b)',
-      'linear-gradient(135deg,#21182f,#594477,#f5c85b)'
-    ];
-
-    let cfg={
-      wall:0,
-      brightness:1,
-      iconSize:45,
-      ...saved('lilacSettings',{})
-    };
-
-    root.innerHTML=`
-      <div class="panel">
-        <h2>⚙️ Settings</h2>
-        <p>Wallpaper</p>
-        <div class="row" id="walls"></div>
-
-        <label>
-          Brightness
-          <input id="bright"
-            type="range" min=".5" max="1.2" step=".05">
-        </label>
-
-        <label>
-          Icon size
-          <input id="iconsize"
-            type="range" min="32" max="80">
-        </label>
-      </div>
-    `;
-
-    function apply(){
-      desktop.style.background=
-        wallpapers[cfg.wall]||wallpapers[0];
-
-      desktop.style.filter=
-        'brightness('+cfg.brightness+')';
-
-      document.querySelectorAll('.desktop-icon .emoji')
-        .forEach(i=>
-          i.style.fontSize=cfg.iconSize+'px'
-        );
-
-      store('lilacSettings',cfg);
-    }
-
-    wallpapers.forEach((wall,i)=>{
-      const b=node('button');
-
-      b.style.cssText=`
-        width:60px;
-        height:44px;
-        background:${wall}
-      `;
-
-      b.onclick=()=>{
-        cfg.wall=i;
-        apply();
-      };
-
-      root.querySelector('#walls').append(b);
-    });
-
-    const bright=root.querySelector('#bright');
-    const size=root.querySelector('#iconsize');
-
-    bright.value=cfg.brightness;
-    size.value=cfg.iconSize;
-
-    bright.oninput=()=>{
-      cfg.brightness=+bright.value;
-      apply();
-    };
-
-    size.oninput=()=>{
-      cfg.iconSize=+size.value;
-      apply();
-    };
-
-    apply();
-  }
-};
-
-/* =====================================
-   MINI GAMES
-===================================== */
-
-apps.games={
-  title:'Games',
-  icon:'🎮',
-  width:580,
-  height:510,
-
-  init(root,w){
-    root.innerHTML=`
-      <div class="panel">
-        <div class="row" style="flex-wrap:wrap">
-          <button id="gameflight">🐝 Bee Flight</button>
-          <button id="gamematch">🪻 Flower Match</button>
-        </div>
-
-        <div id="gameinfo" class="muted"></div>
-      </div>
-
-      <div id="gamearea" style="
-        flex:1;
-        min-height:0;
-        position:relative;
-        overflow:hidden"></div>
-    `;
-
-    const area=root.querySelector('#gamearea');
-    const info=root.querySelector('#gameinfo');
-
-    let clean=()=>{};
-
-    function stop(){
-      clean();
-      clean=()=>{};
-      area.replaceChildren();
-    }
-
-    /* BEE FLIGHT */
-
-    function flight(){
-      stop();
-
-      info.textContent='Click or press Space to flap';
-
-      const cv=node('canvas',{
-        className:'gamecanvas'
-      });
-
-      const g=cv.getContext('2d');
-
-      area.append(cv);
-
-      let y=120;
-      let v=0;
-      let started=false;
-      let over=false;
-      let pipes=[];
-      let score=0;
-      let last=performance.now();
-      let raf;
-
-      function flap(){
-        if(over){
-          flight();
-          return;
-        }
-
-        started=true;
-        v=-300;
-      }
-
-      cv.onpointerdown=flap;
-
-      const key=e=>{
-        if(
-          w.classList.contains('active') &&
-          e.code==='Space'
-        ){
-          e.preventDefault();
-          flap();
-        }
-      };
-
-      document.addEventListener('keydown',key);
-
-      function frame(now){
-        const width=Math.max(280,area.clientWidth);
-        const height=Math.max(200,area.clientHeight);
-
-        cv.width=width;
-        cv.height=height;
-
-        const dt=Math.min(
-          .04,
-          (now-last)/1000||0
-        );
-
-        last=now;
-
-        g.fillStyle='#594477';
-        g.fillRect(0,0,width,height);
-
-        if(!started) y=height/2;
-
-        if(started&&!over){
-          v+=850*dt;
-          y+=v*dt;
-
-          if(
-            !pipes.length ||
-            pipes.at(-1).x<width-200
-          ){
-            pipes.push({
-              x:width+20,
-              y:35+
-                Math.random()*
-                Math.max(10,height-205),
-              gap:135,
-              passed:false
-            });
-          }
-
-          pipes.forEach(p=>{
-            p.x-=155*dt;
-
-            if(
-              !p.passed &&
-              p.x+40<width*.25
-            ){
-              p.passed=true;
-              score++;
-            }
-
-            if(
-              width*.25+10>p.x &&
-              width*.25-10<p.x+40 &&
-              (
-                y-10<p.y ||
-                y+10>p.y+p.gap
-              )
-            ) over=true;
-          });
-
-          pipes=pipes.filter(p=>p.x>-50);
-
-          if(y<0||y>height) over=true;
-        }
-
-        g.fillStyle='#f5c85b';
-
-        pipes.forEach(p=>{
-          g.fillRect(p.x,0,40,p.y);
-
-          g.fillRect(
-            p.x,
-            p.y+p.gap,
-            40,
-            height
-          );
-        });
-
-        g.font='28px serif';
-
-        g.fillText(
-          '🐝',
-          width*.25-14,
-          y+10
-        );
-
-        g.fillStyle='white';
-        g.font='18px Arial';
-
-        g.fillText('Score: '+score,12,28);
-
-        if(!started)
-          g.fillText(
-            'Click or Space to fly',
-            20,height/2
-          );
-
-        if(over)
-          g.fillText(
-            'Click to retry',
-            20,height/2
-          );
-
-        raf=requestAnimationFrame(frame);
-      }
-
-      raf=requestAnimationFrame(frame);
-
-      clean=()=>{
-        cancelAnimationFrame(raf);
-
-        document.removeEventListener(
-          'keydown',key
-        );
-      };
-    }
-
-    /* FLOWER MATCH */
-
-    function match(){
-      stop();
-
-      info.textContent='Match all eight flower pairs';
-
-      area.style.cssText=`
-        flex:1;
-        min-height:0;
-        display:grid;
-        grid-template-columns:repeat(4,1fr);
-        gap:7px;
-        padding:10px
-      `;
-
-      const cards=[
-        '🌸','🌼','🌺','🌻',
-        '🪻','🌷','🌹','💐'
-      ];
-
-      const deck=[...cards,...cards]
-        .sort(()=>Math.random()-.5);
-
-      let open=[];
-      let found=new Set();
-      let locked=false;
-      let moves=0;
-      let timer=null;
-
-      const buttons=deck.map((flower,i)=>{
-        const b=node('button',{
-          textContent:'🐝'
-        });
-
-        b.style.fontSize='27px';
-
-        b.onclick=()=>{
-          if(
-            locked ||
-            found.has(i) ||
-            open.includes(i)
-          ) return;
-
-          b.textContent=flower;
-          open.push(i);
-
-          if(open.length===2){
-            moves++;
-
-            const [a,c]=open;
-
-            if(deck[a]===deck[c]){
-              found.add(a);
-              found.add(c);
-              open=[];
-            }else{
-              locked=true;
-
-              timer=setTimeout(()=>{
-                buttons[a].textContent='🐝';
-                buttons[c].textContent='🐝';
-
-                open=[];
-                locked=false;
-              },600);
-            }
-
-            info.textContent=
-              found.size===16
-                ?'You won in '+moves+' moves!'
-                :`Pairs: ${found.size/2}/8 · Moves: ${moves}`;
-          }
-        };
-
-        area.append(b);
-        return b;
-      });
-
-      clean=()=>{
-        clearTimeout(timer);
-        area.removeAttribute('style');
-      };
-    }
-
-    root.querySelector('#gameflight').onclick=flight;
-    root.querySelector('#gamematch').onclick=match;
-
-    w.addEventListener('appclosed',stop);
-
-    flight();
-  }
-};
-
-/* =====================================
-   TASK MANAGER
-===================================== */
-
-apps.tasks={
-  title:'Task Manager',
-  icon:'📊',
-  width:400,
-  height:360,
-
-  init(root,w){
-    root.classList.add('panel');
-
-    function paint(){
-      root.replaceChildren(
-        node('h2',{
-          textContent:'Running apps'
-        })
-      );
-
-      Object.keys(windows).forEach(id=>{
-        const row=node('div',{
-          className:'row'
-        });
-
-        const name=node('span',{
-          textContent:
-            apps[id].icon+' '+apps[id].title
-        });
-
-        const close=node('button',{
-          textContent:'End'
-        });
-
-        name.style.flex=1;
-        close.onclick=()=>closeApp(id);
-
-        row.append(name,close);
-        root.append(row);
-      });
-    }
-
-    const timer=setInterval(paint,1000);
-
-    w.addEventListener(
-      'appclosed',
-      ()=>clearInterval(timer)
-    );
-
-    paint();
-  }
-};
-
-/* =====================================
-   ABOUT
-===================================== */
-
-apps.about={
-  title:'About Lilac OS',
-  icon:'🪻',
-  width:420,
-  height:300,
-
-  init(root){
-    root.innerHTML=`
-      <div class="panel">
-        <h2>🪻 Lilac OS</h2>
-
-        <p>
-          A little purple desktop in your browser.
-        </p>
-
-        <p>
-          🌸 Nectar uses your Tavily Cloudflare Worker.
-        </p>
-
-        <p>
-          🌐 Lilac Browser displays compatible sites
-          in app windows.
-        </p>
-
-        <p>
-          🌘 The Real Deal includes an original
-          Shadow Trial plus BossHim's Game Jolt page.
-        </p>
-      </div>
-    `;
-  }
-};
-
-/* =====================================
-   DESKTOP ICONS
-===================================== */
-
-Object.entries(apps).forEach(([id,app],i)=>{
-  const icon=node('div',{
-    className:'desktop-icon'
-  });
-
-  icon.style.left=
-    (14+Math.floor(i/5)*114)+'px';
-
-  icon.style.top=
-    (14+(i%5)*103)+'px';
-
-  icon.innerHTML=`
-    <span class="emoji">${app.icon}</span>
-    ${app.title}
-  `;
-
-  let moving=false;
-  let ox=0;
-  let oy=0;
-
-  icon.onpointerdown=e=>{
-    moving=false;
-
-    ox=e.clientX-icon.offsetLeft;
-    oy=e.clientY-icon.offsetTop;
-
-    icon.setPointerCapture(e.pointerId);
-  };
-
-  icon.onpointermove=e=>{
-    if(icon.hasPointerCapture(e.pointerId)){
-      moving=true;
-
-      icon.style.left=
-        (e.clientX-ox)+'px';
-
-      icon.style.top=
-        (e.clientY-oy)+'px';
-    }
-  };
-
-  icon.onpointerup=e=>{
-    if(!moving&&e.pointerType==='touch')
-      openApp(id);
-  };
-
-  icon.ondblclick=()=>openApp(id);
-
-  desktop.append(icon);
-
-  const btn=node('button',{
-    textContent:app.icon+' '+app.title
-  });
-
-  btn.onclick=()=>{
-    openApp(id);
-    $('#startmenu').classList.remove('show');
-  };
-
-  $('#startmenu').append(btn);
+canvas.onpointermove=moveTouch;
+canvas.onpointerup=()=>moving=false;
+
+function moveTouch(e){
+if(!moving)return;
+let r=canvas.getBoundingClientRect(),
+sx=800/r.width,
+sy=490/r.height;
+p.x=Math.max(90,Math.min(710,(e.clientX-r.left)*sx));
+p.y=Math.max(255,Math.min(445,(e.clientY-r.top)*sy))
+}
+
+function volley(phase){
+let a=Math.atan2(p.y-170,p.x-400),
+count=id==='error404'?11:id==='nightmare'?9:7;
+for(let i=0;i<count;i++){
+let theta=(id==='lethal'||id==='fatal')
+?a+(i-count/2)*.14
+:(i/count*Math.PI*2+time*.8);
+let speed=phase===2?190:145;
+balls.push({
+x:400,y:160,
+vx:Math.cos(theta)*speed,
+vy:Math.sin(theta)*speed,
+r:id==='lethal'?9:7,
+color:i%2?b.color:b.accent
+})
+}
+}
+
+function hit(){
+if(inv>0)return;
+inv=.85;
+p.hp--;
+if(p.hp<=0){
+finished='Mission failed';
+playing=false
+}
+}
+
+function draw(ts){
+let dt=Math.min(.045,(ts-last)/1000||0);
+last=ts;
+
+ctx.fillStyle='#070811';
+ctx.fillRect(0,0,800,490);
+
+let gradient=ctx.createRadialGradient(400,160,10,400,240,430);
+gradient.addColorStop(0,b.tint);
+gradient.addColorStop(1,'#070811');
+ctx.fillStyle=gradient;
+ctx.fillRect(0,0,800,490);
+
+let phase=time>=22?2:1;
+for(let i=0;i<50;i++){
+ctx.fillStyle=i%3?b.color+'25':b.accent+'22';
+ctx.fillRect((i*137)%800,(i*79)%490,2,2)
+}
+
+ctx.fillStyle='#111427';
+ctx.fillRect(80,240,640,215);
+ctx.strokeStyle=b.color;
+ctx.lineWidth=4;
+ctx.strokeRect(80,240,640,215);
+
+if(playing&&!finished){
+time+=dt;
+phase=time>=22?2:1;
+if(time>=44){
+finished='You survived!';
+playing=false
+}
+inv=Math.max(0,inv-dt);
+pulse=Math.max(0,pulse-dt);
+
+const dx=Number(!!(keys.d||keys.arrowright))
+-Number(!!(keys.a||keys.arrowleft));
+const dy=Number(!!(keys.s||keys.arrowdown))
+-Number(!!(keys.w||keys.arrowup));
+const len=Math.max(1,Math.hypot(dx,dy));
+
+p.x=Math.max(91,Math.min(709,p.x+dx/len*215*dt));
+p.y=Math.max(250,Math.min(445,p.y+dy/len*215*dt));
+
+shots-=dt;
+beamt-=dt;
+
+if(shots<=0){
+volley(phase);
+shots=phase===2?.55:.9
+}
+
+if(beamt<=0){
+lasers.push({
+x:105+Math.random()*590,
+warning:.75,
+active:.55
+});
+if(phase===2&&id==='fatal')
+lasers.push({
+x:105+Math.random()*590,
+warning:.75,
+active:.55
+});
+beamt=phase===2?1.5:2.4
+}
+
+balls.forEach(o=>{
+o.x+=o.vx*dt;
+o.y+=o.vy*dt;
+if(Math.hypot(o.x-p.x,o.y-p.y)<o.r+9)hit()
 });
 
-/* =====================================
-   TASKBAR
-===================================== */
-
-$('#startbtn').onclick=e=>{
-  e.stopPropagation();
-  $('#startmenu').classList.toggle('show');
-};
-
-document.addEventListener('click',e=>{
-  if(
-    !e.target.closest('#startmenu') &&
-    !e.target.closest('#startbtn')
-  ){
-    $('#startmenu').classList.remove('show');
-  }
+lasers.forEach(l=>{
+if(l.warning>0)l.warning-=dt;
+else{
+l.active-=dt;
+if(Math.abs(l.x-p.x)<23)hit()
+}
 });
 
-$('#fullscreen').onclick=()=>{
-  if(document.fullscreenElement){
-    document.exitFullscreen();
-  }else{
-    document.documentElement
-      .requestFullscreen()
-      .catch(()=>{});
-  }
+for(let i=balls.length-1;i>=0;i--)
+if(balls[i].x<60||balls[i].x>740||balls[i].y<215||balls[i].y>480)
+balls.splice(i,1);
+
+for(let i=lasers.length-1;i>=0;i--)
+if(lasers[i].warning<=0&&lasers[i].active<=0)
+lasers.splice(i,1)
+}
+
+ctx.save();
+ctx.translate(400,150+Math.sin(ts/400)*6);
+ctx.shadowBlur=27;
+ctx.shadowColor=b.color;
+ctx.strokeStyle=b.color;
+ctx.lineWidth=3;
+
+for(let i=0;i<6;i++){
+let a=i*Math.PI/3+ts/4000;
+ctx.beginPath();
+ctx.moveTo(0,0);
+ctx.lineTo(Math.cos(a)*80,Math.sin(a)*60);
+ctx.stroke()
+}
+
+ctx.beginPath();
+ctx.arc(0,0,42,0,Math.PI*2);
+ctx.fillStyle='#111125';
+ctx.fill();
+ctx.stroke();
+ctx.shadowBlur=0;
+ctx.fillStyle=b.accent;
+ctx.fillRect(-26,-12,19,8);
+ctx.fillRect(7,-12,19,8);
+ctx.restore();
+
+ctx.fillStyle='#fff';
+ctx.textAlign='center';
+ctx.font='bold 23px monospace';
+ctx.fillText(b.name.toUpperCase(),400,33);
+ctx.font='bold 13px monospace';
+ctx.fillStyle=b.accent;
+ctx.fillText('PHASE '+phase+' · '+Math.min(44,time).toFixed(1)+'/44s',400,57);
+
+lasers.forEach(l=>{
+ctx.fillStyle=l.warning>0?b.color+'40':b.accent+'ee';
+ctx.fillRect(l.x-16,241,32,212)
+});
+
+balls.forEach(o=>{
+ctx.fillStyle=o.color;
+ctx.shadowBlur=12;
+ctx.shadowColor=o.color;
+ctx.beginPath();
+ctx.arc(o.x,o.y,o.r,0,Math.PI*2);
+ctx.fill();
+ctx.shadowBlur=0
+});
+
+if(!(inv>0&&Math.floor(inv*15)%2)){
+ctx.save();
+ctx.translate(p.x,p.y);
+ctx.rotate(Math.PI/4);
+ctx.fillStyle='#82eaff';
+ctx.shadowBlur=15;
+ctx.shadowColor='#82eaff';
+ctx.fillRect(-10,-10,20,20);
+ctx.restore()
+}
+
+ctx.textAlign='left';
+ctx.fillStyle='#fff';
+ctx.font='bold 14px monospace';
+ctx.fillText('HP: '+p.hp+'/9',83,478);
+ctx.fillText('Pulse: '+(pulse>0?pulse.toFixed(1)+'s':'READY'),230,478);
+
+if(!playing){
+ctx.fillStyle='#070812dc';
+ctx.fillRect(83,243,634,210);
+ctx.textAlign='center';
+ctx.fillStyle='#fff';
+ctx.font='bold 29px monospace';
+ctx.fillText(finished||'READY?',400,327);
+ctx.font='15px monospace';
+ctx.fillText('Press ENTER or click to begin',400,362)
+}
+
+raf=requestAnimationFrame(draw)
+}
+
+reset();
+raf=requestAnimationFrame(draw);
+canvas.focus();
+
+cleanup=()=>{
+cancelAnimationFrame(raf);
+document.removeEventListener('keydown',keydown);
+document.removeEventListener('keyup',keyup)
+}
+}
+
+home.onclick=menu;
+lock.onclick=gate;
+w.addEventListener('closed',clear);
+gate()
+},930,660);
+
+/* ============== SCP CONTAINMENT ============== */
+
+const scps=[
+{
+id:'173',x:5,z:5,name:'The Sculpture',color:'#eadbc9',
+steps:[
+'Coordinate a watching team',
+'Turn on observation lights',
+'Seal containment chamber'
+],
+author:'Moto42'
+},
+{
+id:'096',x:16,z:5,name:'The Shy Guy',color:'#d9e2fa',
+steps:[
+'Disable all optical feeds',
+'Verify non-visual sensors',
+'Close the reinforced cell'
+],
+author:'Dr Dan'
+},
+{
+id:'106',x:5,z:16,name:'The Old Man',color:'#88769d',
+steps:[
+'Enable remote isolation',
+'Activate containment lighting',
+'Secure suspended cell locks'
+],
+author:'Dr Gears'
+},
+{
+id:'049',x:16,z:16,name:'Plague Doctor',color:'#363c49',
+steps:[
+'Prepare humanoid cell',
+'Enable calming lavender system',
+'Secure transport restraints'
+],
+author:'Gabriel Jade; djkaktus (revisions)'
+},
+{
+id:'999',x:11,z:19,name:'The Tickle Monster',color:'#ffae3c',
+steps:[
+'Prepare a comfortable enclosure',
+'Add enrichment objects',
+'Escort SCP-999 safely home'
+],
+author:'Original SCP Wiki contributors (see source article)'
+}
+];
+
+app('scp','SCP: MTF Containment','☣',(root,w)=>{
+root.style.overflow='hidden';
+root.innerHTML=`
+<div class="hud">
+<strong>☣ MTF EPSILON-11 | SITE-19</strong>
+<span id="scpprogress">0 / 5 contained</span>
+<span class="grow muted" id="scpmessage">Facility breach response</span>
+<button id="brief">Briefing</button>
+<button id="credits">Credits</button>
+<button id="reset">Reset</button>
+</div>
+<div class="game">
+<canvas tabindex="0" id="scpCanvas"></canvas>
+<div id="scpOverlay" class="overlay" style="display:none"></div>
+<div style="position:absolute;top:50%;left:50%;pointer-events:none;transform:translate(-50%,-50%);color:#bfffea">+</div>
+<div id="scphint"
+style="position:absolute;bottom:12px;left:12px;padding:8px;background:#06131bd9;border:1px solid #56a99a;border-radius:8px;font-size:12px">
+WASD move · ← → turn · E interact
+</div>
+</div>
+<div class="hud">
+WASD: move · Left/Right: turn · Mouse drag: look · E: contain · Shift: sprint
+<span id="touchbuttons" class="row"></span>
+</div>`;
+
+let cv=root.querySelector('#scpCanvas'),
+c=cv.getContext('2d'),
+over=root.querySelector('#scpOverlay'),
+msg=root.querySelector('#scpmessage'),
+count=root.querySelector('#scpprogress'),
+hint=root.querySelector('#scphint'),
+keys={},progress={},done=new Set(),
+px=11.5,pz=11.5,angle=-Math.PI/2,
+last=performance.now(),raf=0,alive=true,shown=false;
+
+const barrier=[];
+for(let x=2;x<21;x++)
+if(x!==11&&x!==12)barrier.push([x,10]);
+
+for(let z=2;z<21;z++)
+if(z!==11&&z!==12)barrier.push([10,z]);
+
+function solid(x,z){
+let a=Math.floor(x),b=Math.floor(z);
+return a<1||b<1||a>=22||b>=22
+||barrier.some(v=>v[0]===a&&v[1]===b)
+}
+
+function near(){
+let closest=null,d=999;
+for(let s of scps){
+if(done.has(s.id))continue;
+let dist=Math.hypot(px-s.x,pz-s.z);
+if(dist<d){
+d=dist;
+closest=s
+}
+}
+return d<2.45?closest:null
+}
+
+function update(){
+count.textContent=done.size+' / 5 contained';
+hint.textContent='☣ Epsilon-11 | '
++scps.map(s=>(done.has(s.id)?'✓':'○')+s.id).join('  ')
++' | E interact';
+if(done.size===5)
+msg.textContent='MISSION COMPLETE — All five SCPs safely contained!'
+}
+
+function reset(){
+px=11.5;
+pz=11.5;
+angle=-Math.PI/2;
+done.clear();
+progress={};
+scps.forEach(s=>progress[s.id]=0);
+msg.textContent='Locate all five anomalous entities';
+update()
+}
+
+function interact(){
+if(shown)return;
+let s=near();
+if(!s){
+msg.textContent='Move closer to an SCP containment console.';
+return
+}
+let i=progress[s.id];
+if(i>=3)return;
+progress[s.id]++;
+msg.textContent='SCP-'+s.id+': '+s.steps[i];
+if(progress[s.id]===3){
+done.add(s.id);
+msg.textContent='SCP-'+s.id+' contained!'
+}
+update()
+}
+
+function panel(type){
+shown=true;
+over.style.display='block';
+over.replaceChildren();
+
+let title=E('h2',{
+textContent:type==='credits'
+?'☣ Credits and licensing'
+:'☣ Mission briefing'
+});
+
+let closeBtn=E('button',{
+textContent:'Return to mission'
+});
+
+closeBtn.onclick=()=>{
+shown=false;
+over.style.display='none';
+cv.focus()
 };
 
-function tick(){
-  $('#clock').textContent=
-    new Date().toLocaleTimeString([],{
-      hour:'2-digit',
-      minute:'2-digit'
-    });
+over.append(closeBtn,title);
+
+over.append(E('p',{
+textContent:type==='credits'
+?'SCP content and logo are from the collaborative SCP Foundation project, released under CC BY-SA 3.0. This game uses original JavaScript graphics, and does not reuse the restricted SCP-173 sculpture artwork.'
+:'You are an MTF Epsilon-11 operator. Explore the 3D facility and follow each simplified, non-violent containment protocol. Walk near each SCP, then press E once per step.'
+}));
+
+scps.forEach(s=>{
+let div=E('div',{className:'panel'});
+div.style.margin='9px 0';
+div.append(
+E('b',{textContent:'SCP-'+s.id+' — '+s.name}),
+E('p',{
+textContent:type==='credits'
+?'Article credit: '+s.author
+:s.steps.join(' → ')
+})
+);
+let a=E('a',{
+href:'https://scp-wiki.wikidot.com/scp-'+s.id,
+textContent:'Original SCP Wiki article ↗',
+target:'_blank',
+rel:'noopener noreferrer'
+});
+div.append(a);
+over.append(div)
+});
+
+if(type==='credits'){
+let a=E('a',{
+href:'https://scp-wiki.wikidot.com/licensing-guide',
+textContent:'SCP licensing guide (CC BY-SA 3.0) ↗',
+target:'_blank',
+rel:'noopener noreferrer'
+});
+over.append(a)
+}
 }
 
-tick();
-setInterval(tick,1000);
+root.querySelector('#brief').onclick=()=>panel('brief');
+root.querySelector('#credits').onclick=()=>panel('credits');
+root.querySelector('#reset').onclick=reset;
 
-/* =====================================
-   RESTORE SETTINGS
-===================================== */
-
-const cfg=saved('lilacSettings',null);
-
-if(cfg){
-  const walls=[
-    'radial-gradient(circle at 22% 15%,#8260b4,transparent 54%),linear-gradient(145deg,#3a2a54,#21182f)',
-    'linear-gradient(135deg,#b89ce8,#dcc4f2,#f5c85b)',
-    'linear-gradient(135deg,#21182f,#594477,#f5c85b)'
-  ];
-
-  desktop.style.background=
-    walls[cfg.wall]||walls[0];
-
-  desktop.style.filter=
-    'brightness('+
-    (cfg.brightness||1)+
-    ')';
-
-  document.querySelectorAll('.desktop-icon .emoji')
-    .forEach(i=>
-      i.style.fontSize=(cfg.iconSize||45)+'px'
-    );
+function down(e){
+if(!w.classList.contains('active')||shown)return;
+let k=e.key.toLowerCase();
+keys[k]=true;
+if(['arrowleft','arrowright','e',' '].includes(k))
+e.preventDefault();
+if(k==='e'&&!e.repeat)interact()
 }
 
-/* =====================================
-   BOOT SCREEN
-===================================== */
-
-const boot=$('#boot');
-
-function finishBoot(){
-  if(!boot.isConnected) return;
-
-  boot.style.opacity='0';
-
-  setTimeout(()=>boot.remove(),550);
+function up(e){
+keys[e.key.toLowerCase()]=false
 }
 
-boot.onclick=finishBoot;
+document.addEventListener('keydown',down);
+document.addEventListener('keyup',up);
 
-setTimeout(finishBoot,1700);
+let dragging=false,mx=0;
+
+cv.onpointerdown=e=>{
+dragging=true;
+mx=e.clientX;
+cv.setPointerCapture(e.pointerId);
+cv.focus()
+};
+
+cv.onpointermove=e=>{
+if(dragging){
+angle+=(e.clientX-mx)*.006;
+mx=e.clientX
+}
+};
+
+cv.onpointerup=cv.onpointercancel=()=>dragging=false;
+
+const touch=root.querySelector('#touchbuttons');
+
+[
+['↶','arrowleft'],
+['↑','w'],
+['↓','s'],
+['↷','arrowright'],
+['E','e']
+].forEach(([label,key])=>{
+let b=E('button',{textContent:label});
+b.style.padding='3px 9px';
+b.onpointerdown=e=>{
+e.preventDefault();
+if(key==='e')interact();
+else keys[key]=true
+};
+b.onpointerup=b.onpointercancel=()=>keys[key]=false;
+touch.append(b)
+});
+
+function frame(t){
+if(!alive)return;
+let dt=Math.min(.05,(t-last)/1000||0);
+last=t;
+
+if(!shown){
+angle+=(Number(!!keys.arrowright)
+-Number(!!keys.arrowleft))*dt*2.4;
+
+let forward=Number(!!keys.w)-Number(!!keys.s),
+side=Number(!!keys.d)-Number(!!keys.a),
+speed=dt*(keys.shift?4.4:2.7),
+vx=(Math.cos(angle)*forward+Math.cos(angle+Math.PI/2)*side)*speed,
+vz=(Math.sin(angle)*forward+Math.sin(angle+Math.PI/2)*side)*speed;
+
+if(!solid(px+vx+.2*Math.sign(vx),pz))px+=vx;
+if(!solid(px,pz+vz+.2*Math.sign(vz)))pz+=vz
+}
+
+let W=Math.max(300,Math.min(950,cv.clientWidth)),
+H=Math.max(210,Math.min(580,cv.clientHeight));
+
+if(cv.width!==W||cv.height!==H){
+cv.width=W;
+cv.height=H
+}
+
+let mid=H*.49,
+sky=c.createLinearGradient(0,0,0,mid);
+sky.addColorStop(0,'#06111e');
+sky.addColorStop(1,'#243d4b');
+c.fillStyle=sky;
+c.fillRect(0,0,W,mid);
+
+let floor=c.createLinearGradient(0,mid,0,H);
+floor.addColorStop(0,'#253c42');
+floor.addColorStop(1,'#040a10');
+c.fillStyle=floor;
+c.fillRect(0,mid,W,H-mid);
+
+let depth=[],stride=2;
+
+for(let x=0;x<W;x+=stride){
+let a=angle+Math.atan((x/W-.5)*1.26),
+dx=Math.cos(a),
+dz=Math.sin(a),
+dist=.04;
+
+while(dist<27&&!solid(px+dx*dist,pz+dz*dist))
+dist+=.055;
+
+let corrected=dist*Math.cos(a-angle),
+wallH=Math.min(H*3,H/(corrected+.01)*.8),
+shade=Math.max(.12,1-dist/26);
+
+c.fillStyle=`rgb(${Math.floor(57*shade)},${Math.floor(132*shade)},${Math.floor(151*shade)})`;
+c.fillRect(x,mid-wallH/2,stride+1,wallH);
+depth[Math.floor(x/stride)]=dist
+}
+
+let sprites=[...scps].sort(
+(a,b)=>Math.hypot(px-b.x,pz-b.z)-Math.hypot(px-a.x,pz-a.z)
+);
+
+for(let s of sprites){
+let dist=Math.hypot(px-s.x,pz-s.z),
+a=Math.atan2(s.z-pz,s.x-px)-angle;
+
+a=Math.atan2(Math.sin(a),Math.cos(a));
+
+if(Math.abs(a)>.66||dist<.2)continue;
+
+let X=W/2+Math.tan(a)*W*.79,
+col=Math.floor(X/stride);
+
+if(depth[col]!==undefined&&depth[col]<dist-.3)continue;
+
+let size=Math.min(H*1.2,H/(dist+.2)*.73),
+Y=mid+size*.13;
+
+c.save();
+c.globalAlpha=done.has(s.id)?.35:1;
+c.fillStyle=s.color;
+c.shadowColor=s.color;
+c.shadowBlur=17;
+
+if(s.id==='999'){
+c.beginPath();
+c.ellipse(X,Y,size*.35,size*.25,0,0,Math.PI*2);
+c.fill()
+}
+else if(s.id==='173'){
+c.fillRect(X-size*.2,Y-size*.45,size*.4,size*.75);
+c.fillRect(X-size*.28,Y-size*.12,size*.56,size*.13)
+}
+else if(s.id==='049'){
+c.beginPath();
+c.moveTo(X,Y-size*.7);
+c.lineTo(X+size*.3,Y+size*.48);
+c.lineTo(X-size*.3,Y+size*.48);
+c.closePath();
+c.fill()
+}
+else{
+c.fillRect(X-size*.12,Y-size*.3,size*.24,size*.72);
+c.beginPath();
+c.arc(X,Y-size*.45,size*.16,0,Math.PI*2);
+c.fill()
+}
+
+c.shadowBlur=0;
+c.textAlign='center';
+c.font=`bold ${Math.max(12,Math.min(22,size*.16))}px monospace`;
+c.fillStyle='#d8fff5';
+c.fillText('SCP-'+s.id,X,Y-size*.77);
+c.restore()
+}
+
+let s=near();
+
+if(s&&!shown){
+c.textAlign='center';
+c.font='bold 15px monospace';
+c.fillStyle='#ddfff2';
+c.fillText(
+'E — SCP-'+s.id+' containment ('+progress[s.id]+'/3)',
+W/2,H*.85
+)
+}
+
+if(done.size===5){
+c.fillStyle='#8dffc8';
+c.textAlign='center';
+c.font='bold 26px monospace';
+c.fillText('MISSION COMPLETE',W/2,52)
+}
+
+raf=requestAnimationFrame(frame)
+}
+
+reset();
+panel('brief');
+raf=requestAnimationFrame(frame);
+
+w.addEventListener('closed',()=>{
+alive=false;
+cancelAnimationFrame(raf);
+document.removeEventListener('keydown',down);
+document.removeEventListener('keyup',up)
+})
+},1000,700);
+
+/* ============== NOTES ============== */
+
+app('notes','Notes','📓',(root)=>{
+root.innerHTML=`
+<div class="col grow">
+<b>Notes (automatically saved)</b>
+<textarea id="notes" class="grow"
+style="resize:none;min-height:230px"
+placeholder="Write your notes..."></textarea>
+</div>`;
+let t=root.querySelector('textarea');
+t.value=read('lilacNotesText','');
+t.oninput=()=>write('lilacNotesText',t.value)
+},500,430);
+
+/* ============== CALCULATOR ============== */
+
+app('calculator','Calculator','🧮',(root)=>{
+root.innerHTML=`
+<div class="col">
+<input id="calc" readonly
+style="text-align:right;font-size:26px">
+<div id="keys"
+style="display:grid;grid-template-columns:repeat(4,1fr);gap:7px"></div>
+</div>`;
+let input=root.querySelector('#calc'),expr='';
+'7 8 9 / 4 5 6 * 1 2 3 - 0 . C + ( ) ⌫ ='
+.split(' ').forEach(v=>{
+let b=E('button',{textContent:v});
+b.onclick=()=>{
+if(v==='C')expr='';
+else if(v==='⌫')expr=expr.slice(0,-1);
+else if(v==='='){
+try{
+if(!/^[\d+*/().\- ]+$/.test(expr))throw Error();
+expr=String(Function('return ('+expr+')')())
+}catch{expr='Error'}
+}
+else{
+if(expr==='Error')expr='';
+expr+=v
+}
+input.value=expr
+};
+root.querySelector('#keys').append(b)
+})
+},350,450);
+
+/* ============== THE HIVE ============== */
+
+app('hive','The Hive','🐝',(root,w)=>{
+let total=read('hiveTotal',0),
+workers=read('hiveWorkers',0),timer;
+
+root.innerHTML=`
+<div class="col">
+<h1>🐝 The Hive</h1>
+<h2 id="honey"></h2>
+<div id="rate" class="muted"></div>
+<button id="collect">🌼 Collect nectar</button>
+<button id="worker">🐝 Buy worker</button>
+</div>`;
+
+let update=()=>{
+root.querySelector('#honey').textContent=Math.floor(total)+' nectar';
+root.querySelector('#rate').textContent=workers+' nectar per second';
+root.querySelector('#worker').textContent=
+'🐝 Buy worker — '+Math.ceil(25*Math.pow(1.5,workers))+' nectar';
+write('hiveTotal',total);
+write('hiveWorkers',workers)
+};
+
+root.querySelector('#collect').onclick=()=>{
+total++;
+update()
+};
+
+root.querySelector('#worker').onclick=()=>{
+let price=Math.ceil(25*Math.pow(1.5,workers));
+if(total>=price){
+total-=price;
+workers++;
+update()
+}
+};
+
+timer=setInterval(()=>{
+total+=workers;
+update()
+},1000);
+
+w.addEventListener('closed',()=>clearInterval(timer));
+update()
+},420,390);
+
+/* ============== HIVE CONSOLE ============== */
+
+app('console','Hive Console','💻',(root)=>{
+root.innerHTML=`
+<div class="col grow">
+<pre id="log" class="grow"
+style="overflow:auto;white-space:pre-wrap;color:#bda4ff">Hive Console · type help
+</pre>
+<input id="command" placeholder="Enter a command">
+</div>`;
+
+let input=root.querySelector('#command'),
+log=root.querySelector('#log');
+
+input.onkeydown=e=>{
+if(e.key!=='Enter')return;
+let v=input.value.trim(),
+[cmd,arg]=v.split(' ');
+
+log.textContent+='> '+v+'\n';
+
+if(cmd==='help')
+log.textContent+='Commands: help, apps, time, open [app], clear\n';
+else if(cmd==='apps')
+log.textContent+=Object.keys(apps).join(', ')+'\n';
+else if(cmd==='time')
+log.textContent+=new Date().toString()+'\n';
+else if(cmd==='open')openApp(arg);
+else if(cmd==='clear')log.textContent='';
+else log.textContent+='Unknown command\n';
+
+input.value=''
+}
+},510,380);
+
+/* ============== SETTINGS ============== */
+
+app('settings','Settings','⚙️',(root)=>{
+root.innerHTML=`
+<div class="col">
+<h2>⚙️ Desktop Settings</h2>
+<button id="purple">🪻 Purple wallpaper</button>
+<button id="night">🌌 Night wallpaper</button>
+<button id="sunset">🌅 Sunset wallpaper</button>
+</div>`;
+
+const walls=[
+'radial-gradient(circle at 20% 18%,#7d59ab,transparent 51%),#20172e',
+'linear-gradient(135deg,#101222,#292654,#4a3970)',
+'linear-gradient(135deg,#402153,#a05d93,#f0a471)'
+];
+
+['purple','night','sunset'].forEach((id,i)=>
+root.querySelector('#'+id).onclick=()=>{
+desktop.style.background=walls[i];
+write('lilacWallpaper',i)
+})
+},390,340);
+
+/* ============== GAMES ============== */
+
+app('games','Games','🎮',(root)=>{
+root.innerHTML=`
+<div class="col">
+<h2>🎮 Games</h2>
+<p>Quick reflex challenge: click the flower!</p>
+<button id="flower"
+style="font-size:65px;min-height:150px">🌸</button>
+<b id="score">Score: 0</b>
+<p class="muted">Every click earns one point.</p>
+</div>`;
+
+let n=0;
+root.querySelector('#flower').onclick=()=>
+root.querySelector('#score').textContent='Score: '+(++n)
+},390,350);
+
+/* ============== TASK MANAGER ============== */
+
+app('tasks','Task Manager','📊',(root,w)=>{
+root.innerHTML=`
+<div class="col">
+<h2>Running apps</h2>
+<div id="running"></div>
+</div>`;
+const out=root.querySelector('#running');
+
+let timer=setInterval(()=>{
+out.replaceChildren();
+Object.keys(wins).forEach(id=>{
+let row=E('div',{className:'row'});
+row.append(
+E('span',{textContent:apps[id].icon+' '+apps[id].title}),
+E('button',{textContent:'Close',onclick:()=>close(id)})
+);
+out.append(row)
+})
+},500);
+
+w.addEventListener('closed',()=>clearInterval(timer))
+},400,400);
+
+/* ============== ABOUT ============== */
+
+app('about','About Lilac OS','🪻',(root)=>{
+root.innerHTML=`
+<div class="col">
+<h1>🪻 Lilac OS</h1>
+<p>Browser-based desktop with Nectar search, game apps,
+and an original SCP containment prototype.</p>
+<p>The Real Deal includes four original fan-made boss games
+and links to BossHim’s original projects.</p>
+<p>The SCP app is a fan-made derivative using SCP Wiki
+characters and simplified procedures under
+<a href="https://scp-wiki.wikidot.com/licensing-guide"
+target="_blank" rel="noopener noreferrer">CC BY-SA 3.0</a>.
+Individual author credits and article links are in the SCP app.</p>
+</div>`
+},470,350);
+
+/* ============== DESKTOP ICONS ============== */
+
+Object.entries(apps).forEach(([id,a],i)=>{
+let ico=E('div',{className:'icon'});
+ico.style.left=14+Math.floor(i/6)*116+'px';
+ico.style.top=12+i%6*95+'px';
+
+ico.append(
+E('span',{textContent:a.icon}),
+E('div',{textContent:a.title})
+);
+
+ico.ondblclick=()=>openApp(id);
+ico.onclick=e=>{
+if(e.detail===1&&e.pointerType==='touch')
+openApp(id)
+};
+
+desktop.append(ico);
+
+let b=E('button',{textContent:a.icon+' '+a.title});
+b.onclick=()=>{
+openApp(id);
+$('#startmenu').classList.remove('show')
+};
+$('#startmenu').append(b)
+});
+
+/* ============== TASKBAR AND CLOCK ============== */
+
+$('#start').onclick=()=>{
+$('#startmenu').classList.toggle('show')
+};
+
+$('#full').onclick=()=>{
+if(document.fullscreenElement)
+document.exitFullscreen();
+else
+document.documentElement.requestFullscreen?.()
+};
+
+let clock=()=>{
+$('#clock').textContent=
+new Date().toLocaleTimeString([],{
+hour:'2-digit',
+minute:'2-digit'
+})
+};
+
+clock();
+setInterval(clock,1000);
+
+let wall=read('lilacWallpaper',0);
+
+if(wall===1)
+desktop.style.background=
+'linear-gradient(135deg,#101222,#292654,#4a3970)';
+
+if(wall===2)
+desktop.style.background=
+'linear-gradient(135deg,#402153,#a05d93,#f0a471)';
 
 </script>
 </body>
