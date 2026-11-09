@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Lilac OS V1 — Bloom </title>
+<title>Lilac OS V27 — Bloom Protocol</title>
 <style>
 :root{--lav:#bda4f2;--pink:#e2c9fa;--gold:#ffcf72;--dark:#1a122c;--cream:#f8efff;--panel:#2b203f;--br:1;--icons:46px}
 *{box-sizing:border-box}html,body{height:100%;margin:0;overflow:hidden;color:var(--cream);background:var(--dark);font:14px system-ui,"Trebuchet MS",sans-serif}
@@ -238,7 +238,7 @@ apps.games={name:'Games',icon:'🎮',w:600,ht:540,init(root,win){root.innerHTML=
 
 /* TASK MANAGER */
 apps.tasks={name:'Task Manager',icon:'📊',w:410,ht:360,init(root,win){root.classList.add('panel');function draw(){root.replaceChildren(h('h2',{textContent:'Running apps'}));Object.keys(windows).forEach(k=>{const row=h('div',{className:'row'}),label=h('span',{textContent:apps[k].icon+' '+apps[k].name}),b=h('button',{textContent:'End'});label.style.flex='1';b.onclick=()=>closeApp(k);row.append(label,b);root.append(row)})}draw();const timer=setInterval(draw,1000);win.addEventListener('appclosed',()=>clearInterval(timer))}};
-apps.about={name:'About Lilac OS',icon:'🪻',w:460,ht:340,init(root){root.innerHTML='<div class="panel"><h2>🪻 Lilac OS V27</h2><p>A lavender desktop powered by bees.</p><p>🌸 Nectar uses Tavily through your Cloudflare Worker.</p><p>🌐 Lilac Browser opens websites that permit iframe embedding.</p><p>🌘 The Real Deal offers four original inspired boss encounters and links to BossHim’s originals.</p><p class="muted">The password lock is only client-side; it does not secure data or files.</p></div>'}};
+apps.about={name:'About Lilac OS',icon:'🪻',w:460,ht:340,init(root){root.innerHTML='<div class="panel"><h2>🪻 Lilac OS V27</h2><p><strong>Made by Nathan jean-francois</strong></p><p>A lavender desktop powered by bees.</p><p>🌸 Nectar uses Tavily through your Cloudflare Worker.</p><p>🌐 Lilac Browser opens websites that permit iframe embedding.</p><p>🌘 The Real Deal offers four original inspired boss encounters and links to BossHim’s originals.</p><p class="muted">The password lock is only client-side; it does not secure data or files.</p></div>'}};
 
 /* ========================================================
    NEW • FLOWER CHESS, LILAC AI, AND WORLD CHAT
