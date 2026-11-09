@@ -4,80 +4,82 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Lilac OS — Nectar Browser</title>
+<title>Lilac OS | The Real Deal</title>
 <style>
-:root{
-  --lav:#B89CE8;
-  --deep:#594477;
-  --pink:#DCC4F2;
-  --honey:#F5C85B;
-  --cream:#FFF8E9;
-  --dark:#21182F;
+:root {
+  --purple:#b89ce8;
+  --pink:#dcc4f2;
+  --gold:#f5c85b;
+  --ink:#21182f;
+  --cream:#fff8e9;
 }
 *{box-sizing:border-box}
 html,body{
-  margin:0;width:100%;height:100%;
+  height:100%;
+  margin:0;
   overflow:hidden;
-  font-family:"Trebuchet MS",system-ui,sans-serif;
+  background:var(--ink);
   color:var(--cream);
-  background:var(--dark);
+  font:14px 'Trebuchet MS',system-ui,sans-serif;
 }
-button,input,textarea,select{font:inherit}
-button{
-  cursor:pointer;
-  background:var(--deep);
-  border:1px solid #b89ce888;
-  color:var(--cream);
-  padding:8px 12px;
+button,input,textarea,select{
+  font:inherit;
+  border:1px solid #b89ce877;
   border-radius:9px;
+  padding:8px;
 }
-button:hover{background:var(--lav);color:var(--dark)}
-button:disabled{opacity:.4;cursor:default}
+button{
+  color:var(--cream);
+  background:#594477;
+  cursor:pointer;
+}
+button:hover{
+  background:var(--purple);
+  color:var(--ink);
+}
+button:disabled{
+  opacity:.45;
+  cursor:default;
+}
 input,textarea,select{
   color:var(--cream);
-  background:#ffffff15;
-  border:1px solid #b89ce888;
-  border-radius:9px;
-  padding:9px;
+  background:#ffffff13;
 }
-select option{color:black}
-input:focus,textarea:focus{
-  outline:2px solid var(--lav);
-}
+select option{color:#111}
+textarea,input{user-select:text}
 #desktop{
   position:fixed;
   inset:0 0 48px;
   overflow:hidden;
   background:
-    radial-gradient(circle at 20% 15%,#7a5cae,transparent 55%),
-    radial-gradient(circle at 80% 90%,#594477,transparent 60%),
-    linear-gradient(160deg,#3a2a54,#21182F);
+    radial-gradient(circle at 20% 15%,#7b5cac,transparent 55%),
+    radial-gradient(circle at 85% 90%,#594477,transparent 60%),
+    linear-gradient(145deg,#392850,#21182f);
 }
 #desktop:before{
   content:"";
-  position:absolute;inset:0;
-  pointer-events:none;
-  background-image:radial-gradient(#dcc4f230 1px,transparent 1px);
-  background-size:28px 28px;
-}
-.desktop-icon{
   position:absolute;
-  width:96px;
-  min-height:92px;
-  padding:7px;
+  inset:0;
+  pointer-events:none;
+  background:
+    radial-gradient(#dcc4f21e 1px,transparent 1px)
+    0 0/28px 28px;
+}
+.icon{
+  position:absolute;
+  width:106px;
+  padding:6px;
   text-align:center;
-  font-size:12px;
   cursor:pointer;
-  border-radius:13px;
   user-select:none;
   touch-action:none;
+  border-radius:12px;
+  font-size:12px;
 }
-.desktop-icon:hover{
-  background:#b89ce833;
-  box-shadow:0 0 16px #b89ce855;
-}
-.desktop-icon .emoji{
-  display:block;font-size:49px;
+.icon:hover{background:#ffffff20}
+.icon .emoji{
+  font-size:45px;
+  display:block;
 }
 .window{
   position:absolute;
@@ -87,1863 +89,2875 @@ input:focus,textarea:focus{
   min-height:180px;
   max-width:100%;
   overflow:hidden;
-  background:#302241ee;
-  backdrop-filter:blur(14px);
-  border:1px solid var(--lav);
-  border-radius:14px;
-  box-shadow:0 14px 40px #0008;
   resize:both;
+  background:#302241f2;
+  backdrop-filter:blur(12px);
+  border:1px solid var(--purple);
+  border-radius:14px;
+  box-shadow:0 12px 38px #0009;
 }
-.window.active{
-  box-shadow:0 0 25px #b89ce877,0 14px 40px #0008;
+.window.on{
+  box-shadow:
+    0 0 22px #b89ce866,
+    0 12px 38px #0009;
 }
-.window.maximized{
-  left:0!important;top:0!important;
-  width:100%!important;height:100%!important;
-  border-radius:0;resize:none;
+.window.max{
+  inset:0!important;
+  width:100%!important;
+  height:100%!important;
+  resize:none;
+  border-radius:0;
 }
-.window.minimized{display:none}
+.window.min{display:none}
 .titlebar{
-  background:linear-gradient(90deg,#594477,#8465ae);
-  padding:8px 11px;
-  display:flex;justify-content:space-between;align-items:center;
-  cursor:grab;touch-action:none;
+  background:linear-gradient(90deg,#594477,#8568ac);
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:7px 10px;
+  cursor:grab;
+  touch-action:none;
   user-select:none;
 }
-.win-buttons{display:flex;gap:5px}
-.win-buttons button{padding:2px 9px}
-.window-body{
-  flex:1;min-height:0;
-  display:flex;flex-direction:column;
+.titlebar button{padding:2px 9px}
+.appbody{
+  flex:1;
+  display:flex;
+  flex-direction:column;
+  min-height:0;
   overflow:auto;
 }
 #taskbar{
-  position:fixed;bottom:0;left:0;right:0;
+  position:fixed;
+  bottom:0;
+  left:0;
+  right:0;
   height:48px;
-  display:flex;align-items:center;gap:7px;
-  padding:5px 9px;
+  display:flex;
+  gap:6px;
+  align-items:center;
+  padding:5px 8px;
   background:#21182ff2;
-  border-top:1px solid var(--lav);
+  border-top:1px solid var(--purple);
   z-index:99999;
 }
-#tasks{flex:1;display:flex;gap:5px;overflow:auto}
+#tasks{
+  display:flex;
+  gap:5px;
+  flex:1;
+  overflow:auto;
+}
 #tasks button{white-space:nowrap}
 #startmenu{
-  position:fixed;bottom:56px;left:8px;
-  width:250px;max-height:70vh;overflow:auto;
-  display:none;flex-direction:column;gap:5px;
-  padding:10px;
-  border-radius:15px;
-  background:#302241;
-  border:1px solid var(--lav);
-  box-shadow:0 0 22px #b89ce866;
+  display:none;
+  position:fixed;
+  left:8px;
+  bottom:56px;
+  width:245px;
+  max-height:70vh;
+  overflow:auto;
+  padding:9px;
+  border:1px solid var(--purple);
+  border-radius:13px;
+  background:#312344;
   z-index:99998;
 }
-#startmenu.visible{display:flex}
-#startmenu button{text-align:left}
-#clock{white-space:nowrap;font-size:13px}
-#boot{
-  position:fixed;inset:0;
-  z-index:999999;
-  background:radial-gradient(circle,#3a2a54,var(--dark));
-  display:flex;flex-direction:column;
-  align-items:center;justify-content:center;
-  transition:opacity .7s;
+#startmenu.show{
+  display:grid;
+  gap:5px;
 }
-#boot h1{letter-spacing:7px;color:var(--pink)}
-#boot .logo{font-size:85px}
+#startmenu button{text-align:left}
+#boot{
+  position:fixed;
+  inset:0;
+  z-index:999999;
+  background:radial-gradient(circle,#483562,#21182f);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  flex-direction:column;
+  transition:opacity .6s;
+}
+#boot b{font-size:80px}
+#boot h1{
+  color:var(--pink);
+  letter-spacing:7px;
+}
 .panel{
   padding:14px;
-  display:flex;flex-direction:column;gap:10px;
+  display:flex;
+  flex-direction:column;
+  gap:10px;
 }
-.row{display:flex;gap:8px;align-items:center}
-.row input{min-width:0;flex:1}
-.muted{opacity:.7;font-size:13px}
+.row{
+  display:flex;
+  align-items:center;
+  gap:7px;
+}
+.row input{
+  flex:1;
+  min-width:0;
+}
+.muted{
+  font-size:12px;
+  opacity:.8;
+}
 .card{
-  background:#ffffff12;
-  border:1px solid #ffffff20;
+  border:1px solid #b89ce844;
   border-radius:12px;
   padding:12px;
+  background:#ffffff11;
 }
-.link-card{
-  display:flex;flex-direction:column;gap:6px;
-  color:var(--cream);text-decoration:none;
-  background:#ffffff12;
-  border:1px solid #b89ce833;
+.result{
+  display:block;
+  padding:12px;
+  color:var(--cream);
+  text-decoration:none;
+  border:1px solid #b89ce844;
   border-radius:12px;
-  padding:13px;
+  background:#ffffff11;
   overflow-wrap:anywhere;
 }
-.link-card:hover{background:#ffffff24}
-.link-card strong{color:var(--pink)}
-.link-card small{color:var(--honey)}
-.link-card p{font-size:13px;margin:0}
-#nectar-results{display:grid;gap:9px}
-#nectar-page{min-height:100%;overflow:auto}
-.search-form{
-  display:flex;gap:7px;
-  width:min(100%,580px);
+.result:hover{background:#ffffff22}
+.result strong{
+  display:block;
+  color:var(--pink);
 }
-.search-form input{flex:1;min-width:0}
-#game-area{
-  flex:1;min-height:200px;
-  position:relative;overflow:hidden;
-  background:#21182f;
+.result small{
+  display:block;
+  color:var(--gold);
+  margin:4px 0;
 }
-#game-area canvas{
-  width:100%;height:100%;
-  display:block;touch-action:none;
+.result p{
+  font-size:12px;
+  margin:5px 0 0;
 }
+.gameCanvas{
+  flex:1;
+  min-height:0;
+  width:100%;
+  height:100%;
+  display:block;
+  touch-action:none;
+  outline:none;
+}
+a{color:var(--gold)}
 </style>
 </head>
-
 <body>
+
 <div id="desktop"></div>
 <div id="startmenu"></div>
 
 <div id="taskbar">
-  <button id="startbtn">🪻 Start</button>
+  <button id="start">🪻 Start</button>
   <div id="tasks"></div>
-  <button id="soundbtn">🔊</button>
+  <button id="sound">🔊</button>
   <button id="fullscreen">⛶</button>
   <span id="clock"></span>
 </div>
 
 <div id="boot">
-  <div class="logo">🪻</div>
+  <b>🪻</b>
   <h1>LILAC OS</h1>
-  <p>Pollinating system...</p>
+  <p>Loading desktop...</p>
 </div>
 
 <script>
-"use strict";
+'use strict';
 
-/* ==============================
-   TAVILY CONNECTION
-   ============================== */
+/* =================================
+   CONFIGURATION
+================================= */
 
 const TAVILY_WORKER =
-  "https://nectar-search.nathanjf2091.workers.dev/";
+  'https://nectar-search.nathanjf2091.workers.dev/';
 
-/* ==============================
-   UTILITIES
-   ============================== */
+const BOSSHIM_GAME =
+  'https://gamejolt.com/games/nightmarebh2023/858818';
 
-const $=s=>document.querySelector(s);
-const desktop=$("#desktop");
+/* =================================
+   BASE SYSTEM
+================================= */
 
-const getData=(key,fallback)=>{
-  try{
-    const value=JSON.parse(localStorage.getItem(key));
-    return value===null?fallback:value;
-  }catch{return fallback}
-};
+const $ = q => document.querySelector(q);
+const desktop = $('#desktop');
 
-const setData=(key,value)=>{
-  try{localStorage.setItem(key,JSON.stringify(value))}
-  catch{}
-};
+const W = {};
+const apps = {};
 
-const escapeHTML=value=>String(value).replace(
-  /[&<>"']/g,
-  c=>({
-    "&":"&amp;","<":"&lt;",">":"&gt;",
-    '"':"&quot;","'":"&#39;"
-  })[c]
-);
+let z = 20;
+let soundOn = true;
 
-let sound=true,audio;
-function beep(freq=540){
-  if(!sound)return;
-  try{
-    audio ||= new AudioContext();
-    const osc=audio.createOscillator();
-    const gain=audio.createGain();
-    osc.frequency.value=freq;
-    gain.gain.value=.035;
-    osc.connect(gain);
-    gain.connect(audio.destination);
-    osc.start();
-    gain.gain.exponentialRampToValueAtTime(
-      .001,audio.currentTime+.13
-    );
-    osc.stop(audio.currentTime+.13);
-  }catch{}
+function el(tag, attrs = {}) {
+  return Object.assign(
+    document.createElement(tag),
+    attrs
+  );
 }
 
-/* ==============================
-   WINDOW SYSTEM
-   ============================== */
-
-const windows={};
-let z=10;
-
-function focusApp(id){
-  if(!windows[id])return;
-  Object.entries(windows).forEach(([key,w])=>{
-    w.classList.toggle("active",key===id);
-  });
-  windows[id].style.zIndex=++z;
-}
-
-function closeApp(id){
-  const win=windows[id];
-  if(!win)return;
-  win.dispatchEvent(new Event("appclosed"));
-  win.remove();
-  delete windows[id];
-  document.getElementById("task-"+id)?.remove();
-  beep(370);
-}
-
-function openApp(id){
-  if(windows[id]){
-    windows[id].classList.remove("minimized");
-    focusApp(id);
-    return;
+function load(k, d) {
+  try {
+    return JSON.parse(localStorage.getItem(k)) ?? d;
+  } catch {
+    return d;
   }
-  const app=apps[id];
-  if(!app)return;
+}
 
-  const count=Object.keys(windows).length;
-  const win=document.createElement("div");
-  win.className="window";
+function save(k, v) {
+  try {
+    localStorage.setItem(k, JSON.stringify(v));
+  } catch {}
+}
 
-  win.style.left=(65+count*28)+"px";
-  win.style.top=(30+count*28)+"px";
-  win.style.width=`min(${app.width||520}px,95vw)`;
-  win.style.height=`min(${app.height||450}px,85vh)`;
+function focus(id) {
+  if (!W[id]) return;
 
-  win.innerHTML=`
+  Object.keys(W).forEach(k => {
+    W[k].classList.toggle('on', k === id);
+  });
+
+  W[id].style.zIndex = ++z;
+}
+
+function closeApp(id) {
+  const w = W[id];
+  if (!w) return;
+
+  w.dispatchEvent(new Event('appclosed'));
+  w.remove();
+
+  $('#task-' + id)?.remove();
+  delete W[id];
+}
+
+function openApp(id) {
+  if (W[id]) {
+    W[id].classList.remove('min');
+    focus(id);
+    return W[id];
+  }
+
+  const a = apps[id];
+  if (!a) return;
+
+  const n = Object.keys(W).length;
+  const w = el('div', { className: 'window' });
+
+  w.style.cssText = `
+    left:${65 + n * 27}px;
+    top:${30 + n * 27}px;
+    width:min(${a.w || 510}px,95vw);
+    height:min(${a.h || 420}px,85vh)
+  `;
+
+  w.innerHTML = `
     <div class="titlebar">
-      <strong>${app.icon} ${app.name}</strong>
-      <div class="win-buttons">
+      <strong>${a.icon} ${a.title}</strong>
+      <span>
         <button data-act="min">−</button>
         <button data-act="max">□</button>
         <button data-act="close">×</button>
-      </div>
+      </span>
     </div>
-    <div class="window-body"></div>
+    <div class="appbody"></div>
   `;
 
-  desktop.append(win);
-  windows[id]=win;
-  focusApp(id);
+  desktop.append(w);
+  W[id] = w;
 
-  const titlebar=win.querySelector(".titlebar");
-  let moving=false,offsetX=0,offsetY=0;
+  focus(id);
 
-  titlebar.onpointerdown=e=>{
-    if(e.target.closest("button")||
-       win.classList.contains("maximized"))return;
-    moving=true;
-    offsetX=e.clientX-win.offsetLeft;
-    offsetY=e.clientY-win.offsetTop;
-    titlebar.setPointerCapture(e.pointerId);
-    focusApp(id);
-  };
-  titlebar.onpointermove=e=>{
-    if(!moving)return;
-    win.style.left=Math.max(-100,e.clientX-offsetX)+"px";
-    win.style.top=Math.max(0,e.clientY-offsetY)+"px";
-  };
-  titlebar.onpointerup=()=>moving=false;
-  titlebar.onpointercancel=()=>moving=false;
-  titlebar.ondblclick=e=>{
-    if(!e.target.closest("button"))
-      win.classList.toggle("maximized");
+  const bar = w.querySelector('.titlebar');
+
+  let drag = false;
+  let dx = 0;
+  let dy = 0;
+
+  bar.onpointerdown = e => {
+    if (
+      e.target.closest('button') ||
+      w.classList.contains('max')
+    ) return;
+
+    drag = true;
+    dx = e.clientX - w.offsetLeft;
+    dy = e.clientY - w.offsetTop;
+
+    bar.setPointerCapture(e.pointerId);
+    focus(id);
   };
 
-  win.querySelector(".win-buttons").onclick=e=>{
-    const action=e.target.dataset.act;
-    if(action==="min")win.classList.add("minimized");
-    if(action==="max")win.classList.toggle("maximized");
-    if(action==="close")closeApp(id);
-  };
-  win.onpointerdown=()=>focusApp(id);
+  bar.onpointermove = e => {
+    if (!drag) return;
 
-  const task=document.createElement("button");
-  task.id="task-"+id;
-  task.textContent=app.icon+" "+app.name;
-  task.onclick=()=>{
-    if(win.classList.contains("minimized")){
-      win.classList.remove("minimized");
-      focusApp(id);
-    }else{
-      win.classList.add("minimized");
+    w.style.left =
+      Math.max(-100, e.clientX - dx) + 'px';
+
+    w.style.top =
+      Math.max(0, e.clientY - dy) + 'px';
+  };
+
+  bar.onpointerup =
+  bar.onpointercancel = () => drag = false;
+
+  bar.ondblclick = e => {
+    if (!e.target.closest('button')) {
+      w.classList.toggle('max');
     }
   };
-  $("#tasks").append(task);
 
-  try{
-    app.init(win.querySelector(".window-body"),win);
-  }catch(err){
-    win.querySelector(".window-body").textContent=
-      "Application error: "+err.message;
+  bar.onclick = e => {
+    const act = e.target.dataset.act;
+
+    if (act === 'min') w.classList.add('min');
+    if (act === 'max') w.classList.toggle('max');
+    if (act === 'close') closeApp(id);
+  };
+
+  w.onpointerdown = () => focus(id);
+
+  const task = el('button', {
+    id: 'task-' + id,
+    textContent: a.icon + ' ' + a.title
+  });
+
+  task.onclick = () => {
+    if (w.classList.contains('min')) {
+      w.classList.remove('min');
+      focus(id);
+    } else {
+      w.classList.add('min');
+    }
+  };
+
+  $('#tasks').append(task);
+
+  try {
+    a.init(w.querySelector('.appbody'), w);
+  } catch (err) {
+    w.querySelector('.appbody').textContent =
+      'App error: ' + err.message;
+
+    console.error(err);
   }
-  beep(660);
+
+  return w;
 }
 
-/* ==============================
+/* =================================
+   URL HANDLING
+================================= */
+
+function validURL(str) {
+  try {
+    const s = String(str).trim();
+    if (!s) return null;
+
+    const u = new URL(
+      /^https?:\/\//i.test(s)
+        ? s
+        : 'https://' + s
+    );
+
+    return ['http:', 'https:'].includes(u.protocol)
+      ? u.href
+      : null;
+  } catch {
+    return null;
+  }
+}
+
+function openBrowser(raw) {
+  const url = validURL(raw);
+  if (!url) return;
+
+  const w = openApp('browser');
+  w?.addBrowserTab?.(url);
+}
+
+/* =================================
    NECTAR — TAVILY SEARCH
-   ============================== */
+================================= */
 
-function nectarApp(root,win){
-  const engines={
-    nectar:["🌸 Nectar / Tavily",""],
-    google:["Google","https://www.google.com/search?q="],
-    duck:["DuckDuckGo","https://duckduckgo.com/?q="],
-    bing:["Bing","https://www.bing.com/search?q="],
-    brave:["Brave","https://search.brave.com/search?q="]
-  };
+apps.nectar = {
+  title: 'Nectar',
+  icon: '🌸',
+  w: 670,
+  h: 550,
 
-  let settings={
-    engine:"nectar",
-    history:false,
-    ...getData("nectarSettings",{})
-  };
-  if(!engines[settings.engine])settings.engine="nectar";
+  init(root, win) {
+    let engine = load('nectarEngine', 'nectar');
+    let controller = null;
 
-  let history=getData("nectarHistory",[]);
-  let currentSearch=null;
-  let searchNumber=0;
-
-  root.innerHTML=`
-    <div id="nectar-page" class="panel">
-      <div style="text-align:center">
-        <div style="font-size:65px">🌸</div>
-        <h1 style="color:var(--pink);margin:2px">Nectar</h1>
-        <p class="muted">Discover the web with Tavily</p>
-      </div>
-
-      <form id="nectar-form" class="search-form"
-        style="align-self:center">
-        <input id="nectar-query"
-          placeholder="Search anything..."
-          autocomplete="off" required>
-        <button type="submit">🔎 Search</button>
-      </form>
-
-      <div class="row" style="flex-wrap:wrap;justify-content:center">
-        <select id="nectar-engine"></select>
-        <button id="nectar-clear">Clear results</button>
-      </div>
-
-      <label class="muted">
-        <input id="nectar-history-on" type="checkbox">
-        Remember recent searches
-      </label>
-
-      <div id="nectar-history"></div>
-      <div id="nectar-status" role="status" class="muted"></div>
-      <div id="nectar-results"></div>
-    </div>
-  `;
-
-  const queryInput=root.querySelector("#nectar-query");
-  const form=root.querySelector("#nectar-form");
-  const engineSelect=root.querySelector("#nectar-engine");
-  const status=root.querySelector("#nectar-status");
-  const results=root.querySelector("#nectar-results");
-  const historyBox=root.querySelector("#nectar-history");
-  const remember=root.querySelector("#nectar-history-on");
-
-  engineSelect.innerHTML=Object.entries(engines)
-    .map(([id,details])=>
-      `<option value="${id}">${escapeHTML(details[0])}</option>`
-    ).join("");
-
-  engineSelect.value=settings.engine;
-  remember.checked=settings.history;
-
-  function saveSettings(){
-    setData("nectarSettings",settings);
-  }
-
-  function renderHistory(){
-    historyBox.replaceChildren();
-    if(!settings.history||history.length===0)return;
-
-    const label=document.createElement("p");
-    label.textContent="Recent searches";
-    label.className="muted";
-    historyBox.append(label);
-
-    history.slice(0,6).forEach(query=>{
-      const button=document.createElement("button");
-      button.textContent=query;
-      button.style.margin="3px";
-      button.onclick=()=>{
-        queryInput.value=query;
-        search(query);
-      };
-      historyBox.append(button);
-    });
-  }
-
-  async function search(query){
-    query=String(query).trim();
-    if(!query)return;
-
-    currentSearch?.abort();
-    const searchID=++searchNumber;
-
-    if(settings.history){
-      history=[
-        query,
-        ...history.filter(item=>item!==query)
-      ].slice(0,20);
-      setData("nectarHistory",history);
-      renderHistory();
-    }
-
-    if(settings.engine!=="nectar"){
-      window.open(
-        engines[settings.engine][1]+encodeURIComponent(query),
-        "_blank","noopener"
-      );
-      return;
-    }
-
-    status.textContent="🐝 Searching the web...";
-    results.replaceChildren();
-
-    const controller=new AbortController();
-    currentSearch=controller;
-    const timeout=setTimeout(()=>controller.abort(),15000);
-
-    try{
-      const url=TAVILY_WORKER+
-        (TAVILY_WORKER.includes("?")?"&":"?")+
-        "q="+encodeURIComponent(query);
-
-      const response=await fetch(url,{
-        method:"GET",
-        signal:controller.signal,
-        cache:"no-store"
-      });
-
-      const raw=await response.text();
-      let data;
-      try{
-        data=JSON.parse(raw);
-      }catch{
-        throw new Error("The Worker returned invalid JSON.");
-      }
-
-      if(!response.ok){
-        throw new Error(
-          typeof data.error==="string"
-            ?data.error
-            :"Cloudflare Worker HTTP "+response.status
-        );
-      }
-
-      if(searchID!==searchNumber)return;
-
-      const items=Array.isArray(data.results)?data.results:[];
-      const safeItems=items.filter(item=>
-        /^https?:\/\//i.test(item.url||"")
-      );
-
-      status.textContent=safeItems.length
-        ?`🌸 Found ${safeItems.length} results for "${query}"`
-        :"No results found. Try different keywords.";
-
-      if(data.answer){
-        const answer=document.createElement("div");
-        answer.className="card";
-        const heading=document.createElement("strong");
-        heading.textContent="Search summary";
-        const paragraph=document.createElement("p");
-        paragraph.textContent=data.answer;
-        answer.append(heading,paragraph);
-        results.append(answer);
-      }
-
-      safeItems.forEach(item=>{
-        const link=document.createElement("a");
-        link.className="link-card";
-        link.href=item.url;
-        link.target="_blank";
-        link.rel="noopener noreferrer";
-
-        const heading=document.createElement("strong");
-        heading.textContent=item.title||item.url;
-
-        const address=document.createElement("small");
-        address.textContent=item.url;
-
-        const description=document.createElement("p");
-        description.textContent=
-          String(item.content||"").slice(0,380);
-
-        link.append(heading,address,description);
-        results.append(link);
-      });
-
-    }catch(err){
-      if(searchID!==searchNumber)return;
-
-      if(err.name==="AbortError"){
-        status.textContent="Search timed out. Please try again.";
-      }else{
-        status.textContent="Search error: "+err.message;
-      }
-    }finally{
-      clearTimeout(timeout);
-      if(currentSearch===controller)currentSearch=null;
-    }
-  }
-
-  form.onsubmit=e=>{
-    e.preventDefault();
-    search(queryInput.value);
-  };
-
-  engineSelect.onchange=()=>{
-    settings.engine=engineSelect.value;
-    saveSettings();
-    currentSearch?.abort();
-    searchNumber++;
-    results.replaceChildren();
-    status.textContent="";
-  };
-
-  remember.onchange=()=>{
-    settings.history=remember.checked;
-    if(!settings.history){
-      history=[];
-      setData("nectarHistory",[]);
-    }
-    saveSettings();
-    renderHistory();
-  };
-
-  root.querySelector("#nectar-clear").onclick=()=>{
-    currentSearch?.abort();
-    searchNumber++;
-    results.replaceChildren();
-    status.textContent="";
-    queryInput.value="";
-  };
-
-  win.addEventListener("appclosed",()=>{
-    currentSearch?.abort();
-    searchNumber++;
-  });
-
-  renderHistory();
-  queryInput.focus();
-}
-
-/* ==============================
-   NOTES APP
-   ============================== */
-
-function notesApp(root){
-  let notes=getData("lilacNotes",[
-    {id:1,title:"Welcome",body:"Welcome to Lilac OS! 🪻"}
-  ]);
-  let selected=notes[0]?.id;
-
-  root.innerHTML=`
-    <div class="panel" style="height:100%">
-      <div class="row">
-        <button id="note-new">+ New note</button>
-        <button id="note-delete">Delete</button>
-      </div>
-      <select id="note-select"></select>
-      <input id="note-title" placeholder="Note title">
-      <textarea id="note-text"
-        placeholder="Start writing..."
-        style="flex:1;min-height:150px;resize:none"></textarea>
-    </div>
-  `;
-
-  const list=root.querySelector("#note-select");
-  const title=root.querySelector("#note-title");
-  const text=root.querySelector("#note-text");
-
-  function render(){
-    list.replaceChildren();
-    notes.forEach(note=>{
-      const opt=document.createElement("option");
-      opt.value=note.id;
-      opt.textContent=note.title||"Untitled";
-      list.append(opt);
-    });
-    const note=notes.find(n=>n.id===selected);
-    list.value=selected||"";
-    title.value=note?.title||"";
-    text.value=note?.body||"";
-  }
-
-  function save(){setData("lilacNotes",notes)}
-
-  root.querySelector("#note-new").onclick=()=>{
-    const note={
-      id:Date.now(),title:"New note",body:""
+    const engines = {
+      nectar: ['Nectar / Tavily', ''],
+      google: [
+        'Google',
+        'https://www.google.com/search?q='
+      ],
+      duck: [
+        'DuckDuckGo',
+        'https://duckduckgo.com/?q='
+      ],
+      bing: [
+        'Bing',
+        'https://www.bing.com/search?q='
+      ],
+      brave: [
+        'Brave',
+        'https://search.brave.com/search?q='
+      ]
     };
-    notes.unshift(note);
-    selected=note.id;
-    save();render();
-  };
 
-  root.querySelector("#note-delete").onclick=()=>{
-    notes=notes.filter(n=>n.id!==selected);
-    selected=notes[0]?.id;
-    save();render();
-  };
-
-  list.onchange=()=>{
-    selected=Number(list.value);
-    render();
-  };
-
-  function update(){
-    const note=notes.find(n=>n.id===selected);
-    if(!note)return;
-    note.title=title.value;
-    note.body=text.value;
-    save();
-    const option=list.selectedOptions[0];
-    if(option)option.textContent=note.title||"Untitled";
-  }
-
-  title.oninput=text.oninput=update;
-  render();
-}
-
-/* ==============================
-   CALCULATOR
-   ============================== */
-
-function calculatorApp(root){
-  let expression="";
-
-  root.innerHTML=`
-    <div class="panel" style="height:100%">
-      <div id="calc-display"
-        style="font-size:30px;text-align:right;
-        background:#0004;border-radius:9px;padding:13px">0</div>
-      <div id="calc-buttons"
-        style="display:grid;grid-template-columns:repeat(4,1fr);
-        gap:7px;flex:1"></div>
-    </div>
-  `;
-
-  const display=root.querySelector("#calc-display");
-  const keypad=root.querySelector("#calc-buttons");
-
-  function press(key){
-    if(key==="C")expression="";
-    else if(key==="⌫")expression=expression.slice(0,-1);
-    else if(key==="="){
-      try{
-        if(!/^[0-9+\-*/.() ]+$/.test(expression))
-          throw Error("Invalid");
-        const tokens=expression.match(
-          /\d+(?:\.\d+)?|[()+*/-]/g
-        );
-        if(!tokens||
-           tokens.join("")!==expression.replace(/\s/g,""))
-          throw Error("Invalid");
-        const result=Function(
-          '"use strict";return ('+expression+')'
-        )();
-        expression=Number.isFinite(result)
-          ?String(result):"Error";
-      }catch{
-        expression="Error";
-      }
-    }else{
-      if(expression==="Error")expression="";
-      expression+=key;
-    }
-    display.textContent=expression||"0";
-  }
-
-  "C ⌫ ( ) 7 8 9 / 4 5 6 * 1 2 3 - 0 . = +"
-    .split(" ").forEach(key=>{
-      const button=document.createElement("button");
-      button.textContent=key;
-      button.onclick=()=>press(key);
-      keypad.append(button);
-    });
-}
-
-/* ==============================
-   THE HIVE
-   ============================== */
-
-function hiveApp(root,win){
-  let hive={
-    nectar:0,total:0,flowers:1,
-    workers:0,foragers:0,queens:0,level:1,
-    ...getData("lilacHive",{})
-  };
-
-  root.innerHTML=`
-    <div class="panel">
-      <div style="font-size:65px;text-align:center">🐝🍯🌸</div>
-      <h2 id="hive-amount" style="text-align:center"></h2>
-      <p id="hive-rate" style="text-align:center"></p>
-      <button id="hive-collect">🌼 Collect nectar</button>
-      <div id="hive-upgrades"
-        style="display:grid;gap:8px"></div>
-    </div>
-  `;
-
-  const amount=root.querySelector("#hive-amount");
-  const rateText=root.querySelector("#hive-rate");
-  const upgradesBox=root.querySelector("#hive-upgrades");
-
-  const upgrades=[
-    ["flowers","🌸 Grow flower",10,1.6],
-    ["workers","🐝 Worker bee",25,1.5],
-    ["foragers","🍯 Forager bee",200,1.5],
-    ["queens","👑 Queen bee",2000,1.6],
-    ["level","🏠 Upgrade hive",100,3]
-  ];
-
-  function rate(){
-    return (
-      hive.workers+
-      hive.foragers*6+
-      hive.queens*40
-    )*hive.level;
-  }
-
-  function cost(key,base,multiplier){
-    return Math.ceil(base*Math.pow(
-      multiplier,
-      key==="level"?hive.level-1:hive[key]
-    ));
-  }
-
-  function render(){
-    amount.textContent="🍯 "+Math.floor(hive.nectar)+" Nectar";
-    rateText.textContent=
-      `${rate()}/second · Hive level ${hive.level}`;
-
-    upgradesBox.replaceChildren();
-    upgrades.forEach(([key,name,base,mult])=>{
-      const price=cost(key,base,mult);
-      const button=document.createElement("button");
-      button.textContent=`${name} — ${price} nectar`;
-      button.disabled=hive.nectar<price;
-      button.onclick=()=>{
-        if(hive.nectar<price)return;
-        hive.nectar-=price;
-        hive[key]++;
-        setData("lilacHive",hive);
-        render();
-      };
-      upgradesBox.append(button);
-    });
-  }
-
-  root.querySelector("#hive-collect").onclick=()=>{
-    const gained=hive.flowers*hive.level;
-    hive.nectar+=gained;
-    hive.total+=gained;
-    setData("lilacHive",hive);
-    render();
-    beep(720);
-  };
-
-  const interval=setInterval(()=>{
-    const gained=rate();
-    hive.nectar+=gained;
-    hive.total+=gained;
-    setData("lilacHive",hive);
-    render();
-  },1000);
-
-  win.addEventListener("appclosed",()=>clearInterval(interval));
-  render();
-}
-
-/* ==============================
-   HIVE CONSOLE
-   ============================== */
-
-function terminalApp(root){
-  root.innerHTML=`
-    <div id="terminal-output"
-      style="flex:1;overflow:auto;padding:12px;
-      color:var(--lav);font-family:monospace"></div>
-    <div class="row" style="padding:10px">
-      <span>🐝 hive&gt;</span>
-      <input id="terminal-input" autocomplete="off"
-        placeholder="Type help" style="flex:1">
-    </div>
-  `;
-
-  const output=root.querySelector("#terminal-output");
-  const input=root.querySelector("#terminal-input");
-
-  function print(message){
-    const line=document.createElement("div");
-    line.textContent=message;
-    output.append(line);
-    output.scrollTop=output.scrollHeight;
-  }
-
-  print("Hive Console v1.0");
-  print("Type help to see commands.");
-
-  const commands={
-    help:()=>print(
-      "help clear date time whoami bees flowers hive apps open"
-    ),
-    clear:()=>output.replaceChildren(),
-    date:()=>print(new Date().toDateString()),
-    time:()=>print(new Date().toLocaleTimeString()),
-    whoami:()=>print("A very busy worker bee 🐝"),
-    bees:()=>print("🐝 Bzzzzzz!"),
-    flowers:()=>print("🌸 🌼 🪻 🌷 🌻"),
-    hive:()=>openApp("hive"),
-    apps:()=>print(Object.keys(apps).join(", ")),
-    about:()=>print("Lilac OS — powered by bees.")
-  };
-
-  input.onkeydown=e=>{
-    if(e.key!=="Enter")return;
-    const command=input.value.trim();
-    print("> "+command);
-    const [name,...args]=command.split(/\s+/);
-
-    if(name==="open"){
-      const app=args[0]?.toLowerCase();
-      if(apps[app])openApp(app);
-      else print("Unknown app.");
-    }else if(commands[name?.toLowerCase()]){
-      commands[name.toLowerCase()]();
-    }else if(command){
-      print("Unknown command: "+command);
-    }
-    input.value="";
-  };
-  input.focus();
-}
-
-/* ==============================
-   SETTINGS
-   ============================== */
-
-function settingsApp(root){
-  const walls=[
-    "radial-gradient(circle at 20% 15%,#7a5cae,transparent 55%),linear-gradient(160deg,#3a2a54,#21182F)",
-    "linear-gradient(135deg,#B89CE8,#DCC4F2,#F5C85B)",
-    "linear-gradient(135deg,#21182F,#594477,#F5C85B)"
-  ];
-
-  let settings={
-    wall:0,brightness:1,iconSize:49,
-    ...getData("lilacConfig",{})
-  };
-
-  root.innerHTML=`
-    <div class="panel">
-      <h2>⚙️ Settings</h2>
-      <p>Wallpaper</p>
-      <div id="wall-buttons" class="row"></div>
-      <label>Brightness
-        <input id="brightness" type="range"
-          min=".5" max="1.2" step=".05">
-      </label>
-      <label>Icon size
-        <input id="iconsize" type="range"
-          min="32" max="80">
-      </label>
-      <p class="muted">Settings are saved on this device.</p>
-    </div>
-  `;
-
-  function apply(){
-    desktop.style.background=walls[settings.wall];
-    desktop.style.filter=`brightness(${settings.brightness})`;
-    document.querySelectorAll(".desktop-icon .emoji")
-      .forEach(icon=>icon.style.fontSize=settings.iconSize+"px");
-    setData("lilacConfig",settings);
-  }
-
-  walls.forEach((wall,i)=>{
-    const button=document.createElement("button");
-    button.style.background=wall;
-    button.style.width="60px";
-    button.style.height="45px";
-    button.onclick=()=>{
-      settings.wall=i;
-      apply();
-    };
-    root.querySelector("#wall-buttons").append(button);
-  });
-
-  const br=root.querySelector("#brightness");
-  const size=root.querySelector("#iconsize");
-  br.value=settings.brightness;
-  size.value=settings.iconSize;
-
-  br.oninput=()=>{
-    settings.brightness=+br.value;
-    apply();
-  };
-  size.oninput=()=>{
-    settings.iconSize=+size.value;
-    apply();
-  };
-  apply();
-}
-
-/* ==============================
-   MINI GAMES
-   ============================== */
-
-function gamesApp(root,win){
-  root.innerHTML=`
-    <div class="panel" style="padding-bottom:5px">
-      <div class="row" style="flex-wrap:wrap">
-        <button data-game="flight">🐝 Bee Flight</button>
-        <button data-game="catch">🌸 Petal Catcher</button>
-        <button data-game="match">🪻 Flower Match</button>
-        <button data-game="maze">🍯 Hive Maze</button>
-      </div>
-      <div id="game-info" class="muted">Choose a game!</div>
-    </div>
-    <div id="game-area"></div>
-  `;
-
-  const area=root.querySelector("#game-area");
-  const info=root.querySelector("#game-info");
-  let cleanup=()=>{};
-
-  function stop(){
-    cleanup();
-    cleanup=()=>{};
-    area.replaceChildren();
-    area.removeAttribute("style");
-  }
-
-  function setupCanvas(){
-    const canvas=document.createElement("canvas");
-    area.append(canvas);
-    const ctx=canvas.getContext("2d");
-    function resize(){
-      const w=Math.max(250,area.clientWidth);
-      const h=Math.max(200,area.clientHeight);
-      if(canvas.width!==w)canvas.width=w;
-      if(canvas.height!==h)canvas.height=h;
-    }
-    resize();
-    return {canvas,ctx,resize};
-  }
-
-  function flight(){
-    const {canvas,ctx,resize}=setupCanvas();
-    let y=100,velocity=0,score=0;
-    let started=false,over=false,pipes=[];
-    let last=performance.now(),frameID;
-
-    const flap=()=>{
-      if(over){stop();flight();return}
-      started=true;
-      velocity=-310;
-    };
-    canvas.onpointerdown=flap;
-
-    const key=e=>{
-      if(e.code==="Space"){
-        e.preventDefault();flap();
-      }
-    };
-    document.addEventListener("keydown",key);
-
-    function frame(t){
-      resize();
-      const dt=Math.min((t-last)/1000,.045);
-      last=t;
-      const w=canvas.width,h=canvas.height;
-
-      ctx.fillStyle="#594477";
-      ctx.fillRect(0,0,w,h);
-      if(!started)y=h/2;
-
-      if(started&&!over){
-        velocity+=850*dt;
-        y+=velocity*dt;
-
-        if(!pipes.length||pipes[pipes.length-1].x<w-230){
-          const gap=145;
-          pipes.push({
-            x:w+20,
-            top:30+Math.random()*Math.max(10,h-gap-60),
-            gap,passed:false
-          });
-        }
-        pipes.forEach(p=>{
-          p.x-=150*dt;
-          if(!p.passed&&p.x+42<w*.25){
-            p.passed=true;score++;
-          }
-          if(w*.25+11>p.x&&w*.25-11<p.x+42&&
-            (y-10<p.top||y+10>p.top+p.gap))over=true;
-        });
-        pipes=pipes.filter(p=>p.x>-50);
-        if(y<0||y>h)over=true;
-      }
-
-      ctx.fillStyle="#F5C85B";
-      pipes.forEach(p=>{
-        ctx.fillRect(p.x,0,42,p.top);
-        ctx.fillRect(p.x,p.top+p.gap,42,h);
-      });
-
-      ctx.font="30px serif";
-      ctx.fillText("🐝",w*.25-15,y+9);
-      ctx.fillStyle="white";
-      ctx.font="19px Arial";
-      ctx.fillText("Score: "+score,12,27);
-      if(!started)ctx.fillText("Click or Space to flap",20,h/2);
-      if(over)ctx.fillText("Game over! Click to restart",20,h/2);
-
-      frameID=requestAnimationFrame(frame);
-    }
-
-    frameID=requestAnimationFrame(frame);
-    cleanup=()=>{
-      cancelAnimationFrame(frameID);
-      document.removeEventListener("keydown",key);
-    };
-    info.textContent="Click or press Space to fly.";
-  }
-
-  function catcher(){
-    const {canvas,ctx,resize}=setupCanvas();
-    let x=170,score=0,lives=3,items=[];
-    let last=performance.now(),timer=0,over=false,frameID;
-
-    canvas.onpointermove=e=>{
-      x=e.clientX-canvas.getBoundingClientRect().left;
-    };
-    const key=e=>{
-      if(e.key==="ArrowLeft"||e.key==="a")x-=30;
-      if(e.key==="ArrowRight"||e.key==="d")x+=30;
-    };
-    document.addEventListener("keydown",key);
-
-    function frame(t){
-      resize();
-      const w=canvas.width,h=canvas.height;
-      const dt=Math.min((t-last)/1000,.05);
-      last=t;
-      x=Math.max(30,Math.min(w-30,x));
-
-      ctx.fillStyle="#594477";
-      ctx.fillRect(0,0,w,h);
-
-      if(!over){
-        timer+=dt;
-        if(timer>.65){
-          timer=0;
-          items.push({
-            x:20+Math.random()*(w-40),
-            y:-10,bad:Math.random()<.2
-          });
-        }
-        items.forEach(item=>{
-          item.y+=140*dt;
-          if(item.y>h-45&&Math.abs(item.x-x)<37){
-            if(item.bad)lives--;
-            else score++;
-            item.y=h+100;
-          }
-        });
-        items=items.filter(item=>item.y<h+20);
-        if(lives<=0)over=true;
-      }
-
-      ctx.font="23px serif";
-      items.forEach(item=>{
-        ctx.fillText(item.bad?"🌵":"🌸",item.x-10,item.y);
-      });
-      ctx.fillText("🍯",x-18,h-15);
-      ctx.fillStyle="white";
-      ctx.font="18px Arial";
-      ctx.fillText(`Score: ${score}  Lives: ${lives}`,10,25);
-      if(over)ctx.fillText("Game over!",w/3,h/2);
-
-      frameID=requestAnimationFrame(frame);
-    }
-
-    frameID=requestAnimationFrame(frame);
-    cleanup=()=>{
-      cancelAnimationFrame(frameID);
-      document.removeEventListener("keydown",key);
-    };
-    info.textContent="Catch flowers. Avoid thorns!";
-  }
-
-  function match(){
-    const flowers=[
-      "🌸","🌼","🌷","🪻","🌻","🌹","🌺","💐"
-    ];
-    const cards=[...flowers,...flowers]
-      .sort(()=>Math.random()-.5);
-
-    let selected=[],matched=new Set();
-    let moves=0,locked=false;
-    const timeouts=[];
-
-    area.style.display="grid";
-    area.style.gridTemplateColumns="repeat(4,1fr)";
-    area.style.gap="7px";
-    area.style.padding="10px";
-
-    const buttons=cards.map((flower,index)=>{
-      const button=document.createElement("button");
-      button.textContent="🐝";
-      button.style.fontSize="26px";
-      area.append(button);
-
-      button.onclick=()=>{
-        if(locked||matched.has(index)||
-           selected.includes(index))return;
-
-        button.textContent=flower;
-        selected.push(index);
-
-        if(selected.length===2){
-          moves++;
-          const [a,b]=selected;
-
-          if(cards[a]===cards[b]){
-            matched.add(a);matched.add(b);
-            selected=[];
-            info.textContent=
-              `Moves: ${moves} · Pairs: ${matched.size/2}/8`;
-            if(matched.size===16)
-              info.textContent="You won in "+moves+" moves!";
-          }else{
-            locked=true;
-            const timeout=setTimeout(()=>{
-              buttons[a].textContent="🐝";
-              buttons[b].textContent="🐝";
-              selected=[];
-              locked=false;
-            },650);
-            timeouts.push(timeout);
-          }
-        }
-      };
-      return button;
-    });
-
-    cleanup=()=>timeouts.forEach(clearTimeout);
-    info.textContent="Match every flower pair!";
-  }
-
-  function maze(){
-    const n=9;
-    const cells=Array.from({length:n*n},()=>[1,1,1,1]);
-    const visited=new Set([0]);
-    const stack=[0];
-    const directions=[
-      [0,-1,0,2],[1,0,1,3],
-      [0,1,2,0],[-1,0,3,1]
-    ];
-
-    while(stack.length){
-      const i=stack[stack.length-1];
-      const x=i%n,y=Math.floor(i/n);
-      const possible=directions.filter(d=>{
-        const nx=x+d[0],ny=y+d[1];
-        return nx>=0&&ny>=0&&nx<n&&ny<n&&
-          !visited.has(ny*n+nx);
-      });
-      if(!possible.length){
-        stack.pop();continue;
-      }
-      const d=possible[Math.floor(Math.random()*possible.length)];
-      const next=(y+d[1])*n+x+d[0];
-      cells[i][d[2]]=0;
-      cells[next][d[3]]=0;
-      visited.add(next);
-      stack.push(next);
-    }
-
-    const {canvas,ctx,resize}=setupCanvas();
-    let position=0,frameID;
-
-    const key=e=>{
-      const map={
-        ArrowUp:0,w:0,ArrowRight:1,d:1,
-        ArrowDown:2,s:2,ArrowLeft:3,a:3
-      };
-      const dir=map[e.key];
-      if(dir===undefined)return;
-      e.preventDefault();
-      if(cells[position][dir])return;
-
-      position+=[-n,1,n,-1][dir];
-      if(position===n*n-1)
-        info.textContent="🏆 You reached the honey!";
-    };
-    document.addEventListener("keydown",key);
-
-    function frame(){
-      resize();
-      const w=canvas.width,h=canvas.height;
-      const cell=Math.min((w-20)/n,(h-20)/n);
-      const ox=(w-n*cell)/2,oy=(h-n*cell)/2;
-
-      ctx.fillStyle="#21182f";
-      ctx.fillRect(0,0,w,h);
-      ctx.strokeStyle="#DCC4F2";
-      ctx.lineWidth=2;
-
-      cells.forEach((walls,i)=>{
-        const x=ox+(i%n)*cell;
-        const y=oy+Math.floor(i/n)*cell;
-        if(walls[0]){
-          ctx.beginPath();ctx.moveTo(x,y);
-          ctx.lineTo(x+cell,y);ctx.stroke();
-        }
-        if(walls[1]){
-          ctx.beginPath();ctx.moveTo(x+cell,y);
-          ctx.lineTo(x+cell,y+cell);ctx.stroke();
-        }
-        if(walls[2]){
-          ctx.beginPath();ctx.moveTo(x,y+cell);
-          ctx.lineTo(x+cell,y+cell);ctx.stroke();
-        }
-        if(walls[3]){
-          ctx.beginPath();ctx.moveTo(x,y);
-          ctx.lineTo(x,y+cell);ctx.stroke();
-        }
-      });
-
-      ctx.font=Math.floor(cell*.7)+"px serif";
-      ctx.fillText("🍯",ox+(n-.85)*cell,oy+(n-.25)*cell);
-      ctx.fillText(
-        "🐝",
-        ox+(position%n+.05)*cell,
-        oy+(Math.floor(position/n)+.75)*cell
-      );
-
-      frameID=requestAnimationFrame(frame);
-    }
-    frameID=requestAnimationFrame(frame);
-    cleanup=()=>{
-      cancelAnimationFrame(frameID);
-      document.removeEventListener("keydown",key);
-    };
-    info.textContent="Use WASD or arrow keys to reach the honey.";
-  }
-
-  const games={
-    flight,catch:catcher,match,maze
-  };
-
-  root.querySelectorAll("[data-game]").forEach(button=>{
-    button.onclick=()=>{
-      stop();
-      games[button.dataset.game]();
-    };
-  });
-
-  win.addEventListener("appclosed",stop);
-  flight();
-}
-
-/* ==============================
-   TASK MANAGER
-   ============================== */
-
-function tasksApp(root,win){
-  root.classList.add("panel");
-
-  function update(){
-    root.replaceChildren();
-    const heading=document.createElement("h2");
-    heading.textContent="📊 Running apps";
-    root.append(heading);
-
-    Object.keys(windows).forEach(id=>{
-      const line=document.createElement("div");
-      line.className="row";
-      const label=document.createElement("span");
-      label.textContent=apps[id].icon+" "+apps[id].name;
-      label.style.flex="1";
-      const end=document.createElement("button");
-      end.textContent="End";
-      end.onclick=()=>closeApp(id);
-      line.append(label,end);
-      root.append(line);
-    });
-  }
-
-  update();
-  const interval=setInterval(update,1200);
-  win.addEventListener("appclosed",()=>clearInterval(interval));
-}
-
-/* ==============================
-   APPLICATIONS
-   ============================== */
-
-const apps={
-  hive:{
-    name:"The Hive",icon:"🐝",
-    width:520,height:530,init:hiveApp
-  },
-  notes:{
-    name:"Notes",icon:"📓",
-    width:550,height:430,init:notesApp
-  },
-  calc:{
-    name:"Calculator",icon:"🧮",
-    width:330,height:450,init:calculatorApp
-  },
-  term:{
-    name:"Hive Console",icon:"💻",
-    width:560,height:380,init:terminalApp
-  },
-  nectar:{
-    name:"Nectar Browser",icon:"🌸",
-    width:670,height:550,init:nectarApp
-  },
-  games:{
-    name:"Games",icon:"🎮",
-    width:580,height:520,init:gamesApp
-  },
-  tasks:{
-    name:"Task Manager",icon:"📊",
-    width:410,height:380,init:tasksApp
-  },
-  set:{
-    name:"Settings",icon:"⚙️",
-    width:410,height:420,init:settingsApp
-  },
-  about:{
-    name:"About Lilac OS",icon:"🪻",
-    width:420,height:310,
-    init(root){
-      root.innerHTML=`
-        <div class="panel">
-          <h2>🪻 Lilac OS</h2>
-          <p>A tiny desktop powered by bees.</p>
-          <p><strong>Nectar Browser</strong> uses Tavily
-          search through a Cloudflare Worker.</p>
-          <p>Apps, games, notes and more.</p>
-          <p class="muted">Made with lilacs and honey. 🐝</p>
+    root.innerHTML = `
+      <div class="panel"
+        style="height:100%;overflow:auto">
+
+        <div style="text-align:center">
+          <div style="font-size:62px">🌸</div>
+          <h1 style="margin:0;color:var(--pink)">
+            Nectar
+          </h1>
+          <p class="muted">Powered by Tavily search</p>
         </div>
-      `;
+
+        <form class="row" id="nectarform">
+          <input id="nectarq"
+            placeholder="Search the web..."
+            required autocomplete="off">
+          <button>Search</button>
+        </form>
+
+        <div class="row">
+          <select id="nectarengine"></select>
+          <button id="nectarclear">Clear</button>
+        </div>
+
+        <div class="muted"
+          id="nectarstatus"
+          role="status"></div>
+
+        <div id="nectarresults"
+          style="display:grid;gap:8px"></div>
+      </div>
+    `;
+
+    const q = root.querySelector('#nectarq');
+    const sel = root.querySelector('#nectarengine');
+    const status = root.querySelector('#nectarstatus');
+    const results = root.querySelector('#nectarresults');
+
+    for (const [id, [label]] of Object.entries(engines)) {
+      sel.add(new Option(label, id));
     }
+
+    sel.value = engines[engine] ? engine : 'nectar';
+
+    sel.onchange = () => {
+      engine = sel.value;
+      save('nectarEngine', engine);
+      controller?.abort();
+      results.replaceChildren();
+      status.textContent = '';
+    };
+
+    root.querySelector('#nectarclear').onclick = () => {
+      controller?.abort();
+      results.replaceChildren();
+      status.textContent = '';
+      q.value = '';
+    };
+
+    root.querySelector('#nectarform').onsubmit =
+      async e => {
+        e.preventDefault();
+
+        const query = q.value.trim();
+        if (!query) return;
+
+        if (engine !== 'nectar') {
+          openBrowser(
+            engines[engine][1] +
+            encodeURIComponent(query)
+          );
+          return;
+        }
+
+        controller?.abort();
+
+        controller = new AbortController();
+
+        const current = controller;
+        const timer = setTimeout(
+          () => current.abort(),
+          15000
+        );
+
+        results.replaceChildren();
+        status.textContent = 'Searching...';
+
+        try {
+          const res = await fetch(
+            TAVILY_WORKER +
+            '?q=' + encodeURIComponent(query),
+            { signal: current.signal }
+          );
+
+          const d = await res.json();
+
+          if (!res.ok) {
+            throw Error(
+              typeof d.error === 'string'
+                ? d.error
+                : 'Search HTTP ' + res.status
+            );
+          }
+
+          if (controller !== current) return;
+
+          const items = Array.isArray(d.results)
+            ? d.results.filter(
+                item => /^https?:\/\//.test(item.url || '')
+              )
+            : [];
+
+          status.textContent = items.length
+            ? `Found ${items.length} results for “${query}”`
+            : 'No results found';
+
+          for (const item of items) {
+            const link = el('a', {
+              className: 'result',
+              href: item.url
+            });
+
+            link.append(
+              el('strong', {
+                textContent: item.title || item.url
+              }),
+              el('small', {
+                textContent: item.url
+              }),
+              el('p', {
+                textContent:
+                  String(item.content || '').slice(0, 320)
+              })
+            );
+
+            link.onclick = e => {
+              e.preventDefault();
+              openBrowser(item.url);
+            };
+
+            results.append(link);
+          }
+        } catch (err) {
+          if (controller === current) {
+            status.textContent =
+              err.name === 'AbortError'
+                ? 'Search timed out'
+                : 'Search error: ' + err.message;
+          }
+        } finally {
+          clearTimeout(timer);
+        }
+      };
+
+    win.addEventListener(
+      'appclosed',
+      () => controller?.abort()
+    );
+
+    q.focus();
   }
 };
 
-/* ==============================
-   DESKTOP ICONS + START MENU
-   ============================== */
+/* =================================
+   LILAC BROWSER
+================================= */
 
-Object.entries(apps).forEach(([id,app],i)=>{
-  const icon=document.createElement("div");
-  icon.className="desktop-icon";
-  icon.style.left=(14+Math.floor(i/5)*110)+"px";
-  icon.style.top=(14+(i%5)*105)+"px";
+apps.browser = {
+  title: 'Lilac Browser',
+  icon: '🌐',
+  w: 920,
+  h: 620,
 
-  icon.innerHTML=`
-    <span class="emoji">${app.icon}</span>
-    ${escapeHTML(app.name)}
+  init(root, win) {
+    root.style.overflow = 'hidden';
+
+    root.innerHTML = `
+      <div style="
+        height:100%;
+        min-height:0;
+        display:flex;
+        flex-direction:column">
+
+        <div id="tabs" class="row" style="
+          padding:6px;
+          background:#3b2a50;
+          overflow-x:auto"></div>
+
+        <div class="row" style="
+          padding:7px;
+          background:#281c39">
+
+          <button id="back">←</button>
+          <button id="next">→</button>
+          <button id="reload">↻</button>
+
+          <input id="address"
+            placeholder="https://example.com">
+
+          <button id="go">Go</button>
+          <button id="external"
+            title="Open outside Lilac">↗</button>
+        </div>
+
+        <div id="webview" style="
+          position:relative;
+          flex:1;
+          min-height:0;
+          background:#f9f5ff"></div>
+
+        <div id="webstatus" class="muted" style="
+          padding:6px;
+          background:#281c39">
+          Some websites do not allow embedding.
+        </div>
+      </div>
+    `;
+
+    const tabs = [];
+    const bar = root.querySelector('#tabs');
+    const view = root.querySelector('#webview');
+    const address = root.querySelector('#address');
+    const status = root.querySelector('#webstatus');
+
+    let active = -1;
+
+    function render() {
+      bar.replaceChildren();
+
+      tabs.forEach((t, i) => {
+        const btn = el('button', {
+          textContent: t.url
+            ? new URL(t.url).hostname
+            : 'New tab'
+        });
+
+        if (active === i) {
+          btn.style.background = '#8f6ab7';
+        }
+
+        btn.onclick = () => {
+          active = i;
+          render();
+        };
+
+        bar.append(btn);
+
+        const x = el('button', {
+          textContent: '×',
+          title: 'Close tab'
+        });
+
+        x.onclick = () => {
+          t.frame.remove();
+          tabs.splice(i, 1);
+
+          if (!tabs.length) {
+            active = -1;
+            newTab();
+            return;
+          }
+
+          if (active >= tabs.length) {
+            active = tabs.length - 1;
+          } else if (i < active) {
+            active--;
+          }
+
+          render();
+        };
+
+        bar.append(x);
+
+        t.frame.style.display =
+          i === active ? 'block' : 'none';
+      });
+
+      const plus = el('button', {
+        textContent: '+',
+        title: 'New tab'
+      });
+
+      plus.onclick = () => newTab();
+
+      bar.append(plus);
+
+      const t = tabs[active];
+
+      address.value = t?.url || '';
+
+      root.querySelector('#back').disabled =
+        !t || t.index <= 0;
+
+      root.querySelector('#next').disabled =
+        !t || t.index >= t.history.length - 1;
+    }
+
+    function newTab(url) {
+      const frame = el('iframe', {
+        title: 'Embedded website'
+      });
+
+      frame.style.cssText = `
+        position:absolute;
+        inset:0;
+        width:100%;
+        height:100%;
+        border:0;
+        background:white
+      `;
+
+      frame.sandbox =
+        'allow-scripts allow-forms allow-same-origin';
+
+      frame.referrerPolicy = 'no-referrer';
+
+      view.append(frame);
+
+      const t = {
+        frame,
+        url: '',
+        history: [],
+        index: -1
+      };
+
+      tabs.push(t);
+      active = tabs.length - 1;
+
+      frame.srcdoc = `
+        <html>
+          <body style="
+            background:#f8f4ff;
+            color:#594477;
+            text-align:center;
+            font:18px system-ui;
+            padding:13vh 20px">
+
+            <h2>🌐 Lilac Browser</h2>
+
+            <p>
+              Enter an address or click
+              a Nectar result.
+            </p>
+
+            <p style="font-size:13px">
+              Some sites block embedded viewing.
+            </p>
+          </body>
+        </html>
+      `;
+
+      if (url) {
+        navigate(url);
+      } else {
+        render();
+      }
+    }
+
+    function navigate(raw, record = true) {
+      const url = validURL(raw);
+
+      if (!url) {
+        status.textContent =
+          'Enter a valid http:// or https:// address';
+
+        return;
+      }
+
+      const t = tabs[active];
+      if (!t) return;
+
+      t.url = url;
+
+      if (record) {
+        t.history = t.history.slice(0, t.index + 1);
+        t.history.push(url);
+        t.index = t.history.length - 1;
+      }
+
+      t.frame.removeAttribute('srcdoc');
+      t.frame.src = url;
+
+      status.textContent =
+        'Viewing ' + url +
+        ' — this site may block embedding.';
+
+      render();
+    }
+
+    root.querySelector('#go').onclick =
+      () => navigate(address.value);
+
+    address.onkeydown = e => {
+      if (e.key === 'Enter') {
+        navigate(address.value);
+      }
+    };
+
+    root.querySelector('#back').onclick = () => {
+      const t = tabs[active];
+
+      if (t && t.index > 0) {
+        navigate(t.history[--t.index], false);
+      }
+    };
+
+    root.querySelector('#next').onclick = () => {
+      const t = tabs[active];
+
+      if (t && t.index < t.history.length - 1) {
+        navigate(t.history[++t.index], false);
+      }
+    };
+
+    root.querySelector('#reload').onclick = () => {
+      const t = tabs[active];
+
+      if (t?.url) {
+        t.frame.src = t.url;
+      }
+    };
+
+    root.querySelector('#external').onclick = () => {
+      const url = tabs[active]?.url;
+
+      if (url) {
+        window.open(
+          url,
+          '_blank',
+          'noopener,noreferrer'
+        );
+      }
+    };
+
+    win.addBrowserTab = url => newTab(url);
+
+    win.addEventListener('appclosed', () => {
+      delete win.addBrowserTab;
+    });
+
+    newTab();
+  }
+};
+
+/* =================================
+   THE REAL DEAL
+================================= */
+
+apps.realDeal = {
+  title: 'The Real Deal',
+  icon: '🌘',
+  w: 880,
+  h: 650,
+
+  init(root, win) {
+    root.style.overflow = 'hidden';
+
+    root.innerHTML = `
+      <div style="
+        height:100%;
+        min-height:0;
+        display:flex;
+        flex-direction:column;
+        background:#100b19">
+
+        <div class="row" style="
+          padding:8px;
+          background:#39264e;
+          flex-wrap:wrap">
+
+          <strong style="margin-right:auto">
+            🌘 THE REAL DEAL
+          </strong>
+
+          <button id="playdeal">
+            ✦ Play Shadow Trial
+          </button>
+
+          <button id="gjdeal">
+            ★ BossHim Game Jolt
+          </button>
+
+          <button id="resetdeal">
+            ↻ Restart
+          </button>
+        </div>
+
+        <div id="dealcaption" class="muted" style="
+          padding:7px 10px;
+          background:#241932"></div>
+
+        <div id="dealstage" style="
+          position:relative;
+          flex:1;
+          min-height:0;
+          display:flex;
+          align-items:center;
+          justify-content:center"></div>
+
+        <div id="dealfooter" class="muted" style="
+          padding:7px 10px;
+          background:#241932"></div>
+      </div>
+    `;
+
+    const stage = root.querySelector('#dealstage');
+    const caption = root.querySelector('#dealcaption');
+    const footer = root.querySelector('#dealfooter');
+
+    let cleanup = () => {};
+    let restart = () => {};
+
+    function stop() {
+      cleanup();
+      cleanup = () => {};
+      stage.replaceChildren();
+    }
+
+    /* =============================
+       BOSSHIM GAME JOLT VERSION
+    ============================= */
+
+    function gamejolt() {
+      stop();
+
+      caption.textContent =
+        'BossHim’s original Nightmare Sans Fight ' +
+        'on Game Jolt (creator credited).';
+
+      footer.textContent =
+        'Game Jolt might block iframe viewing. ' +
+        'Use the official page if that happens.';
+
+      const panel = el('div');
+
+      panel.className = 'card';
+
+      panel.style.cssText = `
+        max-width:520px;
+        margin:20px;
+        text-align:center;
+        display:grid;
+        gap:13px
+      `;
+
+      panel.innerHTML = `
+        <div style="font-size:58px">🌘</div>
+
+        <h2 style="
+          margin:0;
+          color:#dcc4f2">
+          NIGHTMARE SANS FIGHT
+        </h2>
+
+        <p>
+          Original release by BossHim on Game Jolt.
+        </p>
+
+        <p class="muted">
+          Game Jolt does not guarantee its page can
+          run inside a GitHub Pages iframe.
+          This is a preview option, not a copy
+          of the game.
+        </p>
+      `;
+
+      const preview = el('button', {
+        textContent: 'Try Game Jolt inside Lilac'
+      });
+
+      const official = el('a', {
+        textContent:
+          'Open the official Game Jolt game ↗',
+        href: BOSSHIM_GAME,
+        target: '_blank',
+        rel: 'noopener noreferrer'
+      });
+
+      preview.onclick = () => {
+        stage.replaceChildren();
+
+        const frame = el('iframe', {
+          title: 'BossHim Game Jolt page',
+          src: BOSSHIM_GAME
+        });
+
+        frame.style.cssText = `
+          width:100%;
+          height:100%;
+          border:0;
+          background:#160e20
+        `;
+
+        stage.append(frame);
+
+        footer.replaceChildren(
+          el('span', {
+            textContent: 'If the preview is blocked, '
+          }),
+          el('a', {
+            textContent:
+              'open the original on Game Jolt.',
+            href: BOSSHIM_GAME,
+            target: '_blank',
+            rel: 'noopener noreferrer'
+          })
+        );
+
+        restart = () => gamejolt();
+      };
+
+      panel.append(preview, official);
+      stage.append(panel);
+
+      restart = () => gamejolt();
+    }
+
+    /* =============================
+       ORIGINAL PLAYABLE SHADOW TRIAL
+    ============================= */
+
+    function shadowTrial() {
+      stop();
+
+      caption.textContent =
+        'Shadow Trial — original Lilac-built ' +
+        'two-phase dodge boss fight ' +
+        '(no copied art, assets or music).';
+
+      footer.textContent =
+        'WASD / arrows: Move · ' +
+        'Space: Pulse (clears nearby orbs) · ' +
+        'Enter or click: Start/retry';
+
+      const cv = el('canvas', {
+        width: 760,
+        height: 440,
+        tabIndex: 0,
+        className: 'gameCanvas'
+      });
+
+      cv.style.objectFit = 'contain';
+      stage.append(cv);
+
+      const g = cv.getContext('2d');
+
+      let player;
+      let orbs;
+      let beams;
+      let clock;
+      let spawn;
+      let beamAt;
+      let inv;
+      let pulseCD;
+      let running;
+      let ending;
+      let last;
+      let raf;
+
+      function begin() {
+        player = {
+          x: 380,
+          y: 315,
+          hp: 9
+        };
+
+        orbs = [];
+        beams = [];
+
+        clock = 0;
+        spawn = .45;
+        beamAt = 2;
+        inv = 0;
+        pulseCD = 0;
+
+        running = false;
+        ending = '';
+        last = performance.now();
+      }
+
+      begin();
+
+      const keys = {};
+
+      function keyDown(e) {
+        if (!win.classList.contains('on')) return;
+
+        const k = e.key.toLowerCase();
+
+        if ([
+          'arrowup',
+          'arrowdown',
+          'arrowleft',
+          'arrowright',
+          'w',
+          'a',
+          's',
+          'd',
+          ' ',
+          'enter'
+        ].includes(k)) {
+          e.preventDefault();
+        }
+
+        keys[k] = true;
+
+        if (k === 'enter') {
+          if (ending) begin();
+          running = true;
+        }
+
+        if (
+          k === ' ' &&
+          running &&
+          !ending &&
+          pulseCD <= 0
+        ) {
+          pulseCD = 4;
+
+          orbs = orbs.filter(o =>
+            Math.hypot(
+              o.x - player.x,
+              o.y - player.y
+            ) > 110
+          );
+
+          inv = Math.max(inv, .3);
+        }
+      }
+
+      function keyUp(e) {
+        keys[e.key.toLowerCase()] = false;
+      }
+
+      document.addEventListener('keydown', keyDown);
+      document.addEventListener('keyup', keyUp);
+
+      let touching = false;
+
+      function pointer(e) {
+        if (!touching) return;
+
+        const r = cv.getBoundingClientRect();
+
+        const scale = Math.min(
+          r.width / 760,
+          r.height / 440
+        );
+
+        const offX = (r.width - 760 * scale) / 2;
+        const offY = (r.height - 440 * scale) / 2;
+
+        player.x = Math.max(
+          103,
+          Math.min(
+            657,
+            (e.clientX - r.left - offX) / scale
+          )
+        );
+
+        player.y = Math.max(
+          172,
+          Math.min(
+            383,
+            (e.clientY - r.top - offY) / scale
+          )
+        );
+      }
+
+      cv.onpointerdown = e => {
+        if (ending) begin();
+
+        running = true;
+        touching = true;
+
+        cv.setPointerCapture(e.pointerId);
+        pointer(e);
+        cv.focus();
+      };
+
+      cv.onpointermove = pointer;
+
+      cv.onpointerup =
+      cv.onpointercancel = () => touching = false;
+
+      function hurt() {
+        if (inv > 0 || ending) return;
+
+        player.hp--;
+        inv = .85;
+
+        if (player.hp <= 0) {
+          ending = 'lost';
+          running = false;
+        }
+      }
+
+      function draw(now) {
+        const dt = Math.min(
+          .045,
+          (now - last) / 1000 || 0
+        );
+
+        last = now;
+
+        const phase = clock < 20 ? 1 : 2;
+
+        if (running && !ending) {
+          clock += dt;
+
+          if (clock >= 40) {
+            ending = 'won';
+            running = false;
+          }
+
+          inv = Math.max(0, inv - dt);
+          pulseCD = Math.max(0, pulseCD - dt);
+
+          const dx =
+            Number(!!(keys.d || keys.arrowright)) -
+            Number(!!(keys.a || keys.arrowleft));
+
+          const dy =
+            Number(!!(keys.s || keys.arrowdown)) -
+            Number(!!(keys.w || keys.arrowup));
+
+          const len = Math.max(
+            1,
+            Math.hypot(dx, dy)
+          );
+
+          player.x = Math.max(
+            103,
+            Math.min(
+              657,
+              player.x + dx / len * 205 * dt
+            )
+          );
+
+          player.y = Math.max(
+            172,
+            Math.min(
+              383,
+              player.y + dy / len * 205 * dt
+            )
+          );
+
+          spawn -= dt;
+          beamAt -= dt;
+
+          if (spawn <= 0) {
+            const side = Math.random() < .5 ? -1 : 1;
+
+            orbs.push({
+              x: side < 0 ? 91 : 669,
+              y: 171 + Math.random() * 205,
+              vx: -side * (phase === 2 ? 230 : 160),
+              vy: (Math.random() - .5) * 60
+            });
+
+            spawn = phase === 2 ? .28 : .49;
+          }
+
+          if (beamAt <= 0) {
+            beams.push({
+              x: 120 + Math.random() * 520,
+              width: phase === 2 ? 30 : 18,
+              warning: .85,
+              active: .53
+            });
+
+            beamAt = phase === 2 ? 1.35 : 2.25;
+          }
+
+          for (const o of orbs) {
+            o.x += o.vx * dt;
+            o.y += o.vy * dt;
+
+            if (
+              Math.hypot(
+                o.x - player.x,
+                o.y - player.y
+              ) < 16
+            ) {
+              hurt();
+            }
+          }
+
+          orbs = orbs.filter(
+            o => o.x > 85 && o.x < 675
+          );
+
+          for (const beam of beams) {
+            if (beam.warning > 0) {
+              beam.warning -= dt;
+            } else {
+              beam.active -= dt;
+
+              if (
+                Math.abs(beam.x - player.x) <
+                beam.width / 2 + 8
+              ) {
+                hurt();
+              }
+            }
+          }
+
+          beams = beams.filter(
+            v => v.warning > 0 || v.active > 0
+          );
+        }
+
+        /* BACKGROUND */
+
+        g.fillStyle = '#0c0916';
+        g.fillRect(0, 0, 760, 440);
+
+        const glow =
+          phase === 2 ? '#f47baf' : '#b89ce8';
+
+        g.textAlign = 'center';
+        g.fillStyle = '#eee5ff';
+        g.font = 'bold 26px monospace';
+
+        g.fillText('SHADOW TRIAL', 380, 32);
+
+        g.fillStyle = glow;
+        g.font = '13px monospace';
+
+        g.fillText(
+          phase === 2
+            ? 'PHASE II — THE STORM'
+            : 'PHASE I — FIRST CONTACT',
+          380,
+          52
+        );
+
+        /* ORIGINAL SHADOW BOSS */
+
+        g.save();
+        g.translate(380, 109);
+        g.lineWidth = 5;
+        g.strokeStyle = glow;
+
+        for (const side of [-1, 1]) {
+          for (let j = 0; j < 3; j++) {
+            g.beginPath();
+            g.moveTo(side * 25, 12);
+
+            g.bezierCurveTo(
+              side * (65 + j * 15),
+              -46,
+              side * (80 + j * 30),
+              65,
+              side * (150 + j * 12),
+              -5
+            );
+
+            g.stroke();
+          }
+        }
+
+        g.fillStyle = '#171124';
+        g.beginPath();
+        g.arc(0, 0, 39, 0, Math.PI * 2);
+        g.fill();
+        g.stroke();
+
+        g.fillStyle = glow;
+        g.fillRect(-25, -10, 18, 7);
+        g.fillRect(7, -10, 18, 7);
+
+        g.restore();
+
+        /* ARENA */
+
+        g.fillStyle = '#1a1328';
+        g.fillRect(91, 156, 578, 243);
+
+        g.strokeStyle = glow;
+        g.lineWidth = 3;
+        g.strokeRect(91, 156, 578, 243);
+
+        /* BEAMS */
+
+        for (const beam of beams) {
+          g.globalAlpha =
+            beam.warning > 0 ? .35 : .9;
+
+          g.fillStyle =
+            beam.warning > 0
+              ? '#e4aeff'
+              : '#ff8cbc';
+
+          g.fillRect(
+            beam.x - beam.width / 2,
+            158,
+            beam.width,
+            239
+          );
+        }
+
+        g.globalAlpha = 1;
+
+        /* PROJECTILES */
+
+        g.fillStyle = glow;
+
+        for (const o of orbs) {
+          g.beginPath();
+          g.arc(o.x, o.y, 7, 0, Math.PI * 2);
+          g.fill();
+        }
+
+        /* PLAYER */
+
+        g.save();
+        g.translate(player.x, player.y);
+
+        if (inv > 0 && Math.floor(inv * 12) % 2) {
+          g.globalAlpha = .35;
+        }
+
+        g.rotate(Math.PI / 4);
+
+        g.shadowColor = '#69e3f2';
+        g.shadowBlur = 18;
+        g.fillStyle = '#69e3f2';
+        g.fillRect(-9, -9, 18, 18);
+
+        g.restore();
+
+        /* HEALTH */
+
+        g.font = 'bold 14px monospace';
+        g.textAlign = 'left';
+        g.fillStyle = '#fff';
+        g.fillText('HP', 92, 427);
+
+        g.fillStyle = '#403047';
+        g.fillRect(123, 416, 167, 12);
+
+        g.fillStyle = '#f5c85b';
+        g.fillRect(
+          123,
+          416,
+          167 * player.hp / 9,
+          12
+        );
+
+        g.fillStyle = '#fff';
+        g.fillText(player.hp + '/9', 300, 427);
+
+        /* ABILITY */
+
+        g.textAlign = 'right';
+
+        g.fillStyle =
+          pulseCD <= 0 ? '#69e3f2' : '#c6b5d6';
+
+        g.fillText(
+          pulseCD <= 0
+            ? 'SPACE: PULSE READY'
+            : 'PULSE: ' + pulseCD.toFixed(1) + 's',
+          667,
+          427
+        );
+
+        /* TIMER */
+
+        g.textAlign = 'center';
+        g.fillStyle = '#fff';
+
+        g.fillText(
+          'TIME: ' +
+          Math.min(clock, 40).toFixed(1) +
+          '/40s',
+          380,
+          149
+        );
+
+        /* START / GAME OVER */
+
+        if (!running) {
+          g.fillStyle = '#080511e8';
+          g.fillRect(95, 160, 570, 234);
+
+          g.fillStyle = '#fff';
+          g.font = 'bold 28px monospace';
+
+          g.fillText(
+            ending === 'won'
+              ? 'YOU SURVIVED!'
+              : ending === 'lost'
+                ? 'TRY AGAIN'
+                : 'READY?',
+            380,
+            247
+          );
+
+          g.font = '15px monospace';
+          g.fillStyle = glow;
+
+          g.fillText(
+            ending
+              ? 'Press Enter or click to restart'
+              : 'Press Enter or click to begin',
+            380,
+            282
+          );
+        }
+
+        raf = requestAnimationFrame(draw);
+      }
+
+      raf = requestAnimationFrame(draw);
+
+      cleanup = () => {
+        cancelAnimationFrame(raf);
+
+        document.removeEventListener(
+          'keydown',
+          keyDown
+        );
+
+        document.removeEventListener(
+          'keyup',
+          keyUp
+        );
+      };
+
+      restart = () => {
+        begin();
+        cv.focus();
+      };
+
+      cv.focus();
+    }
+
+    root.querySelector('#playdeal').onclick =
+      shadowTrial;
+
+    root.querySelector('#gjdeal').onclick =
+      gamejolt;
+
+    root.querySelector('#resetdeal').onclick =
+      () => restart();
+
+    win.addEventListener('appclosed', stop);
+
+    shadowTrial();
+  }
+};
+
+/* =================================
+   NOTES
+================================= */
+
+apps.notes = {
+  title: 'Notes',
+  icon: '📓',
+  w: 530,
+  h: 420,
+
+  init(root) {
+    let notes = load('lilacNotes', [
+      {
+        id: 1,
+        title: 'Welcome',
+        body: 'Welcome to Lilac OS! 🪻'
+      }
+    ]);
+
+    let id = notes[0]?.id;
+
+    root.innerHTML = `
+      <div class="panel" style="height:100%">
+
+        <div class="row">
+          <button id="newnote">+ Note</button>
+          <button id="delnote">Delete</button>
+        </div>
+
+        <select id="notelist"></select>
+
+        <input id="notetitle" placeholder="Title">
+
+        <textarea id="notebody"
+          placeholder="Write your notes..."
+          style="
+            flex:1;
+            min-height:140px;
+            resize:none"></textarea>
+      </div>
+    `;
+
+    const list = root.querySelector('#notelist');
+    const title = root.querySelector('#notetitle');
+    const body = root.querySelector('#notebody');
+
+    function render() {
+      list.replaceChildren();
+
+      notes.forEach(n => {
+        list.add(new Option(
+          n.title || 'Untitled',
+          n.id
+        ));
+      });
+
+      list.value = id || '';
+
+      const n = notes.find(n => n.id === id);
+
+      title.value = n?.title || '';
+      body.value = n?.body || '';
+    }
+
+    root.querySelector('#newnote').onclick = () => {
+      const n = {
+        id: Date.now(),
+        title: 'New note',
+        body: ''
+      };
+
+      notes.unshift(n);
+      id = n.id;
+
+      save('lilacNotes', notes);
+      render();
+    };
+
+    root.querySelector('#delnote').onclick = () => {
+      notes = notes.filter(n => n.id !== id);
+      id = notes[0]?.id;
+
+      save('lilacNotes', notes);
+      render();
+    };
+
+    list.onchange = () => {
+      id = Number(list.value);
+      render();
+    };
+
+    function update() {
+      const n = notes.find(n => n.id === id);
+      if (!n) return;
+
+      n.title = title.value;
+      n.body = body.value;
+
+      save('lilacNotes', notes);
+
+      if (list.selectedOptions[0]) {
+        list.selectedOptions[0].textContent =
+          n.title || 'Untitled';
+      }
+    }
+
+    title.oninput = body.oninput = update;
+    render();
+  }
+};
+
+/* =================================
+   CALCULATOR
+================================= */
+
+apps.calc = {
+  title: 'Calculator',
+  icon: '🧮',
+  w: 320,
+  h: 430,
+
+  init(root) {
+    let expr = '';
+
+    root.innerHTML = `
+      <div class="panel" style="height:100%">
+
+        <div id="display" class="card" style="
+          text-align:right;
+          font-size:28px">0</div>
+
+        <div id="keys" style="
+          flex:1;
+          display:grid;
+          grid-template-columns:repeat(4,1fr);
+          gap:6px"></div>
+      </div>
+    `;
+
+    const output = root.querySelector('#display');
+
+    function press(k) {
+      if (k === 'C') {
+        expr = '';
+      } else if (k === '⌫') {
+        expr = expr.slice(0, -1);
+      } else if (k === '=') {
+        try {
+          if (!/^[0-9+*/().\- ]+$/.test(expr)) {
+            throw Error();
+          }
+
+          const n = Function(
+            '"use strict";return (' + expr + ')'
+          )();
+
+          expr = Number.isFinite(n)
+            ? String(n)
+            : 'Error';
+        } catch {
+          expr = 'Error';
+        }
+      } else {
+        if (expr === 'Error') expr = '';
+        expr += k;
+      }
+
+      output.textContent = expr || '0';
+    }
+
+    'C ⌫ ( ) 7 8 9 / 4 5 6 * 1 2 3 - 0 . = +'
+      .split(' ')
+      .forEach(k => {
+        const btn = el('button', {
+          textContent: k
+        });
+
+        btn.onclick = () => press(k);
+
+        root.querySelector('#keys').append(btn);
+      });
+  }
+};
+
+/* =================================
+   THE HIVE
+================================= */
+
+apps.hive = {
+  title: 'The Hive',
+  icon: '🐝',
+  w: 500,
+  h: 520,
+
+  init(root, win) {
+    let s = {
+      n: 0,
+      flowers: 1,
+      workers: 0,
+      foragers: 0,
+      queens: 0,
+      level: 1,
+      ...load('hiveSave', {})
+    };
+
+    root.innerHTML = `
+      <div class="panel" style="text-align:center">
+        <div style="font-size:65px">🐝🍯🌸</div>
+        <h2 id="hcount"></h2>
+        <p id="hrate"></p>
+        <button id="collect">🌼 Collect nectar</button>
+        <div id="upgrades"
+          style="display:grid;gap:8px"></div>
+      </div>
+    `;
+
+    const upgrades = [
+      ['flowers', '🌸 Flower', 10, 1.6],
+      ['workers', '🐝 Worker', 25, 1.5],
+      ['foragers', '🍯 Forager', 200, 1.5],
+      ['queens', '👑 Queen', 2000, 1.6],
+      ['level', '🏠 Level', 100, 3]
+    ];
+
+    const rate = () =>
+      s.level * (
+        s.workers +
+        6 * s.foragers +
+        40 * s.queens
+      );
+
+    function render() {
+      root.querySelector('#hcount').textContent =
+        Math.floor(s.n) + ' nectar';
+
+      root.querySelector('#hrate').textContent =
+        rate() + '/s · Level ' + s.level;
+
+      const box = root.querySelector('#upgrades');
+      box.replaceChildren();
+
+      upgrades.forEach(([k, label, base, mul]) => {
+        const cost = Math.ceil(
+          base * Math.pow(
+            mul,
+            k === 'level' ? s.level - 1 : s[k]
+          )
+        );
+
+        const b = el('button', {
+          textContent: label + ' · ' + cost,
+          disabled: s.n < cost
+        });
+
+        b.onclick = () => {
+          if (s.n < cost) return;
+
+          s.n -= cost;
+          s[k]++;
+
+          save('hiveSave', s);
+          render();
+        };
+
+        box.append(b);
+      });
+    }
+
+    root.querySelector('#collect').onclick = () => {
+      s.n += s.flowers * s.level;
+      save('hiveSave', s);
+      render();
+    };
+
+    const timer = setInterval(() => {
+      s.n += rate();
+      save('hiveSave', s);
+      render();
+    }, 1000);
+
+    win.addEventListener(
+      'appclosed',
+      () => clearInterval(timer)
+    );
+
+    render();
+  }
+};
+
+/* =================================
+   HIVE CONSOLE
+================================= */
+
+apps.term = {
+  title: 'Hive Console',
+  icon: '💻',
+  w: 545,
+  h: 370,
+
+  init(root) {
+    root.innerHTML = `
+      <div id="output" style="
+        flex:1;
+        overflow:auto;
+        padding:12px;
+        color:#b89ce8;
+        font:13px monospace"></div>
+
+      <div class="row" style="padding:8px">
+        <span>🐝 hive&gt;</span>
+        <input id="command" placeholder="Type help">
+      </div>
+    `;
+
+    const out = root.querySelector('#output');
+    const input = root.querySelector('#command');
+
+    const say = t => {
+      out.append(el('div', { textContent: t }));
+      out.scrollTop = out.scrollHeight;
+    };
+
+    say('Hive Console v2.0 — type help');
+
+    input.onkeydown = e => {
+      if (e.key !== 'Enter') return;
+
+      const cmd = input.value.trim();
+      const [word, arg] = cmd.split(' ');
+
+      say('> ' + cmd);
+
+      if (word === 'help') {
+        say(
+          'help clear time date apps ' +
+          'open [app] whoami'
+        );
+      } else if (word === 'clear') {
+        out.replaceChildren();
+      } else if (word === 'time') {
+        say(new Date().toLocaleTimeString());
+      } else if (word === 'date') {
+        say(new Date().toDateString());
+      } else if (word === 'apps') {
+        say(Object.keys(apps).join(', '));
+      } else if (word === 'open') {
+        apps[arg]
+          ? openApp(arg)
+          : say('Unknown app');
+      } else if (word === 'whoami') {
+        say('A busy worker bee 🐝');
+      } else if (cmd) {
+        say('Unknown command');
+      }
+
+      input.value = '';
+    };
+
+    input.focus();
+  }
+};
+
+/* =================================
+   SETTINGS
+================================= */
+
+apps.settings = {
+  title: 'Settings',
+  icon: '⚙️',
+  w: 400,
+  h: 410,
+
+  init(root) {
+    let cfg = load('lilacConfig', {
+      wall: 0,
+      brightness: 1,
+      size: 45
+    });
+
+    const walls = [
+      'radial-gradient(circle at 20% 15%,#7958a3,transparent 55%),linear-gradient(145deg,#392850,#21182f)',
+      'linear-gradient(135deg,#b89ce8,#dcc4f2,#f5c85b)',
+      'linear-gradient(135deg,#21182f,#594477,#f5c85b)'
+    ];
+
+    root.innerHTML = `
+      <div class="panel">
+        <h2>⚙️ Settings</h2>
+        <span>Wallpaper</span>
+        <div id="walls" class="row"></div>
+
+        <label>
+          Brightness
+          <input id="brightness"
+            type="range"
+            min=".5"
+            max="1.2"
+            step=".05">
+        </label>
+
+        <label>
+          Icon size
+          <input id="iconsize"
+            type="range"
+            min="32"
+            max="80">
+        </label>
+      </div>
+    `;
+
+    function apply() {
+      desktop.style.background =
+        walls[cfg.wall] || walls[0];
+
+      desktop.style.filter =
+        'brightness(' + cfg.brightness + ')';
+
+      document.querySelectorAll('.icon .emoji')
+        .forEach(i => {
+          i.style.fontSize = cfg.size + 'px';
+        });
+
+      save('lilacConfig', cfg);
+    }
+
+    walls.forEach((background, i) => {
+      const b = el('button');
+
+      b.style.cssText = `
+        width:62px;
+        height:43px;
+        background:${background}
+      `;
+
+      b.onclick = () => {
+        cfg.wall = i;
+        apply();
+      };
+
+      root.querySelector('#walls').append(b);
+    });
+
+    const br = root.querySelector('#brightness');
+    const sz = root.querySelector('#iconsize');
+
+    br.value = cfg.brightness;
+    sz.value = cfg.size;
+
+    br.oninput = () => {
+      cfg.brightness = +br.value;
+      apply();
+    };
+
+    sz.oninput = () => {
+      cfg.size = +sz.value;
+      apply();
+    };
+
+    apply();
+  }
+};
+
+/* =================================
+   TASK MANAGER
+================================= */
+
+apps.tasks = {
+  title: 'Task Manager',
+  icon: '📊',
+  w: 390,
+  h: 350,
+
+  init(root, win) {
+    root.classList.add('panel');
+
+    function render() {
+      root.replaceChildren(
+        el('h2', {
+          textContent: 'Running apps'
+        })
+      );
+
+      Object.keys(W).forEach(id => {
+        const row = el('div', { className: 'row' });
+
+        const label = el('span', {
+          textContent:
+            apps[id].icon + ' ' + apps[id].title
+        });
+
+        const btn = el('button', {
+          textContent: 'End'
+        });
+
+        label.style.flex = 1;
+        btn.onclick = () => closeApp(id);
+
+        row.append(label, btn);
+        root.append(row);
+      });
+    }
+
+    const timer = setInterval(render, 1000);
+
+    win.addEventListener(
+      'appclosed',
+      () => clearInterval(timer)
+    );
+
+    render();
+  }
+};
+
+/* =================================
+   FOUR MINI GAMES
+================================= */
+
+apps.games = {
+  title: 'Games',
+  icon: '🎮',
+  w: 580,
+  h: 525,
+
+  init(root, win) {
+    root.innerHTML = `
+      <div class="panel" style="padding-bottom:5px">
+        <div class="row" style="flex-wrap:wrap">
+          <button data-g="flight">🐝 Bee Flight</button>
+          <button data-g="catch">🌸 Petal Catch</button>
+          <button data-g="match">🪻 Flower Match</button>
+          <button data-g="maze">🍯 Hive Maze</button>
+        </div>
+
+        <div id="gameinfo" class="muted">
+          Choose a game
+        </div>
+      </div>
+
+      <div id="gamearea" style="
+        flex:1;
+        min-height:0;
+        position:relative;
+        overflow:hidden"></div>
+    `;
+
+    const stage = root.querySelector('#gamearea');
+    const info = root.querySelector('#gameinfo');
+
+    let cleanup = () => {};
+
+    function stop() {
+      cleanup();
+      cleanup = () => {};
+      stage.replaceChildren();
+      stage.removeAttribute('style');
+    }
+
+    function makeCanvas() {
+      const cv = el('canvas', {
+        className: 'gameCanvas'
+      });
+
+      stage.append(cv);
+
+      const g = cv.getContext('2d');
+
+      function resize() {
+        cv.width = Math.max(270, stage.clientWidth);
+        cv.height = Math.max(200, stage.clientHeight);
+      }
+
+      return { cv, g, resize };
+    }
+
+    /* BEE FLIGHT */
+
+    function flight() {
+      const { cv, g, resize } = makeCanvas();
+
+      let y = 120;
+      let vel = 0;
+      let score = 0;
+      let started = false;
+      let over = false;
+      let pipes = [];
+      let last = performance.now();
+      let raf;
+
+      function flap() {
+        if (over) {
+          stop();
+          flight();
+          return;
+        }
+
+        started = true;
+        vel = -310;
+      }
+
+      cv.onpointerdown = flap;
+
+      const key = e => {
+        if (
+          e.code === 'Space' &&
+          win.classList.contains('on')
+        ) {
+          e.preventDefault();
+          flap();
+        }
+      };
+
+      document.addEventListener('keydown', key);
+
+      function frame(t) {
+        resize();
+
+        const dt = Math.min(
+          .05,
+          (t - last) / 1000 || 0
+        );
+
+        const w = cv.width;
+        const h = cv.height;
+
+        last = t;
+
+        g.fillStyle = '#594477';
+        g.fillRect(0, 0, w, h);
+
+        if (!started) y = h / 2;
+
+        if (started && !over) {
+          vel += 850 * dt;
+          y += vel * dt;
+
+          if (
+            !pipes.length ||
+            pipes[pipes.length - 1].x < w - 215
+          ) {
+            pipes.push({
+              x: w + 20,
+              y:
+                35 +
+                Math.random() * Math.max(10, h - 210),
+              gap: 140,
+              pass: false
+            });
+          }
+
+          pipes.forEach(p => {
+            p.x -= 160 * dt;
+
+            if (!p.pass && p.x + 40 < w * .25) {
+              p.pass = true;
+              score++;
+            }
+
+            if (
+              w * .25 + 10 > p.x &&
+              w * .25 - 10 < p.x + 40 &&
+              (
+                y - 10 < p.y ||
+                y + 10 > p.y + p.gap
+              )
+            ) {
+              over = true;
+            }
+          });
+
+          pipes = pipes.filter(p => p.x > -50);
+
+          if (y < 0 || y > h) {
+            over = true;
+          }
+        }
+
+        g.fillStyle = '#f5c85b';
+
+        pipes.forEach(p => {
+          g.fillRect(p.x, 0, 40, p.y);
+          g.fillRect(
+            p.x,
+            p.y + p.gap,
+            40,
+            h
+          );
+        });
+
+        g.font = '28px serif';
+        g.fillText('🐝', w * .25 - 13, y + 9);
+
+        g.fillStyle = 'white';
+        g.font = '18px Arial';
+
+        g.fillText('Score: ' + score, 12, 27);
+
+        if (!started) {
+          g.fillText(
+            'Click or Space to fly',
+            20,
+            h / 2
+          );
+        }
+
+        if (over) {
+          g.fillText(
+            'Click to retry',
+            20,
+            h / 2
+          );
+        }
+
+        raf = requestAnimationFrame(frame);
+      }
+
+      raf = requestAnimationFrame(frame);
+
+      cleanup = () => {
+        cancelAnimationFrame(raf);
+        document.removeEventListener('keydown', key);
+      };
+
+      info.textContent = 'Click or Space to flap';
+    }
+
+    /* PETAL CATCH */
+
+    function catcher() {
+      const { cv, g, resize } = makeCanvas();
+
+      let x = 170;
+      let score = 0;
+      let lives = 3;
+      let items = [];
+      let timer = .5;
+      let last = performance.now();
+      let raf;
+
+      cv.onpointermove = e => {
+        x = e.clientX -
+          cv.getBoundingClientRect().left;
+      };
+
+      function frame(t) {
+        resize();
+
+        const dt = Math.min(
+          .05,
+          (t - last) / 1000 || 0
+        );
+
+        const w = cv.width;
+        const h = cv.height;
+
+        last = t;
+
+        x = Math.max(30, Math.min(w - 30, x));
+
+        g.fillStyle = '#594477';
+        g.fillRect(0, 0, w, h);
+
+        if (lives > 0) {
+          timer -= dt;
+
+          if (timer <= 0) {
+            timer = .6;
+
+            items.push({
+              x: 20 + Math.random() * (w - 40),
+              y: -10,
+              bad: Math.random() < .2
+            });
+          }
+
+          items.forEach(o => {
+            o.y += 145 * dt;
+
+            if (
+              o.y > h - 42 &&
+              Math.abs(o.x - x) < 40
+            ) {
+              o.y = h + 100;
+
+              if (o.bad) lives--;
+              else score++;
+            }
+          });
+
+          items = items.filter(o => o.y < h + 20);
+        }
+
+        g.font = '24px serif';
+
+        items.forEach(o => {
+          g.fillText(
+            o.bad ? '🌵' : '🌸',
+            o.x - 10,
+            o.y
+          );
+        });
+
+        g.fillText('🍯', x - 19, h - 17);
+
+        g.fillStyle = 'white';
+        g.font = '18px Arial';
+
+        g.fillText(
+          'Score: ' + score + '  Lives: ' + lives,
+          10,
+          25
+        );
+
+        if (lives <= 0) {
+          g.fillText(
+            'Game over',
+            w / 3,
+            h / 2
+          );
+        }
+
+        raf = requestAnimationFrame(frame);
+      }
+
+      raf = requestAnimationFrame(frame);
+
+      cleanup = () => cancelAnimationFrame(raf);
+
+      info.textContent =
+        'Move your mouse. Catch flowers, avoid thorns.';
+    }
+
+    /* FLOWER MATCH */
+
+    function match() {
+      stage.style.cssText = `
+        display:grid;
+        grid-template-columns:repeat(4,1fr);
+        gap:7px;
+        padding:12px;
+        flex:1;
+        min-height:0
+      `;
+
+      let cards = [
+        '🌸','🌼','🌷','🪻',
+        '🌹','🌻','🌺','💐'
+      ];
+
+      cards = [...cards, ...cards]
+        .sort(() => Math.random() - .5);
+
+      let selected = [];
+      let locked = false;
+      let pairs = 0;
+      let moves = 0;
+      let timers = [];
+
+      const buttons = cards.map((flower, i) => {
+        const b = el('button', {
+          textContent: '🐝'
+        });
+
+        b.style.fontSize = '28px';
+
+        b.onclick = () => {
+          if (
+            locked ||
+            selected.includes(i) ||
+            b.dataset.done
+          ) return;
+
+          b.textContent = flower;
+          selected.push(i);
+
+          if (selected.length === 2) {
+            moves++;
+
+            const [a, c] = selected;
+
+            if (cards[a] === cards[c]) {
+              buttons[a].dataset.done = '1';
+              buttons[c].dataset.done = '1';
+              pairs++;
+              selected = [];
+            } else {
+              locked = true;
+
+              timers.push(setTimeout(() => {
+                buttons[a].textContent = '🐝';
+                buttons[c].textContent = '🐝';
+
+                selected = [];
+                locked = false;
+              }, 650));
+            }
+
+            info.textContent =
+              pairs === 8
+                ? 'Won in ' + moves + ' moves!'
+                : `Pairs ${pairs}/8 · Moves ${moves}`;
+          }
+        };
+
+        stage.append(b);
+        return b;
+      });
+
+      cleanup = () => timers.forEach(clearTimeout);
+
+      info.textContent = 'Match the flower pairs';
+    }
+
+    /* HIVE MAZE */
+
+    function maze() {
+      const n = 9;
+
+      const cells = Array.from(
+        { length: n * n },
+        () => [1, 1, 1, 1]
+      );
+
+      const visited = new Set([0]);
+      const stack = [0];
+
+      const dirs = [
+        [0, -1, 0, 2],
+        [1, 0, 1, 3],
+        [0, 1, 2, 0],
+        [-1, 0, 3, 1]
+      ];
+
+      while (stack.length) {
+        const i = stack.at(-1);
+        const x = i % n;
+        const y = i / n | 0;
+
+        const options = dirs.filter(d => {
+          const xx = x + d[0];
+          const yy = y + d[1];
+
+          return (
+            xx >= 0 &&
+            yy >= 0 &&
+            xx < n &&
+            yy < n &&
+            !visited.has(yy * n + xx)
+          );
+        });
+
+        if (!options.length) {
+          stack.pop();
+          continue;
+        }
+
+        const d = options[
+          Math.random() * options.length | 0
+        ];
+
+        const j = (y + d[1]) * n + x + d[0];
+
+        cells[i][d[2]] = 0;
+        cells[j][d[3]] = 0;
+
+        visited.add(j);
+        stack.push(j);
+      }
+
+      let pos = 0;
+      let raf;
+
+      const key = e => {
+        if (!win.classList.contains('on')) return;
+
+        const k = {
+          ArrowUp: 0,
+          w: 0,
+          ArrowRight: 1,
+          d: 1,
+          ArrowDown: 2,
+          s: 2,
+          ArrowLeft: 3,
+          a: 3
+        }[e.key];
+
+        if (k === undefined) return;
+
+        e.preventDefault();
+
+        if (!cells[pos][k]) {
+          pos += [-n, 1, n, -1][k];
+        }
+
+        if (pos === n * n - 1) {
+          info.textContent = 'You found the honey!';
+        }
+      };
+
+      document.addEventListener('keydown', key);
+
+      const { cv, g, resize } = makeCanvas();
+
+      function draw() {
+        resize();
+
+        const w = cv.width;
+        const h = cv.height;
+
+        const s = Math.min(
+          (w - 20) / n,
+          (h - 20) / n
+        );
+
+        const ox = (w - n * s) / 2;
+        const oy = (h - n * s) / 2;
+
+        g.fillStyle = '#21182f';
+        g.fillRect(0, 0, w, h);
+
+        g.strokeStyle = '#dcc4f2';
+        g.lineWidth = 2;
+
+        cells.forEach((c, i) => {
+          const x = ox + (i % n) * s;
+          const y = oy + (i / n | 0) * s;
+
+          const edges = [
+            [x, y, x + s, y],
+            [x + s, y, x + s, y + s],
+            [x, y + s, x + s, y + s],
+            [x, y, x, y + s]
+          ];
+
+          edges.forEach((line, j) => {
+            if (!c[j]) return;
+
+            g.beginPath();
+
+            g.moveTo(line[0], line[1]);
+            g.lineTo(line[2], line[3]);
+
+            g.stroke();
+          });
+        });
+
+        g.font = Math.floor(s * .7) + 'px serif';
+
+        g.fillText(
+          '🍯',
+          ox + (n - .8) * s,
+          oy + (n - .25) * s
+        );
+
+        g.fillText(
+          '🐝',
+          ox + (pos % n + .06) * s,
+          oy + ((pos / n | 0) + .75) * s
+        );
+
+        raf = requestAnimationFrame(draw);
+      }
+
+      raf = requestAnimationFrame(draw);
+
+      cleanup = () => {
+        cancelAnimationFrame(raf);
+
+        document.removeEventListener(
+          'keydown',
+          key
+        );
+      };
+
+      info.textContent =
+        'Use WASD or arrow keys to reach honey';
+    }
+
+    const games = {
+      flight,
+      catch: catcher,
+      match,
+      maze
+    };
+
+    root.querySelectorAll('[data-g]')
+      .forEach(btn => {
+        btn.onclick = () => {
+          stop();
+          games[btn.dataset.g]();
+        };
+      });
+
+    win.addEventListener('appclosed', stop);
+
+    flight();
+  }
+};
+
+/* =================================
+   ABOUT
+================================= */
+
+apps.about = {
+  title: 'About Lilac OS',
+  icon: '🪻',
+  w: 420,
+  h: 320,
+
+  init(root) {
+    root.innerHTML = `
+      <div class="panel">
+        <h2>🪻 Lilac OS</h2>
+
+        <p>A desktop powered by bees and lilacs.</p>
+
+        <p>
+          🌸 Nectar: Tavily search
+          via Cloudflare Worker.
+        </p>
+
+        <p>
+          🌐 Browser: compatible websites
+          in windows.
+        </p>
+
+        <p>
+          🌘 The Real Deal: BossHim Game Jolt
+          link and original Shadow Trial.
+        </p>
+
+        <p class="muted">
+          The external Game Jolt page
+          may block embedding.
+        </p>
+      </div>
+    `;
+  }
+};
+
+/* =================================
+   DESKTOP ICONS AND START MENU
+================================= */
+
+Object.entries(apps).forEach(([id, a], i) => {
+  const icon = el('div', { className: 'icon' });
+
+  icon.style.left =
+    14 + Math.floor(i / 5) * 112 + 'px';
+
+  icon.style.top =
+    14 + (i % 5) * 103 + 'px';
+
+  icon.innerHTML = `
+    <span class="emoji">${a.icon}</span>
+    ${a.title}
   `;
 
-  let moved=false,ox=0,oy=0;
+  let moved = false;
+  let ox = 0;
+  let oy = 0;
 
-  icon.onpointerdown=e=>{
-    moved=false;
-    ox=e.clientX-icon.offsetLeft;
-    oy=e.clientY-icon.offsetTop;
+  icon.onpointerdown = e => {
+    moved = false;
+    ox = e.clientX - icon.offsetLeft;
+    oy = e.clientY - icon.offsetTop;
+
     icon.setPointerCapture(e.pointerId);
   };
-  icon.onpointermove=e=>{
-    if(!icon.hasPointerCapture(e.pointerId))return;
-    moved=true;
-    icon.style.left=(e.clientX-ox)+"px";
-    icon.style.top=(e.clientY-oy)+"px";
+
+  icon.onpointermove = e => {
+    if (!icon.hasPointerCapture(e.pointerId)) return;
+
+    moved = true;
+
+    icon.style.left =
+      e.clientX - ox + 'px';
+
+    icon.style.top =
+      e.clientY - oy + 'px';
   };
-  icon.onpointerup=e=>{
-    if(!moved&&e.pointerType==="touch")openApp(id);
+
+  icon.onpointerup = e => {
+    if (!moved && e.pointerType === 'touch') {
+      openApp(id);
+    }
   };
-  icon.ondblclick=()=>openApp(id);
+
+  icon.ondblclick = () => openApp(id);
 
   desktop.append(icon);
 
-  const item=document.createElement("button");
-  item.textContent=app.icon+" "+app.name;
-  item.onclick=()=>{
-    openApp(id);
-    $("#startmenu").classList.remove("visible");
-  };
-  $("#startmenu").append(item);
-});
-
-/* ==============================
-   TASKBAR
-   ============================== */
-
-$("#startbtn").onclick=e=>{
-  e.stopPropagation();
-  $("#startmenu").classList.toggle("visible");
-};
-
-document.addEventListener("click",e=>{
-  if(!e.target.closest("#startmenu")&&
-     !e.target.closest("#startbtn")){
-    $("#startmenu").classList.remove("visible");
-  }
-});
-
-$("#soundbtn").onclick=()=>{
-  sound=!sound;
-  $("#soundbtn").textContent=sound?"🔊":"🔇";
-};
-
-$("#fullscreen").onclick=()=>{
-  if(document.fullscreenElement){
-    document.exitFullscreen();
-  }else{
-    document.documentElement.requestFullscreen().catch(()=>{});
-  }
-};
-
-function updateClock(){
-  $("#clock").textContent=new Date().toLocaleTimeString([],{
-    hour:"2-digit",minute:"2-digit"
+  const item = el('button', {
+    textContent: a.icon + ' ' + a.title
   });
-}
-updateClock();
-setInterval(updateClock,1000);
 
-/* ==============================
-   RESTORE SETTINGS
-   ============================== */
+  item.onclick = () => {
+    openApp(id);
+    $('#startmenu').classList.remove('show');
+  };
 
-const savedConfig=getData("lilacConfig",null);
-if(savedConfig){
-  const walls=[
-    "radial-gradient(circle at 20% 15%,#7a5cae,transparent 55%),linear-gradient(160deg,#3a2a54,#21182F)",
-    "linear-gradient(135deg,#B89CE8,#DCC4F2,#F5C85B)",
-    "linear-gradient(135deg,#21182F,#594477,#F5C85B)"
-  ];
-  desktop.style.background=walls[savedConfig.wall]||walls[0];
-  desktop.style.filter=`brightness(${savedConfig.brightness||1})`;
-  document.querySelectorAll(".desktop-icon .emoji")
-    .forEach(el=>{
-      el.style.fontSize=(savedConfig.iconSize||49)+"px";
+  $('#startmenu').append(item);
+});
+
+/* =================================
+   TASKBAR
+================================= */
+
+$('#start').onclick = e => {
+  e.stopPropagation();
+  $('#startmenu').classList.toggle('show');
+};
+
+document.addEventListener('click', e => {
+  if (
+    !e.target.closest('#startmenu') &&
+    !e.target.closest('#start')
+  ) {
+    $('#startmenu').classList.remove('show');
+  }
+});
+
+$('#sound').onclick = () => {
+  soundOn = !soundOn;
+
+  $('#sound').textContent =
+    soundOn ? '🔊' : '🔇';
+};
+
+$('#fullscreen').onclick = () => {
+  if (document.fullscreenElement) {
+    document.exitFullscreen();
+  } else {
+    document.documentElement
+      .requestFullscreen()
+      .catch(() => {});
+  }
+};
+
+function tick() {
+  $('#clock').textContent =
+    new Date().toLocaleTimeString([], {
+      hour: '2-digit',
+      minute: '2-digit'
     });
 }
 
-/* ==============================
+tick();
+setInterval(tick, 1000);
+
+/* =================================
+   RESTORE SETTINGS
+================================= */
+
+const savedCfg = load('lilacConfig', null);
+
+if (savedCfg) {
+  const walls = [
+    'radial-gradient(circle at 20% 15%,#7958a3,transparent 55%),linear-gradient(145deg,#392850,#21182f)',
+    'linear-gradient(135deg,#b89ce8,#dcc4f2,#f5c85b)',
+    'linear-gradient(135deg,#21182f,#594477,#f5c85b)'
+  ];
+
+  desktop.style.background =
+    walls[savedCfg.wall] || walls[0];
+
+  desktop.style.filter =
+    'brightness(' +
+    (savedCfg.brightness || 1) +
+    ')';
+
+  document.querySelectorAll('.icon .emoji')
+    .forEach(i => {
+      i.style.fontSize =
+        (savedCfg.size || 45) + 'px';
+    });
+}
+
+/* =================================
    BOOT SCREEN
-   ============================== */
+================================= */
 
-const boot=$("#boot");
-setTimeout(()=>{
-  boot.style.opacity="0";
-  setTimeout(()=>boot.remove(),750);
-},2200);
+const boot = $('#boot');
 
-boot.onclick=()=>{
-  boot.style.opacity="0";
-  setTimeout(()=>boot.remove(),750);
-};
+function endBoot() {
+  if (!boot.isConnected) return;
+
+  boot.style.opacity = 0;
+
+  setTimeout(() => boot.remove(), 600);
+}
+
+boot.onclick = endBoot;
+setTimeout(endBoot, 1900);
 
 </script>
 </body>
 </html>
-
-/* ===== LILAC IN-APP BROWSER ===== */
-
-(function () {
-  const normalizeURL = (value) => {
-    try {
-      const raw = String(value || '').trim();
-      if (!raw) return null;
-
-      const url = new URL(
-        /^https?:\/\//i.test(raw)
-          ? raw
-          : 'https://' + raw
-      );
-
-      return ['http:', 'https:'].includes(url.protocol)
-        ? url.href
-        : null;
-    } catch {
-      return null;
-    }
-  };
-
-  apps.browser = {
-    t: 'Lilac Browser',
-    name: 'Lilac Browser',
-    i: '🌐',
-    icon: '🌐',
-    w: 920,
-    h: 620,
-    width: 920,
-    height: 620,
-
-    init(root, winOrId) {
-      const win = typeof winOrId === 'string'
-        ? root.parentElement
-        : winOrId;
-
-      root.innerHTML = `
-        <div style="
-          display:flex;
-          flex-direction:column;
-          height:100%;
-          min-height:0;
-          background:#21182f
-        ">
-          <div class="lb-tabs" style="
-            display:flex;
-            align-items:center;
-            gap:5px;
-            overflow-x:auto;
-            padding:7px;
-            background:#3a2a54
-          "></div>
-
-          <div style="
-            display:flex;
-            gap:6px;
-            padding:8px;
-            background:#2b203d;
-            align-items:center
-          ">
-            <button class="lb-back" title="Back">←</button>
-            <button class="lb-next" title="Forward">→</button>
-            <button class="lb-reload" title="Reload">↻</button>
-
-            <input
-              class="lb-address"
-              type="text"
-              placeholder="Enter a website address"
-              style="flex:1;min-width:0;user-select:text"
-            >
-
-            <button class="lb-go">Go</button>
-          </div>
-
-          <div class="lb-view" style="
-            position:relative;
-            flex:1;
-            min-height:0;
-            background:white
-          "></div>
-
-          <div class="lb-status" style="
-            padding:5px 9px;
-            font-size:11px;
-            color:#dcc4f2;
-            background:#2b203d
-          ">
-            Websites that permit embedding will display here.
-          </div>
-        </div>
-      `;
-
-      const tabsBar = root.querySelector('.lb-tabs');
-      const view = root.querySelector('.lb-view');
-      const address = root.querySelector('.lb-address');
-      const status = root.querySelector('.lb-status');
-      const back = root.querySelector('.lb-back');
-      const next = root.querySelector('.lb-next');
-
-      const tabs = [];
-      let active = -1;
-
-      function render() {
-        tabsBar.replaceChildren();
-
-        tabs.forEach((tab, index) => {
-          const select = document.createElement('button');
-
-          select.textContent = tab.url
-            ? new URL(tab.url).hostname
-            : 'New tab';
-
-          select.style.cssText = `
-            white-space:nowrap;
-            max-width:180px;
-            overflow:hidden;
-            text-overflow:ellipsis
-          `;
-
-          if (index === active) {
-            select.style.background = '#b89ce8';
-          }
-
-          select.onclick = () => {
-            active = index;
-            render();
-          };
-
-          tabsBar.append(select);
-
-          const close = document.createElement('button');
-          close.textContent = '×';
-          close.title = 'Close tab';
-
-          close.onclick = () => {
-            tab.frame.remove();
-            tabs.splice(index, 1);
-
-            if (!tabs.length) {
-              active = -1;
-              createTab();
-              return;
-            }
-
-            if (active >= tabs.length) {
-              active = tabs.length - 1;
-            } else if (index < active) {
-              active--;
-            }
-
-            render();
-          };
-
-          tabsBar.append(close);
-        });
-
-        const add = document.createElement('button');
-        add.textContent = '+';
-        add.title = 'New tab';
-        add.onclick = () => createTab();
-        tabsBar.append(add);
-
-        tabs.forEach((tab, index) => {
-          tab.frame.style.display =
-            index === active ? 'block' : 'none';
-        });
-
-        const current = tabs[active];
-
-        address.value = current?.url || '';
-        back.disabled = !current || current.index <= 0;
-
-        next.disabled = !current ||
-          current.index >= current.history.length - 1;
-      }
-
-      function createTab(initialURL) {
-        const frame = document.createElement('iframe');
-
-        frame.title = 'Website viewer';
-
-        frame.style.cssText = `
-          position:absolute;
-          inset:0;
-          width:100%;
-          height:100%;
-          border:0;
-          background:white
-        `;
-
-        frame.setAttribute(
-          'sandbox',
-          'allow-forms allow-scripts allow-same-origin'
-        );
-
-        frame.setAttribute('referrerpolicy', 'no-referrer');
-
-        view.append(frame);
-
-        const tab = {
-          frame,
-          url: '',
-          history: [],
-          index: -1
-        };
-
-        tabs.push(tab);
-        active = tabs.length - 1;
-
-        frame.srcdoc = `
-          <html>
-            <body style="
-              font:16px system-ui;
-              text-align:center;
-              padding:12vh 20px;
-              color:#594477
-            ">
-              <h1>🌸 Lilac Browser</h1>
-              <p>
-                Enter a website above or click
-                a Nectar search result.
-              </p>
-            </body>
-          </html>
-        `;
-
-        if (initialURL) {
-          navigate(initialURL);
-        } else {
-          render();
-        }
-      }
-
-      function navigate(value, record = true) {
-        const url = normalizeURL(value);
-
-        if (!url) {
-          status.textContent =
-            'Please enter a valid HTTP or HTTPS address.';
-          return;
-        }
-
-        const tab = tabs[active];
-        if (!tab) return;
-
-        tab.url = url;
-
-        if (record) {
-          tab.history = tab.history.slice(0, tab.index + 1);
-          tab.history.push(url);
-          tab.index = tab.history.length - 1;
-        }
-
-        tab.frame.removeAttribute('srcdoc');
-        tab.frame.src = url;
-
-        status.textContent =
-          'Loading ' + url +
-          ' — some sites do not allow embedded viewing.';
-
-        render();
-      }
-
-      root.querySelector('.lb-go').onclick = () => {
-        navigate(address.value);
-      };
-
-      address.onkeydown = event => {
-        if (event.key === 'Enter') {
-          navigate(address.value);
-        }
-      };
-
-      back.onclick = () => {
-        const tab = tabs[active];
-
-        if (tab && tab.index > 0) {
-          navigate(tab.history[--tab.index], false);
-        }
-      };
-
-      next.onclick = () => {
-        const tab = tabs[active];
-
-        if (tab && tab.index < tab.history.length - 1) {
-          navigate(tab.history[++tab.index], false);
-        }
-      };
-
-      root.querySelector('.lb-reload').onclick = () => {
-        const tab = tabs[active];
-
-        if (tab?.url) {
-          tab.frame.src = tab.url;
-        }
-      };
-
-      win.addEventListener('lilac-browse', event => {
-        createTab(event.detail.url);
-      });
-
-      createTab();
-    }
-  };
-
-  function openInsideLilac(value) {
-    const url = normalizeURL(value);
-    if (!url) return;
-
-    if (typeof openApp === 'function') {
-      openApp('browser');
-    } else {
-      open('browser');
-    }
-
-    const win = typeof windows !== 'undefined'
-      ? windows.browser
-      : W.browser?.el;
-
-    win?.dispatchEvent(
-      new CustomEvent('lilac-browse', {
-        detail: { url }
-      })
-    );
-  }
-
-  /* Open Nectar search results inside Lilac */
-
-  document.addEventListener('click', event => {
-    const link = event.target.closest(
-      'a.link-card[href], a.rs[href]'
-    );
-
-    if (!link) return;
-
-    event.preventDefault();
-    event.stopPropagation();
-
-    openInsideLilac(link.href);
-  }, true);
-
-  /* Add browser shortcut to desktop and Start menu */
-
-  const desk = document.querySelector('#desktop, #desk');
-  const launcher = document.querySelector('#startmenu, #start');
-
-  const icon = document.createElement('div');
-  const isOriginal = !!document.querySelector('.ic');
-
-  icon.className = isOriginal
-    ? 'ic'
-    : 'desktop-icon';
-
-  icon.style.left = '235px';
-  icon.style.top = '15px';
-
-  icon.innerHTML = isOriginal
-    ? '<i>🌐</i>Lilac Browser'
-    : '<span class="emoji">🌐</span>Lilac Browser';
-
-  icon.ondblclick = () => {
-    if (typeof openApp === 'function') {
-      openApp('browser');
-    } else {
-      open('browser');
-    }
-  };
-
-  desk?.append(icon);
-
-  const startItem = document.createElement('button');
-  startItem.className = 'btn';
-  startItem.textContent = '🌐 Lilac Browser';
-
-  startItem.onclick = () => {
-    icon.ondblclick();
-    launcher?.classList.remove('visible', 'on');
-  };
-
-  launcher?.append(startItem);
-})();
