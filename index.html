@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Lilac OS V1 — Bloom </title>
+<title>Lilac OS V0.28 — Purple Revolution</title>
 <style>
 :root{--lav:#bda4f2;--pink:#e2c9fa;--gold:#ffcf72;--dark:#1a122c;--cream:#f8efff;--panel:#2b203f;--br:1;--icons:46px}
 *{box-sizing:border-box}html,body{height:100%;margin:0;overflow:hidden;color:var(--cream);background:var(--dark);font:14px system-ui,"Trebuchet MS",sans-serif}
@@ -80,19 +80,173 @@ button,input,textarea,select{font:inherit;border:1px solid #bda4f266;border-radi
 .lilac-status{font-size:11px;color:#d5c2ee;padding:5px 12px}
 @media(max-width:760px){.chess-layout{grid-template-columns:1fr}.chess-board{max-width:480px}.chess-side{max-width:560px}.chess-square{font-size:clamp(21px,7.5vw,46px)!important}}
 
+
+/* ═══════════ LILAC V0.28 • FLORAL GLASS UI ═══════════ */
+:root{--v28-outline:#d8b6ff66;--v28-glow:#a86aff;--v28-text:#f9f2ff;--v28-surface:#1e1632}
+#desktop{isolation:isolate;transition:background 850ms ease;}
+#desktop::before{z-index:0;opacity:.38;background:radial-gradient(#fff8 1px,transparent 1px) 0 0/37px 37px;mask-image:linear-gradient(135deg,transparent,#000 55%,transparent);}
+.wallpaper-decoration{position:absolute;inset:0;z-index:0;pointer-events:none;opacity:.55;transition:opacity .8s,background-image .8s;}
+.wallpaper-decoration::after{content:"";position:absolute;inset:0;background:linear-gradient(140deg,#fff1 0%,transparent 40%,#08051145 100%);}
+.wallpaper-petal{position:absolute;left:var(--x);top:var(--y);font-size:var(--size);opacity:var(--opacity);color:var(--petal-color);text-shadow:0 0 17px currentColor;animation:petalDrift var(--duration) ease-in-out infinite alternate;animation-delay:var(--delay);will-change:transform;}
+@keyframes petalDrift{0%{transform:translate3d(0,0,0) rotate(-18deg)}100%{transform:translate3d(15px,-32px,0) rotate(23deg)}}
+#flowery-scene{position:absolute;inset:0;z-index:0;pointer-events:none;overflow:hidden;display:none;isolation:isolate}
+#desktop[data-wallpaper="flowery"] #flowery-scene{display:block}
+#flowery-scene svg{position:absolute;width:100%;height:100%;min-width:650px;right:0;top:0;filter:drop-shadow(0 0 16px #ffd54455)}
+#flowery-scene .flower-head{transform-box:fill-box;transform-origin:center;animation:flowerBreath 3.3s ease-in-out infinite}
+#flowery-scene .flower-aura{transform-box:fill-box;transform-origin:center;animation:flowerSpin 38s linear infinite}
+#flowery-scene .flower-glitch{animation:flowerGlitch 7.5s steps(1) infinite;opacity:.18}
+#flowery-scene .flower-eye{animation:flowerBlink 9s steps(1) infinite}
+#flowery-scene .flower-float{animation:flowerFloat 7s ease-in-out infinite alternate}
+#flowery-scene .flower-caption{font-family:monospace;letter-spacing:5px;font-weight:700;fill:#f7dc80;filter:drop-shadow(0 0 8px #ffe75a);opacity:.9}
+#flowery-scene::after{content:"";position:absolute;inset:0;pointer-events:none;background:repeating-linear-gradient(0deg,transparent 0 4px,#05060622 5px 6px);mix-blend-mode:multiply;opacity:.38}
+@keyframes flowerBreath{50%{transform:scale(1.04) rotate(1.5deg)}}
+@keyframes flowerSpin{to{transform:rotate(360deg)}}
+@keyframes flowerFloat{to{transform:translateY(-14px)}}
+@keyframes flowerGlitch{0%,91%,95%,100%{transform:translateX(0);opacity:.12}92%{transform:translateX(12px);opacity:.8;filter:hue-rotate(90deg)}93%{transform:translateX(-9px);opacity:.35}94%{transform:translateX(4px);opacity:.7}}
+@keyframes flowerBlink{0%,93%,95%,100%{transform:scaleY(1)}94%{transform:scaleY(.12)}}
+#flower-unlock-flash{position:fixed;inset:0;pointer-events:none;z-index:9999999;display:grid;place-items:center;animation:flowerUnlock 1.3s steps(1) forwards;background:#190d2b;color:#ffe17b;font:900 clamp(18px,4vw,44px)/1.3 monospace;letter-spacing:.18em;text-align:center;text-shadow:0 0 25px #ffce4c}
+@keyframes flowerUnlock{0%{opacity:0}8%{opacity:.95;filter:hue-rotate(0)}15%{opacity:.2}23%{opacity:.85;filter:hue-rotate(160deg)}30%{opacity:.3}42%{opacity:.95}60%{opacity:.55}78%{opacity:.22}100%{opacity:0}}
+/* Global window and app polish */
+.window{--app-accent:#caa5ff;--app-accent2:#77e6d9;border:1px solid color-mix(in srgb,var(--app-accent) 55%,transparent);border-radius:20px;background:linear-gradient(155deg,#281d40ed,#141026ef 80%);box-shadow:0 2px 0 #ffffff18 inset,0 30px 90px #070310b8,0 0 35px color-mix(in srgb,var(--app-accent) 13%,transparent);backdrop-filter:blur(24px) saturate(1.25);animation:v28WindowIn .25s cubic-bezier(.2,.85,.25,1.2);}
+.window.focused{border-color:color-mix(in srgb,var(--app-accent) 78%,white);box-shadow:0 0 0 1px #fff2 inset,0 32px 90px #06020fb5,0 0 35px color-mix(in srgb,var(--app-accent) 24%,transparent)}
+.window.max{border-radius:0}
+@keyframes v28WindowIn{from{opacity:0;transform:translateY(13px) scale(.975)}to{opacity:1;transform:none}}
+.titlebar{position:relative;min-height:49px;padding:7px 11px;background:linear-gradient(95deg,color-mix(in srgb,var(--app-accent) 33%,#170f2b),#20152de8 75%);border-bottom:1px solid #ffffff20;box-shadow:0 1px 0 #ffffff16 inset;letter-spacing:.01em}
+.titlebar::after{content:"";position:absolute;bottom:0;left:14px;width:30%;height:1px;background:linear-gradient(90deg,var(--app-accent),transparent);box-shadow:0 0 12px var(--app-accent)}
+.titlebar .app-title{display:flex;align-items:center;gap:10px;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.titlebar .app-symbol{display:grid;place-items:center;width:30px;height:30px;flex-shrink:0;border-radius:10px;background:linear-gradient(135deg,#ffffff2b,#ffffff08);border:1px solid #ffffff28;box-shadow:0 0 16px color-mix(in srgb,var(--app-accent) 30%,transparent);font-size:17px}
+.titlebar .ctrl{gap:6px}
+.titlebar .ctrl button{width:29px;height:27px;border-radius:9px;padding:0;font-size:17px;background:#ffffff10;border:1px solid #ffffff1a;color:#f9efff}
+.titlebar .ctrl button[data-action="close"]:hover{background:#ec4d77;color:white}
+.appbody{background:radial-gradient(circle at 100% 0%,color-mix(in srgb,var(--app-accent) 9%,transparent),transparent 44%),radial-gradient(circle at 0 100%,#e9b2ff09,transparent 50%);scrollbar-width:thin;scrollbar-color:#b594dd7a transparent}
+.panel{padding:18px;gap:13px}
+.panel h1,.panel h2,.panel h3{letter-spacing:.01em;color:#f5e4ff;text-shadow:0 0 18px #c99bff25}
+.panel h2{margin:4px 0 2px}
+.card,.result{border:1px solid #cfb1ff35;border-radius:15px;background:linear-gradient(145deg,#ffffff13,#ffffff06);box-shadow:0 1px 0 #ffffff14 inset,0 12px 28px #07021022;backdrop-filter:blur(10px)}
+.result:hover,.card:hover{border-color:#d4b1ff6b;background:linear-gradient(140deg,#ffffff19,#ffffff0a)}
+button:not(.chess-square){border-radius:11px;background:linear-gradient(140deg,#72549f,#4b376d);border:1px solid #e0c5ff40;box-shadow:0 1px 0 #ffffff20 inset,0 3px 10px #0002;transition:background .18s,transform .16s,box-shadow .18s,border-color .18s}
+button:not(.chess-square):hover:not(:disabled){background:linear-gradient(140deg,#d8b3ff,#9b77dc);color:#20122d;border-color:#fff8;box-shadow:0 0 18px #c18bff66;transform:translateY(-1px)}
+button:not(.chess-square):active:not(:disabled){transform:scale(.97)}
+input,textarea,select{border-radius:11px;border:1px solid #cbb1ed4f;background:#140e278a;box-shadow:0 1px 0 #ffffff10 inset;color:#f9f1ff;transition:border-color .18s,box-shadow .18s}
+input:focus,textarea:focus,select:focus{outline:0;border-color:#dfc0ff;box-shadow:0 0 0 3px #c69bff25,0 0 16px #b580f82a}
+#taskbar{height:55px;background:linear-gradient(90deg,#160f25f7,#2d1e44ef,#160f25f7);border-top:1px solid #d1aaff57;box-shadow:0 -7px 25px #0004,0 1px 0 #ffffff14 inset;backdrop-filter:blur(24px)}
+#startmenu{border-radius:18px;background:linear-gradient(150deg,#38234fef,#171022f8);border-color:#e0b6ff77;box-shadow:0 24px 60px #090411bc;backdrop-filter:blur(24px)}
+.icon{border:1px solid transparent;transition:transform .2s,background .2s,box-shadow .2s,border-color .2s;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;text-shadow:0 2px 10px #000a}
+.icon:hover{transform:translateY(-3px);border-color:#ffffff47;background:linear-gradient(160deg,#fff3,#fff1);box-shadow:0 10px 25px #0003,0 0 20px #bda4f266}
+.icon .emoji{filter:drop-shadow(0 4px 10px #160b27a0)}
+.window[data-app="nectar"]{--app-accent:#ffbcda;--app-accent2:#ffe6a8}
+.window[data-app="browser"]{--app-accent:#8cc9ff;--app-accent2:#c1a8ff}
+.window[data-app="hive"]{--app-accent:#f5cf76;--app-accent2:#ffb0ce}
+.window[data-app="term"]{--app-accent:#9ff0d2;--app-accent2:#bbaaff}
+.window[data-app="settings"]{--app-accent:#d1a6ff;--app-accent2:#f5b6db}
+.window[data-app="chess"]{--app-accent:#bca4f7;--app-accent2:#9eeedc}
+.window[data-app="assistant"]{--app-accent:#a6e8f3;--app-accent2:#b9a8ff}
+.window[data-app="globalChat"]{--app-accent:#f7b3d9;--app-accent2:#b2e6f1}
+.window[data-app="scp"]{--app-accent:#72d7bf;--app-accent2:#9aebcc}
+.window[data-app="realDeal"]{--app-accent:#ef7fbd;--app-accent2:#b1a0ff}
+.window[data-app="games"]{--app-accent:#f1b6ff;--app-accent2:#ffd9a3}
+.window[data-app="notes"]{--app-accent:#ffda9e;--app-accent2:#f6b3e5}
+.window[data-app="about"]{--app-accent:#cbb4ff;--app-accent2:#f7d2fb}
+.window[data-app="calc"]{--app-accent:#b5dbff;--app-accent2:#f8c4ff}
+.window[data-app="tasks"]{--app-accent:#f6b2e8;--app-accent2:#a7ddff}
+.v28-settings{padding:18px;gap:17px}
+.v28-settings .settings-hero{padding:16px 18px;border:1px solid #e5b9ff56;border-radius:18px;background:radial-gradient(circle at 90% 0%,#e6a4ff35,transparent 55%),linear-gradient(125deg,#3b2858,#251937);box-shadow:0 8px 24px #0003}
+.v28-settings .settings-hero h2{font-size:22px;margin:0 0 6px}
+.v28-settings .settings-section-label{font-weight:800;letter-spacing:.09em;text-transform:uppercase;color:#e5c5ff;font-size:11px}
+.v28-wallpaper-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.v28-wallpaper-option{position:relative;padding:5px!important;display:flex;flex-direction:column;gap:6px;min-height:103px;border-radius:14px!important;overflow:hidden;text-align:left;background:#20162d!important}
+.v28-wallpaper-option .wallpaper-thumb{height:63px;width:100%;border-radius:9px;background-size:cover;display:grid;place-items:center;font-size:25px;text-shadow:0 0 16px #fff8;box-shadow:inset 0 0 15px #0003}
+.v28-wallpaper-option .wallpaper-name{font-size:11px;padding:0 4px 4px;color:#f1e4fc;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;width:100%}
+.v28-wallpaper-option[aria-pressed="true"]{border-color:#e6c7ff!important;box-shadow:0 0 0 2px #c5a0ff66,0 0 22px #ba8bff3b!important}
+.v28-wallpaper-option[aria-pressed="true"]::after{content:"✓";position:absolute;right:9px;top:8px;border-radius:100%;width:20px;height:20px;background:#d9b6ff;color:#281332;font-weight:900;display:grid;place-items:center}
+.v28-slider-row{display:flex;flex-direction:column;gap:7px;padding:12px 14px;background:#ffffff09;border:1px solid #d2b3ff2a;border-radius:13px}
+.v28-slider-row input{width:100%;accent-color:#c7a2f7}
+.v28-secret-hint{font-size:11px;color:#d4bddf;line-height:1.5}
+@media(max-width:530px){.v28-wallpaper-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.window{border-radius:13px}}
+@media(prefers-reduced-motion:reduce){.wallpaper-petal,#flowery-scene .flower-head,#flowery-scene .flower-aura,#flowery-scene .flower-glitch,#flowery-scene .flower-eye,#flowery-scene .flower-float,.window{animation:none!important;transition:none!important}}
+
+
+/* ═══════════ V28 MAGNUS TIME • SECRET FLOWER CHESS POWER ═══════════ */
+.chess-cheat-card{position:relative;overflow:hidden;border:1px solid #e1b6ff99!important;background:radial-gradient(circle at 100% 0%,#66358d80,transparent 54%),linear-gradient(145deg,#29173c,#150e25)!important;box-shadow:0 0 20px #b679ff23,inset 0 0 0 1px #ffffff16}
+.chess-cheat-card[hidden]{display:none!important}
+.chess-cheat-card:before{content:'✦';position:absolute;right:13px;top:4px;font-size:43px;color:#b87bf660;animation:magnusTwinkle 3s ease-in-out infinite;pointer-events:none}
+.chess-cheat-title{font-weight:900;letter-spacing:.12em;font-size:15px;color:#f6d5ff;text-shadow:0 0 12px #cf8dff80}
+.chess-cheat-sub{color:#d7c2eb;font-size:11px;line-height:1.5;margin:5px 0 10px}
+.chess-cheat-options{display:flex;gap:7px;margin-top:8px}
+.chess-cheat-options button{flex:1;font-weight:800;font-size:12px}
+.chess-cheat-options button.active{background:linear-gradient(120deg,#c899ff,#9e70f1)!important;color:#231034!important;box-shadow:0 0 15px #b879ff77}
+.chess-cheat-status{font:11px/1.55 monospace;color:#f3d8ff;margin-top:10px}
+.chess-board.chess-magnus{box-shadow:0 0 0 2px #e4b0ff,0 0 26px #bb6dff88,0 20px 40px #0008}
+.chess-square.cheat-target:after{content:'✦';position:absolute;z-index:2;inset:0;display:grid;place-items:center;font-size:clamp(15px,3vw,29px);color:#fff2ff;text-shadow:0 0 13px #ab46ff,0 0 25px #efc4ff;opacity:.86;pointer-events:none;animation:magnusTwinkle 1.6s ease-in-out infinite}
+.chess-square.cheat-target.legal:before{display:none}
+.chess-cheat-token{position:fixed;z-index:999999;pointer-events:none;font:64px/1 Georgia,serif;color:#fff8ff;text-shadow:0 0 9px #b364ff,0 0 23px #f0b7ff,0 0 40px #d390ff;transform:translate(-50%,-50%);will-change:transform,opacity,filter}
+.chess-cheat-portal{position:fixed;z-index:999998;width:56px;height:56px;border-radius:50%;border:3px solid #e1afff;box-shadow:0 0 14px #e9b6ff,0 0 36px #a64af9,inset 0 0 24px #b46bff;background:radial-gradient(circle,#fff4ff77,transparent 72%);pointer-events:none;transform:translate(-50%,-50%);animation:magnusPortal .48s ease-out both}
+@keyframes magnusPortal{0%{opacity:0;scale:.2;rotate:0deg}35%{opacity:1;scale:1.3;rotate:90deg}100%{opacity:0;scale:1.9;rotate:180deg}}
+@keyframes magnusTwinkle{0%,100%{opacity:.38;transform:scale(.85)}50%{opacity:1;transform:scale(1.12)}}
+#magnus-unlock-flash{position:fixed;inset:0;z-index:9999999;display:grid;place-items:center;pointer-events:none;background:radial-gradient(circle,#a46cf07a,#180a309e);font:900 clamp(30px,6vw,82px)/1.1 monospace;color:#fff2ff;text-shadow:3px 0 #d575ff,-3px 0 #78eaff,0 0 45px #d1a2ff;letter-spacing:.08em;animation:magnusUnlock .85s ease-out both;text-align:center;padding:20px}
+@keyframes magnusUnlock{0%{opacity:0;filter:contrast(2);transform:scale(1.12)}18%{opacity:1;transform:translateX(5px)}38%{transform:translateX(-6px)}75%{opacity:1;transform:scale(1)}100%{opacity:0;transform:scale(1.03)}}
+@media(prefers-reduced-motion:reduce){.chess-cheat-card:before,.chess-square.cheat-target:after,.chess-cheat-portal,#magnus-unlock-flash{animation:none!important}}
+
+
+.hive-terminal{background:radial-gradient(circle at 20% 0%,#2a4a3c88,transparent 45%),linear-gradient(#111c1a,#091115)!important}.hive-terminal #out{font:13px/1.7 ui-monospace,Consolas,monospace!important;color:#9ef5ce!important;padding:20px!important}.hive-terminal .row{border-top:1px solid #54dba65c;background:#14271f;padding:12px!important}.hive-terminal input{background:#08150f!important;color:#beffe4!important;border:1px solid #4dba88!important}.lilac-reduced-motion .wallpaper-petal,.lilac-reduced-motion .wallpaper-decoration,.lilac-reduced-motion .window,.lilac-reduced-motion .chess-cheat-card:before{animation:none!important;transition:none!important}
+/* LILAC V0.28 • PURPLE REVOLUTION */
+:root{--soft:#e6d4ff;--glass:rgba(24,16,43,.84);--edge:rgba(201,161,255,.26)}
+html,body{font-family:Inter,ui-sans-serif,system-ui,'Segoe UI',sans-serif;letter-spacing:.005em}
+button,input,textarea,select{border-radius:11px;border-color:#ba9aea55}button{background:linear-gradient(145deg,#66518d,#48345f);box-shadow:inset 0 1px #ffffff10}button:hover:not(:disabled){background:linear-gradient(145deg,#caa9fb,#a779e4);box-shadow:0 6px 16px #13091d55;color:#20132a}button:focus-visible,input:focus-visible,textarea:focus-visible,select:focus-visible,.icon:focus-visible{outline:2px solid #ffe4ff;outline-offset:2px}
+.window{border-color:var(--edge);background:var(--glass);border-radius:18px;box-shadow:0 30px 95px #080612a8,0 0 0 1px #ffffff0d;animation:appAppear .25s cubic-bezier(.2,.75,.2,1) both}
+.window.focused{border-color:color-mix(in srgb,var(--app-accent,#ce9aff) 68%,white 32%);box-shadow:0 33px 90px #030210af,0 0 0 1px #c8a4ff75,0 0 32px #ac70f123}
+.window .titlebar{background:linear-gradient(90deg,#2d1d4ddd,#3c2960bb 53%,#34224edc);border-bottom:1px solid #d9baff30;min-height:43px;padding:7px 10px 7px 13px;cursor:grab}
+.window .app-title{font-weight:700;letter-spacing:.018em;min-width:0;gap:9px;display:flex;align-items:center}.window .app-title>span:last-child{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.window .titlebar .ctrl button{background:#ffffff0e;border:1px solid #ffffff14;border-radius:8px;min-width:31px;line-height:20px}
+.window .titlebar .ctrl button[data-action="close"]:hover{background:#ff5d8e;color:white}
+.window .appbody{background:linear-gradient(145deg,#2b1e42ba,#160f28de);scrollbar-color:#9476be #221630}
+.window .app-symbol{display:grid;place-items:center;width:26px;height:26px;border-radius:8px;background:linear-gradient(135deg,var(--app-accent,#c6a0ff),var(--app-accent2,#7a57b2));font-size:14px;color:#1e1232;box-shadow:0 2px 8px #0005}
+#taskbar{height:56px;background:linear-gradient(90deg,#181025f4,#281a40f4,#171021f4);box-shadow:0 -3px 22px #140d2480;padding:6px 12px;border-top:1px solid #dfb6ff49;gap:9px}
+#desktop{bottom:56px}#tasks{scrollbar-width:none}#tasks button{background:#e9cfff10;border:1px solid #c6a6f933;max-width:160px;overflow:hidden;text-overflow:ellipsis;font-size:12px}
+#start{background:linear-gradient(145deg,#ad7ed7,#7b56ac);font-weight:800;color:white;letter-spacing:.025em}
+#startmenu{bottom:64px;width:min(355px,calc(100vw - 16px));max-height:min(76vh,600px);padding:14px;background:linear-gradient(160deg,#392653f4,#1b122af8);border:1px solid #ddbdff80;border-radius:19px;box-shadow:0 20px 80px #030208c7;grid-template-columns:repeat(2,minmax(0,1fr))}
+#startmenu.show{display:grid}#startmenu button{display:flex;gap:8px;align-items:center;padding:12px 10px;text-align:left;font-size:12px;min-height:47px}
+#startmenu::before{content:'✿  PURPLE REVOLUTION';grid-column:1/-1;color:#d8b3f5;font:bold 12px/2 ui-monospace,monospace;letter-spacing:.16em}
+#startmenu::after{content:'LILAC OS V0.28 • MADE BY NATHAN JEAN-FRANCOIS';grid-column:1/-1;color:#ad94c8;font:10px monospace;text-align:center;padding:8px 0}
+.icon{width:111px;min-height:95px;padding:8px 3px;gap:6px}.icon-label{font-weight:600;color:#fff4ff;font-size:11px;line-height:1.3;display:block;max-width:100px;text-align:center}
+.app-brand{width:54px;height:54px;display:grid;place-items:center;border:1px solid #ffffff75;border-radius:17px;background:linear-gradient(135deg,var(--ico-a,#bda0ef),var(--ico-b,#472e7b));box-shadow:0 10px 18px #03020b6a,inset 0 2px 2px #ffffff55;transform:translateZ(0);transition:transform .25s,filter .25s;position:relative;overflow:hidden}
+.app-brand::before{content:'';position:absolute;inset:-30%;background:linear-gradient(115deg,transparent 35%,#ffffff4a 48%,transparent 60%);transform:translateX(-90%);transition:transform .5s}.icon:hover .app-brand::before{transform:translateX(95%)}.icon:hover .app-brand{transform:translateY(-2px) scale(1.06);filter:drop-shadow(0 0 7px #efc6ff8a)}
+.app-brand svg{width:33px;height:33px;stroke:white;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;filter:drop-shadow(0 2px 2px #1007286e);z-index:1}.app-brand .glyph{font:700 31px Georgia,serif;color:#fff;position:relative;z-index:1;text-shadow:0 2px 3px #170a2788}
+.app-brand.mini{width:25px;height:25px;border-radius:8px;box-shadow:none;flex-shrink:0}.app-brand.mini svg{width:16px;height:16px}.app-brand.mini .glyph{font-size:15px}
+@keyframes appAppear{from{opacity:.45;transform:translateY(14px) scale(.975)}to{opacity:1;transform:none}}
+.panel{padding:18px;gap:14px}.card{border-color:#d1a7fb36;background:linear-gradient(135deg,#ffffff0e,#ffffff05);border-radius:16px}.muted{color:#d0bedf;opacity:.9}.result{border-radius:14px;transition:transform .15s,border-color .15s}.result:hover{transform:translateY(-2px);border-color:#c2a8ef94}
+#boot .boot-version{font-size:12px;color:#f7d4ff}#boot .boot-flower{font-size:86px}
+.lilac-chat-shell{background:radial-gradient(circle at 100% 0%,#54407385,transparent 44%),linear-gradient(145deg,#23152f,#0d0d1b)}
+.lilac-chat-head{background:#301d47d8;border-bottom:1px solid #cda8ff59}.lilac-msg{box-shadow:0 4px 18px #0002;border-radius:16px 16px 16px 4px}.lilac-msg.self{border-radius:16px 16px 4px 16px}.lilac-chat-composer{background:#241932}.lilac-chat-composer button{font-weight:800}
+#clickfx-layer{position:fixed;inset:0;z-index:10000010;pointer-events:none;overflow:hidden;contain:strict} .fx-particle{position:absolute;left:0;top:0;font-size:20px;line-height:1;will-change:transform,opacity;filter:drop-shadow(0 0 var(--fx-glow,8px) currentColor)}
+.fx-ring{position:absolute;left:0;top:0;width:20px;height:20px;border-radius:50%;border:3px solid currentColor;will-change:transform,opacity;box-shadow:0 0 var(--fx-glow,8px) currentColor;transform:translate(-50%,-50%)}
+.v028-heading{font:800 22px/1.2 ui-sans-serif,system-ui,sans-serif;letter-spacing:.015em;margin:0}.v028-kicker{font:700 10px/1.5 ui-monospace,monospace;color:#bda4ed;letter-spacing:.19em;text-transform:uppercase}.v028-hero{padding:19px;border-radius:17px;background:radial-gradient(circle at 98% 5%,#a778ee3b,transparent 60%),linear-gradient(125deg,#3b2858,#211631);border:1px solid #e5b9ff4b}
+.v028-tile-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(165px,1fr));gap:10px}.v028-tile{border:1px solid #bfa5ed33;border-radius:14px;padding:13px;background:#ffffff08;display:flex;gap:8px;flex-direction:column}.v028-tile:hover{background:#ffffff14}.v028-tile .tile-icon{font-size:25px}
+.click-preview{height:145px;display:grid;place-items:center;position:relative;border-radius:14px;background:radial-gradient(circle at 50% 45%,#65418eaa,#170f2c);border:1px dashed #d5b1ff84;cursor:crosshair;overflow:hidden}
+.click-control-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}.click-control-grid label{display:grid;gap:5px;padding:10px;border-radius:11px;border:1px solid #d8b9f531;background:#ffffff09;font-size:11px}.click-control-grid label input{width:100%;accent-color:#d6b0ff}.click-control-grid input[type="color"]{height:37px;padding:3px}
+.file-shell{height:100%;display:flex;flex-direction:column;min-height:0;background:#181323}.file-toolbar{display:flex;align-items:center;gap:7px;padding:11px;background:#332148a6;border-bottom:1px solid #d1b1ee36;flex-wrap:wrap}.file-toolbar button{padding:7px 9px;font-size:12px}.file-toolbar input{min-width:130px;flex:1}.file-main{flex:1;min-height:0;overflow:auto;padding:18px}.file-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(135px,1fr));gap:11px}.file-list{display:grid;gap:7px}.file-item{display:flex;flex-direction:column;gap:8px;padding:12px;border:1px solid #c8a5f741;border-radius:13px;background:#ffffff0a;min-width:0;text-align:left;color:#e7d9ff;cursor:pointer;transition:background .15s,border-color .15s}.file-item:hover,.file-item.selected{background:#a97ce92a;border-color:#ddbbff}.file-list .file-item{flex-direction:row;align-items:center}.file-icon{font-size:32px}.file-list .file-icon{font-size:21px}.file-name{font-size:12px;overflow-wrap:anywhere}.file-meta{font-size:10px;color:#b7a5c6}.file-selection{display:flex;gap:7px;flex-wrap:wrap;padding:9px 12px;background:#291a3d;border-top:1px solid #be9eea36}.file-selection button{font-size:11px;padding:6px 8px}.file-crumb{font:12px monospace;color:#d8bfef;padding:8px 14px;background:#1c172b;border-bottom:1px solid #b9a8db27;white-space:nowrap;overflow:auto}.file-status{padding:7px 12px;border-top:1px solid #a98dca24;color:#d1bce5;font:11px monospace}
+.browser-shell{height:100%;min-height:0;display:flex;flex-direction:column;background:#1c142a}.browser-tabs{display:flex;gap:6px;padding:8px 10px 5px;align-items:center;overflow:auto;background:linear-gradient(90deg,#322149,#241a34);scrollbar-width:thin}.browser-tab{display:flex;align-items:center;max-width:190px;min-width:130px;border-radius:11px 11px 5px 5px;background:#150f24a5;border:1px solid #a792c454;padding:2px}.browser-tab.active{background:#76529e88;border-color:#dbb9ff86}.browser-tab button{border:0;background:none;box-shadow:none;padding:6px}.browser-tab .label{flex:1;white-space:nowrap;text-overflow:ellipsis;overflow:hidden;text-align:left;font-size:11px}.browser-tab .tab-close{font-size:16px;color:#d7c4f2}.browser-toolbar{display:flex;align-items:center;gap:7px;padding:8px;background:#2d1d42;border-bottom:1px solid #d8b7f83d}.browser-toolbar input{background:#eee3f1;color:#251833;border:1px solid #c1a0ea;min-width:80px;flex:1;font-size:12px}.browser-toolbar button{padding:6px 9px}.browser-container{position:relative;flex:1;min-height:0;background:#f7f4fb}.browser-frame{position:absolute;inset:0;width:100%;height:100%;border:0;background:white}.browser-grid{height:100%;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:3px;background:#433051}.browser-grid iframe{position:relative}.browser-home{height:100%;overflow:auto;color:#f0e5ff;background:radial-gradient(circle at 10% 10%,#6e4d91,#241637 67%);padding:32px;display:grid;align-content:start;gap:19px}.browser-home h1{font-size:32px;margin:0}.browser-home .site-card{padding:15px;text-align:left;background:#ffffff14;border-radius:13px;border:1px solid #d1b7ff55}.browser-shelf{display:flex;align-items:center;gap:10px;padding:7px 11px;background:#281b3b;color:#d9c5ec;font:11px ui-monospace,monospace;min-height:30px}.browser-shelf span{min-width:0;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;flex:1}.browser-shelf button{padding:3px 8px;font-size:10px}
+.scp-hud-card{position:absolute;left:13px;bottom:13px;padding:10px 14px;border:1px solid #63e5c1;border-radius:11px;background:#05121be5;box-shadow:0 0 25px #009b8a3a;color:#d1fff0;font:11px/1.65 monospace;max-width:90%}.scp-alert{animation:scpAlert 1.7s ease-in-out infinite;background:#39131f!important;border-color:#f55a74!important}@keyframes scpAlert{50%{box-shadow:0 0 30px #f43f5e77}}
+.scp-canvas-cover{position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse,transparent 47%,#02060aaa);mix-blend-mode:multiply}
+.scp-brief-card{background:#081c2e;border:1px solid #6ac8a960;border-radius:13px;padding:13px;margin:10px 0}
+.deal-shell{background:#060713}.deal-top{padding:12px 14px;background:linear-gradient(90deg,#211027,#391b47);border-bottom:1px solid #a060c766}
+.fight-card{border-radius:17px;box-shadow:inset 0 1px 0 #ffffff18,0 10px 25px #03030b45}.fight-card:hover{transform:translateY(-2px);transition:transform .15s}.fight-game{background:radial-gradient(circle at 50% 20%,#36224c,#080a17)}.fight-info{font-size:12px}.fight-hud{padding:4px}
+@media(max-width:680px){#taskbar{gap:3px;padding:4px}#taskbar button{padding:6px}.window{max-height:100%}.file-toolbar{gap:4px}.browser-toolbar{gap:4px}.browser-toolbar button{padding:5px}.browser-home{padding:14px}.click-control-grid{grid-template-columns:1fr}.browser-tab{min-width:96px}}
+@media(prefers-reduced-motion:reduce){.window,.icon,.icon:hover,.app-brand,.app-brand::before,.scp-alert{animation:none!important;transition:none!important}}
+
 </style>
 </head>
 <body>
 <div id="desktop"></div>
 <div id="startmenu"></div>
-<div id="taskbar"><button id="start">🪻 Start</button><div id="tasks"></div><button id="fullscreen">⛶</button><span id="clock"></span></div>
+<div id="taskbar"><button id="start">✿ Lilac</button><div id="tasks"></div><button id="fullscreen">⛶</button><span id="clock"></span></div>
 <div id="boot" aria-label="Lilac OS boot sequence">
   <div class="boot-grid"></div>
-  <div class="boot-signal">LILAC/BIOS [V27]<br>SIGNAL: ENCRYPTED<br>MEMORY: FLOWERING</div>
+  <div class="boot-signal">LILAC/BIOS [V0.28]<br>SIGNAL: ENCRYPTED<br>MEMORY: FLOWERING</div>
   <div class="boot-signal right">SYS.STATUS: 0001<br>PROTO: BLOOM<br>PRESS TO SKIP</div>
   <div class="boot-core"><div class="boot-flower">🪻</div>
     <div class="boot-title" data-text="LILAC OS">LILAC OS</div>
-    <div class="boot-version">BLOOM PROTOCOL // VERSION 27</div>
+    <div class="boot-version">PURPLE REVOLUTION // V0.28</div>
     <div class="boot-track"><div class="boot-fill" id="bootbar"></div></div>
     <div class="boot-status"><span id="bootline">[INIT] LOADING SIGNALS</span><span id="bootpercent">00%</span></div>
     <div class="boot-small">✿ ACCESSING YOUR PERSONAL HIVE ✿</div>
@@ -100,7 +254,7 @@ button,input,textarea,select{font:inherit;border:1px solid #bda4f266;border-radi
 </div>
 <script>
 'use strict';
-/* Lilac OS — V27 — Flower Chess / Lilac AI / Global Chat */
+/* Lilac OS V0.28 — Purple Revolution · full standalone HTML · original V27 code preserved and upgraded */
 const TAVILY_WORKER='https://nectar-search.nathanjf2091.workers.dev/';
 const BOSSHIM={
  nightmare:{name:'Nightmare Sans',short:'NIGHTMARE',subtitle:'THE ECLIPSE',symbol:'☾',color:'#ad89f9',sub:'#4de9ca',tint:'#382555',description:'Shadow orbs, sweeping eclipses and expanding rings.',link:'https://gamejolt.com/games/nightmarebh2023/858818',source:'Game Jolt'},
@@ -116,7 +270,7 @@ function focus(id){if(!windows[id])return;Object.keys(windows).forEach(k=>window
 function closeApp(id){let w=windows[id];if(!w)return;w.dispatchEvent(new Event('appclosed'));w.remove();delete windows[id];$('#task-'+id)?.remove()}
 function openApp(id){const app=apps[id];if(!app)return null;if(windows[id]){windows[id].classList.remove('min');focus(id);return windows[id]}
  const n=Object.keys(windows).length,w=h('div',{className:'window'});w.style.cssText=`left:${72+n*26}px;top:${34+n*25}px;width:min(${app.w||520}px,95vw);height:min(${app.ht||450}px,85vh)`;
- w.innerHTML=`<div class="titlebar"><span>${app.icon} ${app.name}</span><span class="ctrl"><button data-action="min">–</button><button data-action="max">□</button><button data-action="close">×</button></span></div><div class="appbody"></div>`;desk.append(w);windows[id]=w;focus(id);
+ w.dataset.app=id;w.innerHTML=`<div class="titlebar"><span class="app-title"><span class="app-symbol">${brandIcon(id,true)}</span><span>${app.name}</span></span><span class="ctrl"><button data-action="min">–</button><button data-action="max">□</button><button data-action="close">×</button></span></div><div class="appbody"></div>`;desk.append(w);windows[id]=w;focus(id);
  const bar=w.querySelector('.titlebar');let dragging=false,dx=0,dy=0;bar.onpointerdown=e=>{if(e.target.closest('button')||w.classList.contains('max'))return;dragging=true;dx=e.clientX-w.offsetLeft;dy=e.clientY-w.offsetTop;bar.setPointerCapture(e.pointerId);focus(id)};bar.onpointermove=e=>{if(!dragging)return;w.style.left=Math.max(-100,e.clientX-dx)+'px';w.style.top=Math.max(0,e.clientY-dy)+'px'};bar.onpointerup=bar.onpointercancel=()=>dragging=false;bar.ondblclick=e=>{if(!e.target.closest('button'))w.classList.toggle('max')};bar.onclick=e=>{let a=e.target.dataset.action;if(a==='close')closeApp(id);if(a==='min')w.classList.add('min');if(a==='max')w.classList.toggle('max')};w.onpointerdown=()=>focus(id);
  const task=h('button',{id:'task-'+id,textContent:app.icon+' '+app.name});task.onclick=()=>{if(w.classList.contains('min')){w.classList.remove('min');focus(id)}else w.classList.add('min')};$('#tasks').append(task);
  try{app.init(w.querySelector('.appbody'),w)}catch(e){w.querySelector('.appbody').textContent='App error: '+e.message;console.error(e)}return w
@@ -129,57 +283,104 @@ apps.nectar={name:'Nectar Search',icon:'🌸',w:690,ht:570,init(root,win){root.i
  const q=root.querySelector('#nq'),status=root.querySelector('#ns'),results=root.querySelector('#nr'),historyBox=root.querySelector('#nrecent'),remember=root.querySelector('#nh');let controller=null,ticket=0,history=get('lilacHistory',[]);remember.checked=get('lilacRemember',false);
  function historyUI(){historyBox.replaceChildren();if(!remember.checked)return;history.slice(0,5).forEach(t=>{let b=h('button',{textContent:t});b.onclick=()=>{q.value=t;search(t)};historyBox.append(b)})}
  async function search(text){const query=String(text).trim();if(!query)return;controller?.abort();let my=++ticket;controller=new AbortController();const current=controller,timer=setTimeout(()=>current.abort(),15000);results.replaceChildren();status.textContent='🐝 Looking for results...';if(remember.checked){history=[query,...history.filter(x=>x!==query)].slice(0,15);put('lilacHistory',history);historyUI()}
- try{let response=await fetch(TAVILY_WORKER+'?q='+encodeURIComponent(query),{signal:current.signal}),data=await response.json();if(!response.ok)throw Error(typeof data.error==='string'?data.error:'Worker error '+response.status);if(my!==ticket)return;let items=Array.isArray(data.results)?data.results.filter(i=>webURL(i.url)):[];status.textContent=items.length?`${items.length} results for “${query}”`:'No results found';items.forEach(item=>{const a=h('a',{className:'result',href:item.url});a.append(h('b',{textContent:item.title||item.url}),h('small',{textContent:item.url}),h('p',{textContent:String(item.content||'').slice(0,330)}));a.onclick=e=>{e.preventDefault();inLilac(item.url)};results.append(a)})}catch(e){if(my===ticket)status.textContent=e.name==='AbortError'?'Search timed out':'Search error: '+e.message}finally{clearTimeout(timer)}}
- root.querySelector('#nf').onsubmit=e=>{e.preventDefault();search(q.value)};root.querySelector('#nc').onclick=()=>{controller?.abort();ticket++;results.replaceChildren();status.textContent='';q.value=''};remember.onchange=()=>{put('lilacRemember',remember.checked);if(!remember.checked){history=[];put('lilacHistory',history)}historyUI()};win.addEventListener('appclosed',()=>controller?.abort());historyUI();q.focus()
+ try{let response=await fetch(TAVILY_WORKER+'?q='+encodeURIComponent(query),{signal:current.signal}),data=await response.json();if(!response.ok)throw Error(typeof data.error==='string'?data.error:'Worker error '+response.status);if(my!==ticket)return;let items=Array.isArray(data.results)?data.results.filter(i=>webURL(i.url)):[];status.textContent=items.length?`${items.length} results for “${query}”`:'No results found';items.forEach(item=>{const a=h('a',{className:'result',href:item.url});a.append(h('b',{textContent:item.title||item.url}),h('small',{textContent:item.url}),h('p',{textContent:String(item.content||'').slice(0,330)}));a.onclick=e=>{e.preventDefault();inLilac(item.url)};const actions=h('div',{className:'row flex-wrap'}),save=h('button',{textContent:'✿ Save link to Files'}),download=h('button',{textContent:'↓ Download file'});save.onclick=async()=>{save.disabled=true;try{await LilacFiles.saveLink(item.url,item.title);status.textContent='Link saved in Lilac Files → Nectar Downloads.'}catch(err){status.textContent='Save failed: '+err.message}finally{save.disabled=false}};download.onclick=async()=>{download.disabled=true;try{await LilacFiles.saveRemote(item.url);status.textContent='File downloaded into Lilac Files → Nectar Downloads.'}catch(err){status.textContent='Download blocked or unsupported ('+err.message+'). You can save a link instead.'}finally{download.disabled=false}};actions.append(save,download);const wrap=h('div',{className:'card'});wrap.append(a,actions);results.append(wrap)})}catch(e){if(my===ticket)status.textContent=e.name==='AbortError'?'Search timed out':'Search error: '+e.message}finally{clearTimeout(timer)}}
+ root.querySelector('#nf').onsubmit=e=>{e.preventDefault();search(q.value)};root.querySelector('#nc').onclick=()=>{controller?.abort();ticket++;results.replaceChildren();status.textContent='';q.value=''};remember.onchange=()=>{put('lilacRemember',remember.checked);if(!remember.checked){history=[];put('lilacHistory',history)}historyUI()};win.addEventListener('appclosed',()=>controller?.abort());historyUI();win.nectarSearch=(term)=>{q.value=term;search(term)};win.addEventListener('appclosed',()=>{delete win.nectarSearch});q.focus()
 }};
 
-/* LILAC BROWSER: permitted iframe sites only */
-apps.browser={name:'Lilac Browser',icon:'🌐',w:950,ht:650,init(root,win){root.style.overflow='hidden';root.innerHTML=`<div style="display:flex;flex-direction:column;height:100%;min-height:0"><div id="tabs" class="row" style="padding:6px;overflow:auto;background:#3b2c53"></div><div class="row" style="padding:7px;background:#241b34"><button id="back">←</button><button id="next">→</button><button id="reload">↻</button><input id="address" placeholder="https://example.com"><button id="go">Go</button><button id="external" title="Open outside Lilac">↗</button></div><div id="webview" style="position:relative;flex:1;min-height:0;background:#f4eeff"></div><div id="webstatus" class="muted" style="background:#241b34;padding:6px">Some sites block iframe embedding. Use ↗ if the page refuses to connect.</div></div>`;
- const tabs=[],bar=root.querySelector('#tabs'),view=root.querySelector('#webview'),address=root.querySelector('#address'),status=root.querySelector('#webstatus');let active=-1;
- function redraw(){bar.replaceChildren();tabs.forEach((t,i)=>{let b=h('button',{textContent:t.url?new URL(t.url).hostname:'New tab'});if(active===i)b.style.background='#8b6dbe';b.onclick=()=>{active=i;redraw()};bar.append(b);let x=h('button',{textContent:'×',title:'Close tab'});x.onclick=()=>{t.frame.remove();tabs.splice(i,1);if(!tabs.length){active=-1;addTab();return}if(i<active)active--;if(active>=tabs.length)active=tabs.length-1;redraw()};bar.append(x);t.frame.style.display=i===active?'block':'none'});let plus=h('button',{textContent:'+'});plus.onclick=()=>addTab();bar.append(plus);let t=tabs[active];address.value=t?.url||'';root.querySelector('#back').disabled=!t||t.i<=0;root.querySelector('#next').disabled=!t||t.i>=t.hist.length-1}
- function addTab(url){let frame=h('iframe',{title:'Website content'});frame.style.cssText='position:absolute;inset:0;width:100%;height:100%;border:0;background:#faf7ff';frame.setAttribute('sandbox','allow-scripts allow-forms allow-same-origin');frame.referrerPolicy='no-referrer';frame.srcdoc='<!doctype html><html><body style="font:18px system-ui;text-align:center;padding:12vh 20px;background:#faf7ff;color:#594477"><h2>🌐 Lilac Browser</h2><p>Enter a URL or select a Nectar search result.</p><small>Sites may block being shown inside an iframe.</small></body></html>';view.append(frame);tabs.push({frame,url:'',hist:[],i:-1});active=tabs.length-1;if(url)go(url);else redraw()}
- function go(text,record=true){const url=webURL(text);if(!url){status.textContent='Enter a valid website address';return}const t=tabs[active];if(!t)return;t.url=url;if(record){t.hist=t.hist.slice(0,t.i+1);t.hist.push(url);t.i=t.hist.length-1}t.frame.removeAttribute('srcdoc');t.frame.src=url;status.textContent='Loading '+url+' • If refused, click ↗ to open its original page.';redraw()}
- root.querySelector('#go').onclick=()=>go(address.value);address.onkeydown=e=>{if(e.key==='Enter')go(address.value)};root.querySelector('#back').onclick=()=>{const t=tabs[active];if(t&&t.i>0)go(t.hist[--t.i],false)};root.querySelector('#next').onclick=()=>{const t=tabs[active];if(t&&t.i<t.hist.length-1)go(t.hist[++t.i],false)};root.querySelector('#reload').onclick=()=>{const t=tabs[active];if(t?.url)t.frame.src=t.url};root.querySelector('#external').onclick=()=>{let u=tabs[active]?.url;if(u)window.open(u,'_blank','noopener,noreferrer')};win.addTab=addTab;win.addEventListener('appclosed',()=>{delete win.addTab});addTab()
+/* LILAC BROWSER 2.0 — EMBEDDABLE SITES ONLY; NO FRAME RESTRICTION BYPASSES */
+apps.browser={name:'Lilac Browser',icon:'🌐',w:1050,ht:710,init(root,win){
+ root.style.overflow='hidden';root.innerHTML=`<div class="browser-shell"><div class="browser-tabs" id="b-tabs"></div><div class="browser-toolbar"><button id="b-back" title="Back">←</button><button id="b-forward" title="Forward">→</button><button id="b-reload" title="Reload">↻</button><button id="b-home" title="Homepage">⌂</button><input id="b-url" aria-label="Website address" placeholder="Type an embeddable website URL or a Nectar search"><button id="b-go">Go</button><button id="b-bookmark" title="Bookmark this page">☆</button><button id="b-split" title="Split screen">▣</button><button id="b-library" title="Bookmarks and History">☷</button></div><div class="browser-container" id="b-view"></div><div class="browser-shelf"><span id="b-status">Securely embedded websites appear here. Some websites prohibit iframe embedding.</span><button id="b-save">↓ Save link to Files</button><button id="b-search">✿ Nectar</button></div></div>`;
+ const bar=root.querySelector('#b-tabs'),view=root.querySelector('#b-view'),address=root.querySelector('#b-url'),status=root.querySelector('#b-status');
+ let tabs=[],active=0,split=false,second=0,dead=false,bookmarks=get('lilacBookmarksV028',[]),history=get('lilacBrowserHistoryV028',[]),homepage=get('lilacBrowserHomeV028','');
+ const persist=()=>{put('lilacBookmarksV028',bookmarks);put('lilacBrowserHistoryV028',history.slice(0,150))};
+ const newTab=(url='')=>{const t={url:'',hist:[],idx:-1,frame:null,id:Date.now()+Math.random(),title:'New tab'};tabs.push(t);active=tabs.length-1;if(url)navigate(url);else draw();return t};
+ function freshFrame(t){t.frame?.remove();const f=h('iframe',{className:'browser-frame',title:'Embedded content: '+(t.url||'New tab')});f.setAttribute('sandbox','allow-scripts allow-forms allow-same-origin allow-downloads');f.referrerPolicy='strict-origin-when-cross-origin';f.addEventListener('load',()=>{if(dead)return;status.textContent='The iframe finished loading. If it shows a blank page or a refusal, the website may prohibit embedding.'});t.frame=f;return f}
+ function navigate(raw,addHistory=true){let value=String(raw||'').trim();if(!value){tabs[active].url='';tabs[active].title='New tab';draw();return}
+  let url;if(!/^https?:\/\//i.test(value)&&!value.includes('.')&&!value.includes('/')){openSearch(value);return}url=webURL(value);
+  if(!url){status.textContent='Enter a valid HTTP(S) address. Other URL protocols are blocked.';return}
+  const t=tabs[active];t.url=url;t.title=new URL(url).hostname.replace(/^www\./,'');if(addHistory){t.hist=t.hist.slice(0,t.idx+1);t.hist.push(url);t.idx=t.hist.length-1;history.unshift({url,at:Date.now()});history=history.slice(0,150);persist()}
+  const f=freshFrame(t);f.src=url;status.textContent='Trying to embed '+t.title+' • Site frame restrictions are enforced by your browser.';draw()
+ }
+ function openSearch(q){const w=openApp('nectar');if(w?.nectarSearch)w.nectarSearch(q);else{const input=w?.querySelector('#nq');if(input){input.value=q;w.querySelector('#nf')?.requestSubmit()}}}
+ function showHome(container){container.replaceChildren();const home=h('div',{className:'browser-home'});home.innerHTML=`<div class="v028-kicker">LILAC BROWSER / EMBEDDED WEB</div><h1>Explore within Lilac ✿</h1><p>Search with Nectar or open sites that permit iframe embedding. Some sites (including many social networks and games) prohibit embedded access.</p>`;
+  const entry=h('div',{className:'row'}),q=h('input',{placeholder:'Search Nectar or type a website...'});q.style.flex='1';const go=h('button',{textContent:'Explore'});go.onclick=()=>{const text=q.value.trim();if(!text)return;if(/^https?:\/\//.test(text)||(/^[\w-]+\.[a-z]{2,}/i.test(text)&&!text.includes(' ')))navigate(text);else openSearch(text)};q.onkeydown=e=>{if(e.key==='Enter')go.click()};entry.append(q,go);home.append(entry);
+  const grid=h('div',{className:'v028-tile-grid'});[
+   ['🌸','Nectar Search','Search websites without leaving the Lilac desktop',()=>openSearch(q.value||'creative projects')],
+   ['📚','MDN Web Docs','Try developer documentation inside a Lilac tab',()=>navigate('https://developer.mozilla.org/')],
+   ['🌐','Example Domain','Try an introductory website',()=>navigate('https://example.com/')],
+   ['🗂','My Bookmarks','View your saved pages',()=>showLibrary('bookmarks')],
+   ['🧭','Recent History','Reopen a visited site',()=>showLibrary('history')],
+   ['📁','Lilac Files','Manage downloaded and saved items',()=>openApp('files')]
+  ].forEach(([sym,title,description,action])=>{const b=h('button',{className:'site-card'});b.innerHTML=`<span style="font-size:22px">${sym}</span><strong style="display:block;margin:8px 0 4px">${title}</strong><span style="color:#ddd0ed;font-size:11px">${description}</span>`;b.onclick=action;grid.append(b)});home.append(grid);container.append(home)
+ }
+ function renderTabs(){bar.replaceChildren();tabs.forEach((t,i)=>{const wrapper=h('div',{className:'browser-tab'+(i===active?' active':'')}),label=h('button',{className:'label',textContent:(t.title||'New tab')});label.onclick=()=>{active=i;draw()};const x=h('button',{className:'tab-close',textContent:'×',title:'Close tab'});x.onclick=()=>{t.frame?.remove();tabs.splice(i,1);if(!tabs.length){tabs=[];newTab();return}if(i<=active)active=Math.max(0,active-1);second=Math.min(second,tabs.length-1);draw()};wrapper.append(label,x);bar.append(wrapper)});const plus=h('button',{textContent:'＋ New tab'});plus.style.flexShrink='0';plus.onclick=()=>newTab();bar.append(plus)}
+ function renderView(){view.replaceChildren();const t=tabs[active];if(!t)return;
+  if(t.url){const f=t.frame||freshFrame(t);if(!f.src||f.src==='about:blank')f.src=t.url;view.append(f);f.style.display='block';f.style.position='absolute';f.style.width='100%'}else showHome(view);
+  if(split&&tabs.length>1){const alt=(second===active?(active+1)%tabs.length:second),t2=tabs[alt];if(!t2.url){status.textContent='Open a website in the second tab to use split screen.';return}
+   const left=h('div'),right=h('div');left.style.cssText=right.style.cssText='position:relative;min-width:0;min-height:0;background:#fff';view.replaceChildren();view.classList.add('browser-grid');view.append(left,right);if(t.url){left.append(t.frame);t.frame.style.position='relative'}else showHome(left);right.append(t2.frame||freshFrame(t2));t2.frame.style.position='relative';t2.frame.style.display='block';t2.frame.style.width='100%';}
+  else view.classList.remove('browser-grid')
+ }
+ function draw(){if(!tabs.length)return;renderTabs();address.value=tabs[active].url;renderView();const t=tabs[active];root.querySelector('#b-back').disabled=t.idx<1;root.querySelector('#b-forward').disabled=t.idx>=t.hist.length-1;root.querySelector('#b-bookmark').textContent=bookmarks.some(b=>b.url===t.url)&&t.url?'★':'☆';root.querySelector('#b-split').style.borderColor=split?'#efc2ff':'#ba9aea55'}
+ function showLibrary(mode='bookmarks'){const t=tabs[active];t.frame?.remove();view.classList.remove('browser-grid');view.replaceChildren();const wrap=h('div',{className:'browser-home'});wrap.append(h('h1',{textContent:mode==='bookmarks'?'☆ Bookmarks':'☷ Browsing History'}));const toggles=h('div',{className:'row'});['bookmarks','history'].forEach(k=>{const b=h('button',{textContent:k==='bookmarks'?'☆ Bookmarks':'☷ History'});b.onclick=()=>showLibrary(k);toggles.append(b)});wrap.append(toggles);(mode==='bookmarks'?bookmarks:history).forEach((e,i)=>{const row=h('div',{className:'row card'}),link=h('button',{textContent:e.title||e.url});link.style.flex='1';link.style.textAlign='left';link.onclick=()=>navigate(e.url);const remove=h('button',{textContent:'×',title:'Remove'});remove.onclick=()=>{if(mode==='bookmarks')bookmarks.splice(i,1);else history.splice(i,1);persist();showLibrary(mode)};row.append(link,remove);wrap.append(row)});if(!(mode==='bookmarks'?bookmarks:history).length)wrap.append(h('p',{className:'muted',textContent:'No saved pages here yet.'}));const back=h('button',{textContent:'← Back to browser'});back.onclick=draw;wrap.append(back);view.append(wrap)}
+ root.querySelector('#b-go').onclick=()=>navigate(address.value);address.onkeydown=e=>{if(e.key==='Enter')navigate(address.value)};
+ root.querySelector('#b-home').onclick=()=>{const t=tabs[active];t.url='';t.title='New tab';t.frame?.remove();t.frame=null;draw()};root.querySelector('#b-reload').onclick=()=>{const t=tabs[active];if(t.url){freshFrame(t).src=t.url;draw()}};
+ root.querySelector('#b-back').onclick=()=>{const t=tabs[active];if(t.idx>0)navigate(t.hist[--t.idx],false)};
+ root.querySelector('#b-forward').onclick=()=>{const t=tabs[active];if(t.idx<t.hist.length-1)navigate(t.hist[++t.idx],false)};
+ root.querySelector('#b-bookmark').onclick=()=>{const t=tabs[active];if(!t.url)return;const i=bookmarks.findIndex(b=>b.url===t.url);if(i>=0)bookmarks.splice(i,1);else bookmarks.unshift({url:t.url,title:t.title});persist();draw();status.textContent=i>=0?'Bookmark removed':'Bookmark saved locally'};
+ root.querySelector('#b-library').onclick=()=>showLibrary('bookmarks');root.querySelector('#b-split').onclick=()=>{split=!split;if(split&&tabs.length>1){second=active===0?1:0}draw()};root.querySelector('#b-search').onclick=()=>openApp('nectar');
+ root.querySelector('#b-save').onclick=async()=>{const t=tabs[active];if(!t.url)return status.textContent='Open a website first.';try{await LilacFiles.saveLink(t.url,t.title);status.textContent='Website shortcut saved to Lilac Files → Nectar Downloads.'}catch(e){status.textContent='Save failed: '+e.message}};
+ win.addTab=url=>{newTab(url)};win.addUrl=url=>navigate(url);
+ win.addEventListener('appclosed',()=>{dead=true;delete win.addTab;delete win.addUrl;tabs.forEach(t=>{if(t.frame)t.frame.src='about:blank'})});newTab();
 }};
+
 
 /* THE REAL DEAL — password gate + four original boss fights */
-apps.realDeal={name:'The Real Deal',icon:'🌘',w:980,ht:730,init(root,win){root.style.overflow='hidden';root.innerHTML='<div class="deal-shell"><div class="deal-top"><strong>🌘 THE REAL DEAL</strong><span class="pill" style="margin-right:auto">LILAC EDITION</span><button id="dealhome" style="display:none">⌂ Boss Select</button><button id="deallock" style="display:none">🔒 Lock</button></div><div id="dealcontent" class="deal-center"></div></div>';const content=root.querySelector('#dealcontent'),home=root.querySelector('#dealhome'),lock=root.querySelector('#deallock');let unlocked=false,cleanup=()=>{},selection=null;
+apps.realDeal={name:'The Real Deal',icon:'🌘',w:980,ht:730,init(root,win){root.style.overflow='hidden';root.innerHTML='<div class="deal-shell"><div class="deal-top"><strong>🌘 THE REAL DEAL</strong><span class="pill" style="margin-right:auto">LILAC EDITION · V0.28</span><button id="dealhome" style="display:none">⌂ Boss Select</button><button id="deallock" style="display:none">🔒 Lock</button></div><div id="dealcontent" class="deal-center"></div></div>';const content=root.querySelector('#dealcontent'),home=root.querySelector('#dealhome'),lock=root.querySelector('#deallock');let unlocked=false,cleanup=()=>{},selection=null;
  function stop(){cleanup();cleanup=()=>{};content.replaceChildren()}
  function header(show=true){home.style.display=show?'':'none';lock.style.display=show?'':'none'}
  function gate(){stop();unlocked=false;selection=null;header(false);content.innerHTML='<div class="password-screen"><form class="password-box" id="gate"><div style="font-size:64px;filter:drop-shadow(0 0 18px #c69cff)">🌘</div><h1 style="letter-spacing:.14em">THE REAL DEAL</h1><p class="muted">RESTRICTED AREA · Enter access password</p><input id="password" type="password" placeholder="Password" autocomplete="off" required><button type="submit">UNLOCK</button><p id="gateerror" style="min-height:18px;color:#ffa3b3"></p></form></div>';const input=content.querySelector('#password');content.querySelector('#gate').onsubmit=e=>{e.preventDefault();if(input.value==='death'){unlocked=true;menu()}else{content.querySelector('#gateerror').textContent='Incorrect password';input.value='';input.focus()}};input.focus()}
- function menu(){if(!unlocked)return;stop();header(true);selection=null;content.innerHTML='<div class="deal-menu"><div style="display:flex;justify-content:space-between;gap:10px;align-items:center;flex-wrap:wrap"><div><div class="muted" style="letter-spacing:.2em">BOSS ARCHIVE / 04 ENCOUNTERS</div><h2 style="margin:4px 0 0">Choose your nightmare</h2></div><div class="pill">ALL FIGHTS PLAY OFFLINE · ORIGINAL CODE</div></div><div class="fight-grid" id="fightgrid"></div><p class="muted">Fan-made original gameplay and visuals inspired by the listed BossHim projects. Not official ports. Original project links are included for credit.</p></div>';const grid=content.querySelector('#fightgrid');Object.entries(BOSSHIM).forEach(([id,f])=>{const card=h('div',{className:'fight-card'});card.style.setProperty('--color',f.color);card.style.setProperty('--tint',f.tint);card.innerHTML=`<div style="display:flex;justify-content:space-between;align-items:center"><span class="orb">${f.symbol}</span><span class="pill">2 PHASES</span></div><h3>${f.name}</h3><p>${f.description}</p>`;const actions=h('div',{className:'row flex-wrap'}),play=h('button',{textContent:'▶ Play Lilac Fight'}),original=h('button',{textContent:'Original ↗'});play.onclick=()=>fight(id);original.onclick=()=>originalView(id);actions.append(play,original);card.append(actions);grid.append(card)})}
- function originalView(id){stop();header(true);const f=BOSSHIM[id];selection=id;const wrap=h('div',{className:'deal-official'});wrap.style.background=`radial-gradient(circle at center,${f.tint},#0b0a14 75%)`;wrap.append(h('div',{textContent:f.symbol,style:`font-size:75px;color:${f.color};text-shadow:0 0 30px ${f.color}`}),h('h2',{textContent:f.name+' — BossHim original'}),h('p',{textContent:`Official ${f.source} release. The original page may refuse iframe embedding inside Lilac OS, so the original link is provided.`}));const row=h('div',{className:'row flex-wrap'}),open=h('button',{textContent:'↗ Open original game page'}),tryIt=h('button',{textContent:'Try embedded preview'}),play=h('button',{textContent:'▶ Play Lilac recreation'});open.onclick=()=>window.open(f.link,'_blank','noopener,noreferrer');tryIt.onclick=()=>{stop();const holder=h('div');holder.style.cssText='height:100%;min-height:0;display:flex;flex-direction:column';holder.innerHTML='<div style="padding:10px;background:#281a38" class="muted">If this preview says “refused to connect”, use Original ↗ or the playable recreation instead.</div>';const frame=h('iframe',{title:f.name+' original project preview',src:f.link});frame.style.cssText='flex:1;min-height:0;width:100%;border:0;background:#191021';holder.append(frame);let footer=h('div',{className:'row',style:'padding:8px;background:#281a38'}),back=h('button',{textContent:'← Details'}),official=h('button',{textContent:'Original ↗'});back.onclick=()=>originalView(id);official.onclick=()=>window.open(f.link,'_blank','noopener,noreferrer');footer.append(back,official);holder.append(footer);content.append(holder)};play.onclick=()=>fight(id);row.append(open,tryIt,play);wrap.append(row);content.append(wrap)}
- function fight(id){if(!unlocked)return;stop();header(true);selection=id;const f=BOSSHIM[id];const shell=h('div',{className:'fight-game'}),canvas=h('canvas',{width:900,height:520,tabIndex:0}),controls=h('div',{className:'fight-hud'}),info=h('div',{className:'fight-info'});canvas.style.borderRadius='7px';shell.append(canvas,controls,info);content.append(shell);info.textContent='WASD / Arrow keys: Move · SPACE: Pulse · SHIFT: Dash · Touch: Drag the heart. Survive 44 seconds.';
- const g=canvas.getContext('2d'),keys={},particles=[],projectiles=[],beams=[],rings=[];let p,t,spawn,beamTick,ringTick,inv,pulse,dash,phase,active,end,prev,raf,blink,screenShake;const X0=128,X1=772,Y0=268,Y1=464;
- function start(){p={x:450,y:378,hp:10};projectiles.length=0;beams.length=0;rings.length=0;particles.length=0;t=0;spawn=.6;beamTick=2;ringTick=4;inv=0;pulse=0;dash=0;phase=1;active=false;end='';prev=performance.now();blink=0;screenShake=0;canvas.focus()}
- function keydown(e){if(!win.classList.contains('focused')||document.activeElement?.tagName==='INPUT')return;const k=e.key.toLowerCase();if(['arrowup','arrowdown','arrowleft','arrowright','w','a','s','d',' ','shift','enter'].includes(k))e.preventDefault();keys[k]=true;if(k==='enter'){if(end)start();active=true}if(k===' '&&active&&!end&&pulse<=0){pulse=4.6;inv=Math.max(inv,.25);for(let i=projectiles.length-1;i>=0;i--)if(Math.hypot(projectiles[i].x-p.x,projectiles[i].y-p.y)<145)projectiles.splice(i,1);burst(p.x,p.y,f.sub,25);screenShake=4}if(k==='shift'&&active&&!end&&dash<=0){dash=3.4;inv=Math.max(inv,.48);burst(p.x,p.y,f.color,10)}}
+ function menu(){if(!unlocked)return;stop();header(true);selection=null;content.innerHTML='<div class="deal-menu"><div style="display:flex;justify-content:space-between;gap:10px;align-items:center;flex-wrap:wrap"><div><div class="muted" style="letter-spacing:.2em">BOSS ARCHIVE / 04 ENCOUNTERS</div><h2 style="margin:4px 0 0">Choose your nightmare</h2></div><div class="pill">ALL FIGHTS PLAY OFFLINE · ORIGINAL CODE</div></div><div class="fight-grid" id="fightgrid"></div><p class="muted">Fan-made original gameplay and visuals inspired by the listed BossHim projects. Not official ports. Original project links are included for credit.</p></div>';const grid=content.querySelector('#fightgrid');Object.entries(BOSSHIM).forEach(([id,f])=>{const card=h('div',{className:'fight-card'});card.style.setProperty('--color',f.color);card.style.setProperty('--tint',f.tint);card.innerHTML=`<div style="display:flex;justify-content:space-between;align-items:center"><span class="orb">${f.symbol}</span><span class="pill">3 PHASES • 120 SEC</span></div><h3>${f.name}</h3><p>${f.description}</p>`;const actions=h('div',{className:'row flex-wrap'}),play=h('button',{textContent:'▶ Fight 3 Phases'}),original=h('button',{textContent:'Original in Lilac'});play.onclick=()=>fight(id);original.onclick=()=>originalView(id);actions.append(play,original);card.append(actions);grid.append(card)})}
+ function originalView(id){stop();header(true);const f=BOSSHIM[id];selection=id;const wrap=h('div',{className:'deal-official'});wrap.style.background=`radial-gradient(circle at center,${f.tint},#0b0a14 75%)`;wrap.append(h('div',{textContent:f.symbol,style:`font-size:75px;color:${f.color};text-shadow:0 0 30px ${f.color}`}),h('h2',{textContent:f.name+' — BossHim original'}),h('p',{textContent:`Official ${f.source} release. The original page may refuse iframe embedding inside Lilac OS, so the original link is provided.`}));const row=h('div',{className:'row flex-wrap'}),open=h('button',{textContent:'View original in Lilac Browser'}),tryIt=h('button',{textContent:'Try embedded preview'}),play=h('button',{textContent:'▶ Play Lilac recreation'});open.onclick=()=>inLilac(f.link);tryIt.onclick=()=>{stop();const holder=h('div');holder.style.cssText='height:100%;min-height:0;display:flex;flex-direction:column';holder.innerHTML='<div style="padding:10px;background:#281a38" class="muted">If this preview says “refused to connect”, use Original in Lilac or the playable recreation instead.</div>';const frame=h('iframe',{title:f.name+' original project preview',src:f.link});frame.style.cssText='flex:1;min-height:0;width:100%;border:0;background:#191021';holder.append(frame);let footer=h('div',{className:'row',style:'padding:8px;background:#281a38'}),back=h('button',{textContent:'← Details'}),official=h('button',{textContent:'Original in Lilac'});back.onclick=()=>originalView(id);official.onclick=()=>inLilac(f.link);footer.append(back,official);holder.append(footer);content.append(holder)};play.onclick=()=>fight(id);row.append(open,tryIt,play);wrap.append(row);content.append(wrap)}
+ function fight(id){if(!unlocked)return;stop();header(true);selection=id;const f=BOSSHIM[id];const shell=h('div',{className:'fight-game'}),canvas=h('canvas',{width:900,height:520,tabIndex:0}),controls=h('div',{className:'fight-hud'}),info=h('div',{className:'fight-info'});canvas.style.borderRadius='7px';shell.append(canvas,controls,info);content.append(shell);info.textContent='WASD / Arrow keys: Move · SPACE: Pulse · SHIFT: Dash · Touch: Drag the heart. Survive the full 120 seconds. Three phases.';
+ const g=canvas.getContext('2d'),keys={},particles=[],projectiles=[],beams=[],rings=[];let p,t,spawn,beamTick,ringTick,inv,pulse,dash,phase,active,end,prev,raf,blink,screenShake,bossHP,phaseFlash,lastPhase,pulseHits;const X0=128,X1=772,Y0=268,Y1=464;
+ function start(){p={x:450,y:378,hp:8};projectiles.length=0;beams.length=0;rings.length=0;particles.length=0;t=0;spawn=.6;beamTick=2;ringTick=4;inv=0;pulse=0;dash=0;phase=1;lastPhase=1;phaseFlash=0;pulseHits=0;bossHP=100;active=false;end='';prev=performance.now();blink=0;screenShake=0;canvas.focus()}
+ function keydown(e){if(!win.classList.contains('focused')||document.activeElement?.tagName==='INPUT')return;const k=e.key.toLowerCase();if(['arrowup','arrowdown','arrowleft','arrowright','w','a','s','d',' ','shift','enter'].includes(k))e.preventDefault();keys[k]=true;if(k==='enter'){if(end)start();active=true}if(k===' '&&active&&!end&&pulse<=0){pulse=5.2;inv=Math.max(inv,.25);pulseHits++;bossHP=Math.max(0,bossHP-1.5);for(let i=projectiles.length-1;i>=0;i--)if(Math.hypot(projectiles[i].x-p.x,projectiles[i].y-p.y)<145)projectiles.splice(i,1);burst(p.x,p.y,f.sub,25);screenShake=4}if(k==='shift'&&active&&!end&&dash<=0){dash=3.9;inv=Math.max(inv,.43);burst(p.x,p.y,f.color,10)}}
  function keyup(e){keys[e.key.toLowerCase()]=false}document.addEventListener('keydown',keydown);document.addEventListener('keyup',keyup);
  let touching=false;canvas.onpointerdown=e=>{touching=true;if(end)start();active=true;canvas.setPointerCapture(e.pointerId);pointer(e);canvas.focus()};canvas.onpointermove=pointer;canvas.onpointerup=canvas.onpointercancel=()=>touching=false;
  function pointer(e){if(!touching)return;const r=canvas.getBoundingClientRect(),s=Math.min(r.width/900,r.height/520),ox=(r.width-900*s)/2,oy=(r.height-520*s)/2;p.x=Math.min(X1-11,Math.max(X0+11,(e.clientX-r.left-ox)/s));p.y=Math.min(Y1-11,Math.max(Y0+11,(e.clientY-r.top-oy)/s))}
  function burst(x,y,color,n=15){for(let j=0;j<n;j++){const a=Math.random()*Math.PI*2,v=50+Math.random()*150;particles.push({x,y,vx:Math.cos(a)*v,vy:Math.sin(a)*v,life:.4+Math.random()*.6,color})}}
- function damage(){if(inv>0||end)return;p.hp--;inv=.85;blink=.23;screenShake=7;burst(p.x,p.y,'#ffffff',14);if(p.hp<=0){end='lost';active=false;put('realDealAttempts',(get('realDealAttempts',0)||0)+1)}}
+ function damage(){if(inv>0||end)return;p.hp--;inv=.72;blink=.23;screenShake=7;burst(p.x,p.y,'#ffffff',14);if(p.hp<=0){end='lost';active=false;put('realDealAttempts',(get('realDealAttempts',0)||0)+1)}}
  function shot(x,y,angle,speed=150,r=6,type='orb',color=f.color){projectiles.push({x,y,vx:Math.cos(angle)*speed,vy:Math.sin(angle)*speed,r,type,color,spin:Math.random()*6})}
- function volley(){const cx=450,cy=194,px=p.x,py=p.y,angle=Math.atan2(py-cy,px-cx),second=phase===2;
+ function volley(){const cx=450,cy=194,px=p.x,py=p.y,angle=Math.atan2(py-cy,px-cx),second=phase>=2,final=phase===3;
  if(id==='nightmare'){const n=second?10:7;for(let i=0;i<n;i++)shot(cx,cy,(i/n)*Math.PI*2+t*.6,second?183:138,6,'orb',i%2?f.sub:f.color);if(second){for(let i=0;i<3;i++)shot(125+i*280,270,-Math.PI/2+Math.PI/2,115,9,'diamond',f.sub)}}
  if(id==='lethal'){for(let i=-2;i<=2;i++)shot(cx,cy,angle+i*.20,(second?220:180),8,'diamond',i%2?f.sub:f.color);if(second)for(let i=0;i<4;i++)shot(i%2?775:125,290+i*42,i%2?Math.PI:0,225,7,'diamond',f.color)}
  if(id==='fatal'){for(let i=-2;i<=2;i++)shot(cx+(Math.random()-.5)*70,cy,angle+i*.13,second?225:173,7,'pixel',i%2?f.sub:f.color);if(second)for(let i=0;i<4;i++)shot(130+Math.random()*640,269,Math.PI/2,190,8,'pixel',f.sub)}
  if(id==='error404'){let n=second?13:9;for(let i=0;i<n;i++){let theta=(i/n)*Math.PI*2+t*.9;shot(cx,cy,theta,second?205:148,6,'diamond',i%3?f.color:f.sub)}if(second)for(let j=-1;j<=1;j++)shot(cx,cy,angle+j*.18,235,9,'orb',f.sub)}
+ if(final){
+   if(id==='nightmare'){for(let i=0;i<5;i++)shot(135+i*125,Y0-20,Math.PI/2,215,7,'orb',f.sub)}
+   if(id==='lethal'){for(let i=0;i<6;i++)shot(i%2?X1+15:X0-15,Y0+26+i*28,i%2?Math.PI:0,235,6,'diamond',f.color)}
+   if(id==='fatal'){for(let i=0;i<6;i++)shot(X0+i*125,Y0-25,Math.PI/2,210,8,'pixel',i%2?f.color:f.sub)}
+   if(id==='error404'){for(let i=-3;i<=3;i++)shot(cx,cy,angle+i*.11,255,7,'diamond',f.sub)}
  }
- function beamWave(){const second=phase===2;const width=second?34:24;const choice=Math.random();if(id==='nightmare'){beams.push({axis:'v',pos:150+Math.random()*600,width,warning:.9,life:.58,color:f.sub});if(second)beams.push({axis:'h',pos:320+Math.random()*110,width:19,warning:.9,life:.58,color:f.color})}
+ }
+ function beamWave(){const second=phase>=2,final=phase===3;const width=final?26:second?34:24;const choice=Math.random();if(id==='nightmare'){beams.push({axis:'v',pos:150+Math.random()*600,width,warning:.9,life:.58,color:f.sub});if(second)beams.push({axis:'h',pos:320+Math.random()*110,width:19,warning:.9,life:.58,color:f.color})}
  if(id==='lethal'){beams.push({axis:choice<.5?'v':'h',pos:choice<.5?150+Math.random()*600:290+Math.random()*160,width:second?39:27,warning:.7,life:.48,color:f.color});if(second)beams.push({axis:'v',pos:150+Math.random()*600,width:16,warning:.95,life:.5,color:f.sub})}
  if(id==='fatal'){for(let i=0;i<(second?3:2);i++)beams.push({axis:i%2?'h':'v',pos:i%2?300+Math.random()*130:155+Math.random()*580,width:second?23:17,warning:.72,life:.7,color:i%2?f.sub:f.color})}
  if(id==='error404'){beams.push({axis:'v',pos:150+Math.random()*595,width,warning:.85,life:.52,color:f.sub});if(second)beams.push({axis:'h',pos:290+Math.random()*140,width:23,warning:.85,life:.52,color:f.color})}}
- function ringWave(){rings.push({x:450,y:194,r:8,speed:phase===2?215:170,width:id==='error404'?10:7,color:f.sub})}
- function update(dt){if(!active||end)return;t+=dt;phase=t>=22?2:1;if(t>=44){end='won';active=false;const best=get('realDealWins',{});best[id]=(best[id]||0)+1;put('realDealWins',best)}inv=Math.max(0,inv-dt);pulse=Math.max(0,pulse-dt);dash=Math.max(0,dash-dt);screenShake=Math.max(0,screenShake-25*dt);blink=Math.max(0,blink-dt);spawn-=dt;beamTick-=dt;ringTick-=dt;
+ function ringWave(){rings.push({x:450,y:194,r:8,speed:phase===3?285:phase===2?215:170,width:id==='error404'?10:7,color:f.sub})}
+ function update(dt){if(!active||end)return;t+=dt;bossHP=Math.max(0,Math.min(bossHP,100-t*100/120-pulseHits*1.5));phase=t>=80||bossHP<=28?3:t>=40||bossHP<=62?2:1;
+ if(phase!==lastPhase){phaseFlash=1.35;screenShake=12;burst(450,170,f.sub,32);lastPhase=phase;projectiles.splice(0,Math.floor(projectiles.length*.4));}
+ phaseFlash=Math.max(0,phaseFlash-dt);
+ if(t>=120){end='won';active=false;const best=get('realDealWins',{});best[id]=(best[id]||0)+1;put('realDealWins',best)}inv=Math.max(0,inv-dt);pulse=Math.max(0,pulse-dt);dash=Math.max(0,dash-dt);screenShake=Math.max(0,screenShake-25*dt);blink=Math.max(0,blink-dt);spawn-=dt;beamTick-=dt;ringTick-=dt;
  let dx=Number(!!(keys.d||keys.arrowright))-Number(!!(keys.a||keys.arrowleft)),dy=Number(!!(keys.s||keys.arrowdown))-Number(!!(keys.w||keys.arrowup)),len=Math.max(1,Math.hypot(dx,dy));let speed=(inv>.36&&dash>2.85)?455:220;p.x=Math.max(X0+11,Math.min(X1-11,p.x+dx/len*speed*dt));p.y=Math.max(Y0+11,Math.min(Y1-11,p.y+dy/len*speed*dt));
- if(spawn<=0){volley();spawn=(phase===2?.68:1.05)+(Math.random()-.5)*.15}if(beamTick<=0){beamWave();beamTick=phase===2?1.7:2.55}if(ringTick<=0){if(id==='nightmare'||id==='error404')ringWave();ringTick=phase===2?3.3:4.8}
+ if(spawn<=0){volley();spawn=(phase===3?.43:phase===2?.62:.92)+(Math.random()-.5)*.12}if(beamTick<=0){beamWave();beamTick=phase===3?1.12:phase===2?1.7:2.55}if(ringTick<=0){if(id==='nightmare'||id==='error404')ringWave();ringTick=phase===3?2.6:phase===2?3.3:4.8}
  projectiles.forEach(o=>{o.x+=o.vx*dt;o.y+=o.vy*dt;o.spin+=dt*5;if(Math.hypot(o.x-p.x,o.y-p.y)<o.r+8)damage()});for(let i=projectiles.length-1;i>=0;i--){let o=projectiles[i];if(o.x<-60||o.x>960||o.y<-60||o.y>580)projectiles.splice(i,1)}
  beams.forEach(b=>{if(b.warning>0)b.warning-=dt;else{b.life-=dt;if(b.axis==='v'?Math.abs(p.x-b.pos)<b.width/2+8:Math.abs(p.y-b.pos)<b.width/2+8)damage()}});for(let i=beams.length-1;i>=0;i--)if(beams[i].warning<=0&&beams[i].life<=0)beams.splice(i,1);
  rings.forEach(r=>{r.r+=r.speed*dt;if(Math.abs(Math.hypot(p.x-r.x,p.y-r.y)-r.r)<r.width+6)damage()});for(let i=rings.length-1;i>=0;i--)if(rings[i].r>630)rings.splice(i,1)
  }
  function line(x,y,x2,y2,color,weight=1){g.strokeStyle=color;g.lineWidth=weight;g.beginPath();g.moveTo(x,y);g.lineTo(x2,y2);g.stroke()}
  function text(str,x,y,size=14,color='#fff',align='center',weight='600'){g.font=`${weight} ${size}px ui-monospace,Consolas,monospace`;g.textAlign=align;g.fillStyle=color;g.fillText(str,x,y)}
- function boss(ts){g.save();g.translate(450,170+Math.sin(ts*.002)*5);let glow=phase===2?f.sub:f.color;g.shadowBlur=25;g.shadowColor=glow;
+ function boss(ts){g.save();g.translate(450,170+Math.sin(ts*.002)*5);let glow=phase===3?'#fff3d6':phase===2?f.sub:f.color;g.shadowBlur=25;g.shadowColor=glow;
  // Original abstract masks; no copied sprites.
  for(let i=0;i<5;i++){let a=(i/5)*Math.PI*2+ts*.0002;line(0,0,Math.cos(a)*95,Math.sin(a)*45,glow+'77',4)}
  if(id==='nightmare'){for(let j=0;j<5;j++){let side=j%2?-1:1;g.beginPath();g.moveTo(side*25,30);g.bezierCurveTo(side*(65+j*8),-20,side*(100+j*10),70,side*(110+j*14),-4);g.strokeStyle=j%2?f.sub:f.color;g.lineWidth=5;g.stroke()}}
@@ -187,13 +388,16 @@ apps.realDeal={name:'The Real Deal',icon:'🌘',w:980,ht:730,init(root,win){root
  if(id==='fatal'){for(let j=0;j<13;j++){g.fillStyle=j%2?f.sub:f.color;g.globalAlpha=.3+Math.random()*.5;g.fillRect((Math.random()-.5)*160,(Math.random()-.5)*100,5+Math.random()*15,3+Math.random()*9)}g.globalAlpha=1}
  if(id==='error404'){for(let j=0;j<3;j++){g.strokeStyle=f.sub+'44';g.lineWidth=2;g.beginPath();g.ellipse(0,0,57+j*20,32+j*10,ts*.0002+j,0,Math.PI*2);g.stroke()}}
  g.beginPath();g.ellipse(0,0,48,43,0,0,Math.PI*2);g.fillStyle='#100f1c';g.fill();g.strokeStyle=glow;g.lineWidth=3;g.stroke();g.shadowBlur=0;
- const eyes=phase===2?f.sub:f.color;g.fillStyle=eyes;g.fillRect(-29,-10,20,7);g.fillRect(9,-10,20,7);g.fillStyle='#ffffff80';g.fillRect(-26,-8,6,3);g.strokeStyle=eyes;g.lineWidth=2;g.beginPath();g.arc(0,11,17,.1,Math.PI-.1);g.stroke();if(id==='error404')text('404',0,-54,16,f.sub);if(id==='fatal')text('!',0,-54,18,f.sub);g.restore()}
+ const eyes=phase===3?'#ffffff':phase===2?f.sub:f.color;g.fillStyle=eyes;g.fillRect(-29,-10,20,7);g.fillRect(9,-10,20,7);g.fillStyle='#ffffff80';g.fillRect(-26,-8,6,3);g.strokeStyle=eyes;g.lineWidth=2;g.beginPath();g.arc(0,11,17,.1,Math.PI-.1);g.stroke();if(id==='error404')text('404',0,-54,16,f.sub);if(id==='fatal')text('!',0,-54,18,f.sub);g.restore()}
  function draw(ts){const dt=Math.min(.04,(ts-prev)/1000||0);prev=ts;update(dt);particles.forEach(a=>{a.x+=a.vx*dt;a.y+=a.vy*dt;a.life-=dt;a.vx*=.98;a.vy*=.98});for(let i=particles.length-1;i>=0;i--)if(particles[i].life<=0)particles.splice(i,1);
  g.clearRect(0,0,900,520);g.save();if(screenShake>0)g.translate((Math.random()-.5)*screenShake,(Math.random()-.5)*screenShake);g.fillStyle='#090913';g.fillRect(0,0,900,520);let grad=g.createRadialGradient(450,140,30,450,250,540);grad.addColorStop(0,f.tint);grad.addColorStop(1,'#070711');g.fillStyle=grad;g.fillRect(0,0,900,520);
- for(let i=0;i<60;i++){const x=(i*131)%900,y=(i*83)%520;g.fillStyle=i%3?f.color+'22':f.sub+'33';g.fillRect(x,y,2,2)}for(let x=0;x<900;x+=36)line(x,0,x,520,'#ffffff09');for(let y=0;y<520;y+=36)line(0,y,900,y,'#ffffff08');
+ for(let i=0;i<85;i++){const x=(i*131)%900,y=(i*83)%520;g.fillStyle=i%3?f.color+'33':f.sub+'44';g.fillRect(x,y,i%4?2:3,2)}
+ g.save();g.translate(450,170);for(let i=0;i<4;i++){g.rotate(.28);g.strokeStyle=i%2?f.color+'44':f.sub+'55';g.lineWidth=i+1;g.beginPath();g.ellipse(0,0,135+i*34,89+i*25,(ts*.0001)*(i%2?1:-1),0,Math.PI*2);g.stroke()}g.restore();for(let x=0;x<900;x+=36)line(x,0,x,520,'#ffffff09');for(let y=0;y<520;y+=36)line(0,y,900,y,'#ffffff08');
  if(id==='fatal'){for(let j=0;j<9;j++){let y=((j*81+ts*.09)%520)|0;g.fillStyle=j%2?f.color+'16':f.sub+'18';g.fillRect(0,y,900,j%3+2)}}
  if(id==='error404'){for(let j=0;j<6;j++)text('404',35+j*166,88+(j%2)*37,15,f.color+'55')}
- text(f.short,450,49,29,'#f9efff');text(f.subtitle,450,69,12,f.sub);text('PHASE '+phase,450,100,13,f.color);boss(ts);
+ text(f.short,450,49,29,'#f9efff');text(f.subtitle,450,69,12,f.sub);text('PHASE '+phase+(phase===3?' — FINAL':''),450,100,13,phase===3?'#fff0bf':f.color);
+ g.fillStyle='#24182c';g.fillRect(175,111,550,11);g.fillStyle=f.color;g.fillRect(175,111,550*bossHP/100,11);g.strokeStyle='#ffffff8c';g.strokeRect(175,111,550,11);
+ text('BOSS SIGNAL '+Math.round(bossHP)+'%',450,139,11,'#f6e3ff');boss(ts);
  // Arena
  const ag=g.createLinearGradient(0,Y0,0,Y1);ag.addColorStop(0,'#131528');ag.addColorStop(1,'#080c17');g.fillStyle=ag;g.fillRect(X0,Y0,X1-X0,Y1-Y0);g.strokeStyle=f.color;g.lineWidth=3;g.strokeRect(X0,Y0,X1-X0,Y1-Y0);g.strokeStyle=f.color+'22';g.lineWidth=1;for(let x=X0+32;x<X1;x+=32)line(x,Y0,x,Y1,f.color+'18');for(let y=Y0+32;y<Y1;y+=32)line(X0,y,X1,y,f.color+'18');
  rings.forEach(r=>{g.beginPath();g.arc(r.x,r.y,r.r,0,Math.PI*2);g.strokeStyle=r.color+'aa';g.lineWidth=r.width;g.stroke()});
@@ -202,8 +406,10 @@ apps.realDeal={name:'The Real Deal',icon:'🌘',w:980,ht:730,init(root,win){root
  particles.forEach(a=>{g.globalAlpha=Math.max(0,a.life);g.fillStyle=a.color;g.fillRect(a.x-2,a.y-2,4,4)});g.globalAlpha=1;
  if(!(inv>0&&Math.floor(inv*14)%2)){g.save();g.translate(p.x,p.y);g.rotate(Math.PI/4);g.shadowColor=f.sub;g.shadowBlur=21;g.fillStyle='#f8efff';g.fillRect(-9,-9,18,18);g.fillStyle=f.color;g.fillRect(-5,-5,10,10);g.restore()}
  // HUD
- text('HP',X0,500,13,'#fff','left');g.fillStyle='#30253e';g.fillRect(161,489,170,12);g.fillStyle=p.hp<=3?'#ff586f':f.sub;g.fillRect(161,489,170*p.hp/10,12);text(p.hp+'/10',340,500,12,'#fff','left');text('TIME '+Math.min(44,t).toFixed(1)+'/44',450,501,13,'#fff');text(pulse<=0?'PULSE READY':'PULSE '+pulse.toFixed(1)+'s',X1,500,13,f.sub,'right');
- if(!active){g.fillStyle='#090912e8';g.fillRect(X0+5,Y0+5,X1-X0-10,Y1-Y0-10);text(end==='won'?'VICTORY':end==='lost'?'DEFEATED':'READY?',450,344,31,'#fff');text(end?'Press ENTER or tap to retry':'Press ENTER or tap to start',450,380,14,f.color);text('Dodge • Pulse • Dash',450,411,12,f.sub)}
+ text('HP',X0,500,13,'#fff','left');g.fillStyle='#30253e';g.fillRect(161,489,170,12);g.fillStyle=p.hp<=3?'#ff586f':f.sub;g.fillRect(161,489,170*p.hp/8,12);text(p.hp+'/8',340,500,12,'#fff','left');text('TIME LEFT '+Math.max(0,120-t).toFixed(1)+'s',450,501,13,'#fff');text(pulse<=0?'PULSE READY':'PULSE '+pulse.toFixed(1)+'s',X1,500,13,f.sub,'right');
+ if(!active){g.fillStyle='#090912e8';g.fillRect(X0+5,Y0+5,X1-X0-10,Y1-Y0-10);text(end==='won'?'VICTORY':end==='lost'?'DEFEATED':'READY?',450,344,31,'#fff');text(end?'Press ENTER or tap to retry':'Press ENTER or tap to start',450,380,14,f.color);text('3 PHASES • DODGE • PULSE • DASH',450,411,12,f.sub)}
+ if(phaseFlash>0){g.fillStyle=phase===3?'#ff244522':'#b35aff25';g.fillRect(0,0,900,520);text('PHASE '+phase+' — '+(phase===3?'FINAL TRANSMISSION':'THREAT ESCALATING'),450,230,21,phase===3?'#ffe2c1':'#ebbeff')}
+ if(phase===3){g.strokeStyle=f.sub+'66';g.lineWidth=3;for(let i=0;i<4;i++){let x=80+(ts*.11+i*233)%750;line(x,0,x+20,45,f.sub+'55',2)}}
  if(blink>0){g.fillStyle='#ffffff17';g.fillRect(0,0,900,520)}g.restore();raf=requestAnimationFrame(draw)}
  function control(label,fn){const b=h('button',{textContent:label});b.onpointerdown=e=>{e.preventDefault();fn(true)};b.onpointerup=b.onpointercancel=()=>fn(false);controls.append(b);return b}
  const movement=[['◀','a'],['▲','w'],['▼','s'],['▶','d']];movement.forEach(([label,k])=>control(label,v=>{keys[k]=v}));const pulseBtn=h('button',{textContent:'✦ Pulse'}),dashBtn=h('button',{textContent:'⇧ Dash'});pulseBtn.onclick=()=>{keydown({key:' ',preventDefault(){}})};dashBtn.onclick=()=>{keydown({key:'Shift',preventDefault(){}})};controls.append(pulseBtn,dashBtn);
@@ -222,7 +428,7 @@ apps.calc={name:'Calculator',icon:'🧮',w:330,ht:430,init(root){let expr='';roo
 apps.hive={name:'The Hive',icon:'🐝',w:520,ht:535,init(root,win){let s={n:0,flowers:1,workers:0,foragers:0,queens:0,level:1,...get('hive',{})};const upgrades=[['flowers','🌸 Flowers',10,1.6],['workers','🐝 Worker',25,1.5],['foragers','🍯 Forager',200,1.5],['queens','👑 Queen',2000,1.6],['level','🏠 Hive upgrade',100,3]];root.innerHTML='<div class="panel" style="text-align:center"><div style="font-size:72px">🐝🍯🌸</div><h2 id="amount"></h2><div id="rate" class="muted"></div><button id="collect">🌼 Collect nectar</button><div id="upgrades" style="display:grid;gap:8px"></div></div>';const rate=()=>s.level*(s.workers+6*s.foragers+40*s.queens);function draw(){root.querySelector('#amount').textContent=Math.floor(s.n)+' nectar';root.querySelector('#rate').textContent=rate()+'/second · Hive level '+s.level;const box=root.querySelector('#upgrades');box.replaceChildren();upgrades.forEach(([k,name,base,mul])=>{const cost=Math.ceil(base*Math.pow(mul,k==='level'?s.level-1:s[k]));let b=h('button',{textContent:name+' — '+cost,disabled:s.n<cost});b.onclick=()=>{if(s.n<cost)return;s.n-=cost;s[k]++;put('hive',s);draw()};box.append(b)})}root.querySelector('#collect').onclick=()=>{s.n+=s.flowers*s.level;put('hive',s);draw()};const timer=setInterval(()=>{s.n+=rate();put('hive',s);draw()},1000);win.addEventListener('appclosed',()=>clearInterval(timer));draw()}};
 
 /* HIVE CONSOLE */
-apps.term={name:'Hive Console',icon:'💻',w:560,ht:390,init(root){root.innerHTML='<div id="out" style="flex:1;overflow:auto;padding:12px;font:13px monospace;color:var(--lav)"></div><div class="row" style="padding:8px"><span>🐝 hive&gt;</span><input id="cmd" placeholder="Type help" spellcheck="false"></div>';const out=root.querySelector('#out'),inp=root.querySelector('#cmd');function say(t){out.append(h('div',{textContent:t}));out.scrollTop=out.scrollHeight}say('Hive Console v3.0 — type help');inp.onkeydown=e=>{if(e.key!=='Enter')return;let text=inp.value.trim(),[c,arg]=text.split(/\s+/);say('> '+text);if(c==='help')say('help, clear, time, date, apps, open APP, whoami, vault');else if(c==='clear')out.replaceChildren();else if(c==='time')say(new Date().toLocaleTimeString());else if(c==='date')say(new Date().toDateString());else if(c==='apps')say(Object.keys(apps).join(', '));else if(c==='open')apps[arg]?openApp(arg):say('Unknown app');else if(c==='vault')openApp('realDeal');else if(c==='whoami')say('A very busy worker bee');else if(c)say('Unknown command');inp.value=''};inp.focus()}};
+apps.term={name:'Hive Console',icon:'💻',w:560,ht:390,init(root){root.innerHTML='<div id="out" style="flex:1;overflow:auto;padding:12px;font:13px monospace;color:var(--lav)"></div><div class="row" style="padding:8px"><span>🐝 hive&gt;</span><input id="cmd" placeholder="Type help" spellcheck="false"></div>';const out=root.querySelector('#out'),inp=root.querySelector('#cmd');function say(t){out.append(h('div',{textContent:t}));out.scrollTop=out.scrollHeight}say('Hive Console V0.28 — type help');inp.onkeydown=e=>{if(e.key!=='Enter')return;let text=inp.value.trim(),[c,arg]=text.split(/\s+/);say('> '+text);if(c==='help')say('help, clear, time, date, apps, open APP, whoami, vault');else if(c==='clear')out.replaceChildren();else if(c==='time')say(new Date().toLocaleTimeString());else if(c==='date')say(new Date().toDateString());else if(c==='apps')say(Object.keys(apps).join(', '));else if(c==='open')apps[arg]?openApp(arg):say('Unknown app');else if(c==='vault')openApp('realDeal');else if(c==='whoami')say('A very busy worker bee');else if(c)say('Unknown command');inp.value=''};inp.focus()}};
 
 /* SETTINGS */
 apps.settings={name:'Settings',icon:'⚙️',w:415,ht:425,init(root){let cfg={wall:0,br:1,icons:46,...get('lilacSettings',{})},walls=['radial-gradient(circle at 17% 16%,#7456a8,transparent 49%),linear-gradient(135deg,#36274f,#151021)','linear-gradient(140deg,#a18ad3,#e2c9fa 58%,#ffcf72)','linear-gradient(135deg,#1a122c,#343a7c,#a05a94)'];root.innerHTML='<div class="panel"><h2>⚙️ Settings</h2><div>Wallpaper</div><div class="row" id="walls"></div><label>Brightness <input id="bright" type="range" min=".5" max="1.2" step=".05" style="width:100%"></label><label>Icon size <input id="size" type="range" min="32" max="80" style="width:100%"></label></div>';function apply(){desk.style.background=walls[cfg.wall]||walls[0];document.documentElement.style.setProperty('--br',cfg.br);document.documentElement.style.setProperty('--icons',cfg.icons+'px');put('lilacSettings',cfg)}walls.forEach((wall,i)=>{let b=h('button');b.style.cssText=`width:64px;height:44px;background:${wall}`;b.onclick=()=>{cfg.wall=i;apply()};root.querySelector('#walls').append(b)});const br=root.querySelector('#bright'),size=root.querySelector('#size');br.value=cfg.br;size.value=cfg.icons;br.oninput=()=>{cfg.br=+br.value;apply()};size.oninput=()=>{cfg.icons=+size.value;apply()};apply()}};
@@ -238,7 +444,7 @@ apps.games={name:'Games',icon:'🎮',w:600,ht:540,init(root,win){root.innerHTML=
 
 /* TASK MANAGER */
 apps.tasks={name:'Task Manager',icon:'📊',w:410,ht:360,init(root,win){root.classList.add('panel');function draw(){root.replaceChildren(h('h2',{textContent:'Running apps'}));Object.keys(windows).forEach(k=>{const row=h('div',{className:'row'}),label=h('span',{textContent:apps[k].icon+' '+apps[k].name}),b=h('button',{textContent:'End'});label.style.flex='1';b.onclick=()=>closeApp(k);row.append(label,b);root.append(row)})}draw();const timer=setInterval(draw,1000);win.addEventListener('appclosed',()=>clearInterval(timer))}};
-apps.about={name:'About Lilac OS',icon:'🪻',w:460,ht:340,init(root){root.innerHTML='<div class="panel"><h2>🪻 Lilac OS V27</h2><p><strong>Made by Nathan jean-francois</strong></p><p>A lavender desktop powered by bees.</p><p>🌸 Nectar uses Tavily through your Cloudflare Worker.</p><p>🌐 Lilac Browser opens websites that permit iframe embedding.</p><p>🌘 The Real Deal offers four original inspired boss encounters and links to BossHim’s originals.</p><p class="muted">The password lock is only client-side; it does not secure data or files.</p></div>'}};
+apps.about={name:'About Lilac OS',icon:'🪻',w:610,ht:545,init(root){root.innerHTML=`<div class="panel"><section class="v028-hero"><div class="v028-kicker">BLOOM PROTOCOL / STABLE RELEASE</div><h2 class="v028-heading">✿ Lilac OS V0.28</h2><h3 style="margin:7px 0;color:#eac8ff">Purple Revolution</h3><strong>Made by Nathan jean-francois</strong><p class="muted">A blossoming browser-based desktop built for GitHub Pages.</p></section><div class="card"><strong>V0.28 changelog</strong><p>✿ Click Studio • Flower click particles • New application logos • Lilac Files & Nectar save links • Browser 2.0 with tabs, bookmarks, history & split view • 120-second, three-phase boss encounters • SCP facility visual enhancements • Six flower wallpapers, secret Flowey garden, Magnus chess powers, refreshed desktop UI.</p></div><div class="card"><strong>Online connections</strong><p class="muted">Nectar uses the configured Tavily search Worker. Lilac AI and Global Chat use the existing Cloudflare service Worker with no changes to its API paths.</p></div><p class="muted">SCP references are shared under CC BY-SA 3.0; see in-game credits. The Real Deal contains original fan-made mechanics, not official ports. Website embedding is subject to each site's permissions and browser security rules.</p></div>`}};
 
 /* ========================================================
    NEW • FLOWER CHESS, LILAC AI, AND WORLD CHAT
@@ -724,21 +930,77 @@ function localChessWork(job,details){
 }
 apps.chess={name:'Flower Chess',icon:'♟',w:1080,ht:770,init(root,win){
  root.style.overflow='hidden';
- root.innerHTML=`<div class="chess-layout"><div class="chess-stage"><div class="row" style="justify-content:space-between"><div><b style="font-size:21px">♟ FLOWER CHESS</b><div class="muted">Lilac Tactical Analysis • Human vs AI</div></div><span id="chess-thinking" class="pill">Loading chess rules…</span></div><div id="chess-board" class="chess-board chess-glitch" aria-label="Interactive chess board"></div><div id="chess-turn" class="muted">You play White · Click a piece, then its destination.</div></div><div class="chess-side"><div class="card"><b>Opponent strength</b><select id="chess-mode" style="margin-top:7px;width:100%"><option value="easy">Easy • casual</option><option value="medium">Medium • learns tactics</option><option value="hard">Hard • deeper search</option><option value="impossible">Impossible • ruthless</option><option value="grandmaster">Grandmaster • strongest preset</option></select><div class="row" style="margin-top:9px"><button id="chess-new">↻ New game</button><button id="chess-undo">↶ Undo turn</button></div><p class="chess-help">Modes are original search presets, not a certified Grandmaster-level chess engine. Game rules use chess.js. The move labels are estimates.</p></div><div class="chess-rating" id="chess-rating"><div class="tag" id="chess-grade">Your first move awaits</div><div class="desc" id="chess-note">Labels: Miss · Mistake · Blunder · Great · Correct · Brilliant</div></div><div class="card"><b>AI commentary</b><p id="chess-roast" style="line-height:1.55;color:#ffe0ee">I hope you've studied your openings. — Lilac AI</p></div><div class="card"><b>Move history</b><div class="chess-history" id="chess-history">No moves yet.</div></div><div class="muted">Original built-in chess rules and search AI. No external chess library or Lilac backend needed.</div></div></div>`;
+ root.innerHTML=`<div class="chess-layout"><div class="chess-stage"><div class="row" style="justify-content:space-between"><div><b style="font-size:21px">♟ FLOWER CHESS</b><div class="muted">Lilac Tactical Analysis • Human vs AI</div></div><span id="chess-thinking" class="pill">Loading chess rules…</span></div><div id="chess-board" class="chess-board chess-glitch" aria-label="Interactive chess board"></div><div id="chess-turn" class="muted">You play White · Click a piece, then its destination.</div></div><div class="chess-side"><div class="card"><b>Opponent strength</b><select id="chess-mode" style="margin-top:7px;width:100%"><option value="easy">Easy • casual</option><option value="medium">Medium • learns tactics</option><option value="hard">Hard • deeper search</option><option value="impossible">Impossible • ruthless</option><option value="grandmaster">Grandmaster • strongest preset</option></select><div class="row" style="margin-top:9px"><button id="chess-new">↻ New game</button><button id="chess-undo">↶ Undo turn</button></div><p class="chess-help">Modes are original search presets, not a certified Grandmaster-level chess engine. Game rules use chess.js. The move labels are estimates.</p></div><div class="card chess-cheat-card" id="chess-cheat-card" hidden><div class="chess-cheat-title">✦ MAGNUS MODE // UNLOCKED</div><div class="chess-cheat-sub">Secret Hive Console power · Solo practice only. Your moves can break chess movement rules.</div><button id="chess-cheat-toggle" style="width:100%">⚡ Activate cheats</button><div class="chess-cheat-options"><button id="chess-cheat-fly">🪽 Fly</button><button id="chess-cheat-teleport">✧ Teleport</button></div><div class="chess-cheat-status" id="chess-cheat-status">Select a power to break the rules.</div></div><div class="chess-rating" id="chess-rating"><div class="tag" id="chess-grade">Your first move awaits</div><div class="desc" id="chess-note">Labels: Miss · Mistake · Blunder · Great · Correct · Brilliant</div></div><div class="card"><b>AI commentary</b><p id="chess-roast" style="line-height:1.55;color:#ffe0ee">I hope you've studied your openings. — Lilac AI</p></div><div class="card"><b>Move history</b><div class="chess-history" id="chess-history">No moves yet.</div></div><div class="muted">Original built-in chess rules and search AI. No external chess library or Lilac backend needed.</div></div></div>`;
  const boardEl=root.querySelector('#chess-board'),turnEl=root.querySelector('#chess-turn'),labelEl=root.querySelector('#chess-grade'),noteEl=root.querySelector('#chess-note'),roastEl=root.querySelector('#chess-roast'),ratingEl=root.querySelector('#chess-rating'),historyEl=root.querySelector('#chess-history'),modeEl=root.querySelector('#chess-mode'),thinkingEl=root.querySelector('#chess-thinking');
  let Chess=OfflineChess,game=null,worker=null,workerURL=null,closed=false,selected='',lastMove=null,busy=false,requestId=0;const pending=new Map();
+ const cheatCard=root.querySelector('#chess-cheat-card'),cheatToggle=root.querySelector('#chess-cheat-toggle'),cheatFly=root.querySelector('#chess-cheat-fly'),cheatTeleport=root.querySelector('#chess-cheat-teleport'),cheatStatus=root.querySelector('#chess-cheat-status');
+ let cheatUnlocked=!!get('lilac_magnus_unlocked',false),cheatEnabled=!!get('lilac_magnus_enabled',false),cheatPower=get('lilac_magnus_power','teleport');
+ const cheatsActive=()=>cheatUnlocked&&cheatEnabled;
+ function syncCheats(){cheatCard.hidden=!cheatUnlocked;cheatToggle.textContent=cheatsActive()?'⚡ MAGNUS MODE: ON — click to disable':'◇ MAGNUS MODE: OFF — click to activate';cheatFly.disabled=!cheatsActive();cheatTeleport.disabled=!cheatsActive();cheatFly.classList.toggle('active',cheatsActive()&&cheatPower==='fly');cheatTeleport.classList.toggle('active',cheatsActive()&&cheatPower==='teleport');cheatStatus.textContent=!cheatsActive()?'Cheats paused. Normal chess rules apply.':cheatPower==='fly'?'FLIGHT: Your pieces can soar over blockers along their movement patterns.':'TELEPORT: Your pieces can warp to almost any square. Kings stay safe; no capturing kings.';boardEl.classList.toggle('chess-magnus',cheatsActive())}
+ function onMagnusChanged(){cheatUnlocked=!!get('lilac_magnus_unlocked',false);cheatEnabled=!!get('lilac_magnus_enabled',false);syncCheats();selected='';status();if(cheatsActive())roastEl.textContent='WAIT. You just enabled cheat codes? That is NOT in my opening book.'}
+ document.addEventListener('lilac-magnus-changed',onMagnusChanged);
+ cheatToggle.onclick=()=>{cheatEnabled=!cheatEnabled;put('lilac_magnus_enabled',cheatEnabled);selected='';syncCheats();status()};
+ cheatFly.onclick=()=>{cheatPower='fly';put('lilac_magnus_power',cheatPower);selected='';syncCheats();status()};
+ cheatTeleport.onclick=()=>{cheatPower='teleport';put('lilac_magnus_power',cheatPower);selected='';syncCheats();status()};
+ function canCheat(from,to){
+   if(!cheatsActive()||!game||from===to||game.turn()!=='w')return false;
+   const p=game.get(from),target=game.get(to);
+   if(!p||p.color!=='w'||target?.color==='w'||target?.type==='k')return false;
+   const dr=Number(to[1])-Number(from[1]),dc='abcdefgh'.indexOf(to[0])-'abcdefgh'.indexOf(from[0]);
+   const ar=Math.abs(dr),ac=Math.abs(dc);
+   if(cheatPower==='fly'){
+     let matches=false;
+     switch(p.type){
+       case 'p':matches=(dc===0&&dr>0&&!target)||(ac===1&&dr===1&&target?.color==='b');break;
+       case 'n':matches=(ar===2&&ac===1)||(ar===1&&ac===2);break;
+       case 'b':matches=ar===ac&&ar>0;break;
+       case 'r':matches=(ar===0&&ac>0)||(ac===0&&ar>0);break;
+       case 'q':matches=(ar===ac&&ar>0)||(ar===0&&ac>0)||(ac===0&&ar>0);break;
+       case 'k':matches=Math.max(ar,ac)<=2;break;
+     }
+     if(!matches)return false;
+   }
+   const snap=game._snapshot();
+   try{game._play({from,to,...(p.type==='p'&&to[1]==='8'?{promotion:'q'}:{})});return !game._kingAttacked('w')}
+   catch{return false}
+   finally{game._restore(snap)}
+ }
+ function cheatTargets(from){if(!cheatsActive())return [];const targets=[];for(const file of 'abcdefgh')for(let rank=1;rank<=8;rank++){const sq=file+rank;if(canCheat(from,sq))targets.push(sq)}return targets}
+ function cheatFX(from,to,power,piece){
+   const f=boardEl.querySelector('[data-square="'+from+'"]'),t=boardEl.querySelector('[data-square="'+to+'"]');
+   if(!f||!t||window.matchMedia('(prefers-reduced-motion: reduce)').matches)return;
+   const a=f.getBoundingClientRect(),b=t.getBoundingClientRect(),x=a.left+a.width/2,y=a.top+a.height/2,dx=b.left+b.width/2-x,dy=b.top+b.height/2-y;
+   const token=h('div',{className:'chess-cheat-token',textContent:PIECES.w[piece.type]});token.style.left=x+'px';token.style.top=y+'px';document.body.append(token);
+   const frames=power==='fly'?[{opacity:1,transform:'translate(-50%,-50%) translate(0,0) scale(1)'},{opacity:1,transform:'translate(-50%,-50%) translate('+dx*.5+'px,'+(dy*.5-65)+'px) scale(1.3)'},{opacity:0,transform:'translate(-50%,-50%) translate('+dx+'px,'+dy+'px) scale(.75)'}]:[{opacity:1,filter:'blur(0px)',transform:'translate(-50%,-50%) scale(1)'},{opacity:0,filter:'blur(12px)',transform:'translate(-50%,-50%) scale(1.6)'},{opacity:0,filter:'blur(10px)',transform:'translate(-50%,-50%) translate('+dx+'px,'+dy+'px) scale(.4)'},{opacity:1,filter:'blur(0px)',transform:'translate(-50%,-50%) translate('+dx+'px,'+dy+'px) scale(1.2)'},{opacity:0,transform:'translate(-50%,-50%) translate('+dx+'px,'+dy+'px) scale(1)'}];
+   const anim=token.animate(frames,{duration:power==='fly'?650:480,easing:'ease-in-out'});anim.finished.catch(()=>{}).finally(()=>token.remove());
+   if(power==='teleport'){for(const r of [a,b]){const portal=h('div',{className:'chess-cheat-portal'});portal.style.left=r.left+r.width/2+'px';portal.style.top=r.top+r.height/2+'px';document.body.append(portal);setTimeout(()=>portal.remove(),550)}}
+ }
+ async function cheatMove(from,to){
+   if(!canCheat(from,to)||busy)return;
+   const p=game.get(from),snap=game._snapshot(),power=cheatPower;
+   cheatFX(from,to,power,p);
+   try{game._play({from,to,...(p.type==='p'&&to[1]==='8'?{promotion:'q'}:{})});game._history.push({snap,san:'✦'+from+'→'+to+' '+(power==='fly'?'FLY':'TP')})}
+   catch(err){game._restore(snap);return}
+   lastMove={from,to};selected='';busy=true;setGrade('MAGNUS MOVE',power==='fly'?'You flew over the rules of chess.':'You teleported a piece. Engine ratings are disabled for cheat moves.');
+   roastEl.textContent=power==='fly'?'MY ROOK HAS TO WALK AND YOURS GETS WINGS?!':'THAT PIECE JUST TELEPORTED. WHAT OPENING IS THIS?!';status();
+   if(game.isGameOver()){busy=false;status();return}
+   const mode=modeEl.value,depth={easy:1,medium:1,hard:2,impossible:3,grandmaster:4}[mode];
+   try{const reply=await askWorker('choose',{fen:game.fen(),depth,mode});if(closed)return;if(reply){const ai=game.move({from:reply.from,to:reply.to,promotion:reply.promotion||'q'});lastMove=ai}}
+   catch(err){if(!closed)roastEl.textContent='The chess AI is confused by your superpowers: '+serviceErrorMessage(err)}
+   busy=false;status();
+ }
  const roasts=['That blunder was so generous, even my pawns sent you flowers.','A free piece? How thoughtful. The whole garden appreciates it.','I looked for your plan, but it appears to have glitched out.','You just turned a chess match into a charity event for my pieces.','My queen says thank you for the complimentary advantage.','That move was a plot twist. Unfortunately, I wrote the ending.'];
  function setGrade(label,detail){labelEl.textContent=label;noteEl.textContent=detail;ratingEl.classList.toggle('brilliant',label==='Brilliant');boardEl.classList.remove('chess-brilliant');void boardEl.offsetWidth;if(label==='Brilliant'){boardEl.classList.add('chess-brilliant');setTimeout(()=>boardEl.classList.remove('chess-brilliant'),750)}}
- function boardSquares(){boardEl.replaceChildren();if(!game)return;const state=game.board(),legal=selected?game.moves({square:selected,verbose:true}).map(m=>m.to):[];for(let row=0;row<8;row++)for(let col=0;col<8;col++){
+ function boardSquares(){boardEl.replaceChildren();if(!game)return;const state=game.board(),legal=selected?(cheatsActive()?cheatTargets(selected):game.moves({square:selected,verbose:true}).map(m=>m.to)):[];for(let row=0;row<8;row++)for(let col=0;col<8;col++){
   const sq='abcdefgh'[col]+String(8-row),piece=state[row][col],cell=h('button',{className:'chess-square '+((row+col)%2?'dark':'light'),title:sq});
   cell.dataset.square=sq;cell.setAttribute('aria-label',sq+(piece?' '+piece.color+' '+piece.type:''));
-  if(selected===sq)cell.classList.add('selected');if(legal.includes(sq))cell.classList.add('legal');if(lastMove&&(lastMove.from===sq||lastMove.to===sq))cell.classList.add('recent');
+  if(selected===sq)cell.classList.add('selected');if(legal.includes(sq)){cell.classList.add('legal');if(cheatsActive())cell.classList.add('cheat-target')}if(lastMove&&(lastMove.from===sq||lastMove.to===sq))cell.classList.add('recent');
   if(game.isCheck()&&piece?.type==='k'&&piece?.color===game.turn())cell.classList.add('incheck');
   if(piece)cell.append(h('span',{className:'chess-piece '+(piece.color==='w'?'white':'black'),textContent:PIECES[piece.color][piece.type]}));
   cell.onclick=()=>clickSquare(sq);
   boardEl.append(cell)
  }}
- function status(){if(!game)return;const over=game.isGameOver();thinkingEl.textContent=over?'Game over':busy?'AI is thinking…':game.turn()==='w'?'Your turn':'AI turn';turnEl.textContent=over?(game.isCheckmate()?(game.turn()==='w'?'Checkmate — AI wins':'Checkmate — You win!'):'Draw — game over'):(game.isCheck()?'Check! ':'')+(busy?'Lilac AI analyzing…':game.turn()==='w'?'Your move (White)':'AI to move');historyEl.textContent=game.history().map((m,i)=>(i%2===0?Math.floor(i/2)+1+'. ':'')+m).join('   ')||'No moves yet.';boardSquares()}
+ function status(){if(!game)return;const over=game.isGameOver();thinkingEl.textContent=over?'Game over':busy?'AI is thinking…':game.turn()==='w'?'Your turn':'AI turn';turnEl.textContent=over?(game.isCheckmate()?(game.turn()==='w'?'Checkmate — AI wins':'Checkmate — You win!'):'Draw — game over'):(game.isCheck()?'Check! ':'')+(busy?'Lilac AI analyzing…':game.turn()==='w'?'Your move (White)':'AI to move')+(cheatsActive()?' · ⚡ MAGNUS '+cheatPower.toUpperCase():'');historyEl.textContent=game.history().map((m,i)=>(i%2===0?Math.floor(i/2)+1+'. ':'')+m).join('   ')||'No moves yet.';boardSquares()}
  function askWorker(job,params){return new Promise((resolve,reject)=>{
    if(!worker){try{resolve(localChessWork(job,params))}catch(err){reject(err)}return}
    const id=++requestId;
@@ -752,6 +1014,7 @@ apps.chess={name:'Flower Chess',icon:'♟',w:1080,ht:770,init(root,win){
  })}
  async function clickSquare(sq){if(!game||busy||game.turn()!=='w'||game.isGameOver())return;
   const piece=game.get(sq);
+  if(selected&&cheatsActive()&&canCheat(selected,sq)){await cheatMove(selected,sq);return}
   if(selected){
     const legal=game.moves({square:selected,verbose:true});
     const found=legal.find(m=>m.to===sq);
@@ -773,7 +1036,7 @@ apps.chess={name:'Flower Chess',icon:'♟',w:1080,ht:770,init(root,win){
  function reset(){if(!Chess)return;game=new Chess();selected='';lastMove=null;busy=false;roastEl.textContent='Welcome to the flower garden. Try not to drop your queen.';setGrade('Your first move awaits','Play any legal move to see an estimated rating.');status()}
  root.querySelector('#chess-new').onclick=()=>{if(busy){roastEl.textContent='The engine is still finishing a move.';return}reset()};
  root.querySelector('#chess-undo').onclick=()=>{if(!game||busy)return;if(game.turn()==='w'){game.undo();game.undo()}else game.undo();selected='';lastMove=null;setGrade('Position rewound','Your previous turn was taken back.');status()};
- modeEl.value=get('flowerChessMode','medium');modeEl.onchange=()=>{put('flowerChessMode',modeEl.value);reset()};
+ modeEl.value=get('flowerChessMode','medium');modeEl.onchange=()=>{put('flowerChessMode',modeEl.value);reset()};syncCheats();
  (async()=>{try{
   if(closed)return;reset();
   workerURL=URL.createObjectURL(new Blob([CHESS_WORKER_SCRIPT],{type:'text/javascript'}));
@@ -782,7 +1045,7 @@ apps.chess={name:'Flower Chess',icon:'♟',w:1080,ht:770,init(root,win){
   worker.onerror=()=>{for(const p of pending.values())p.reject(Error('Chess engine could not load'));pending.clear()};
   reset()
  }catch(err){if(!closed){thinkingEl.textContent='Offline library';boardEl.textContent='Chess rules could not load. Check your internet connection and reopen the app.';console.warn('Chess.js load:',err)}}})();
- win.addEventListener('appclosed',()=>{closed=true;worker?.terminate();if(workerURL)URL.revokeObjectURL(workerURL);for(const p of pending.values())p.reject(Error('Game closed'));pending.clear()});
+ win.addEventListener('appclosed',()=>{closed=true;document.removeEventListener('lilac-magnus-changed',onMagnusChanged);worker?.terminate();if(workerURL)URL.revokeObjectURL(workerURL);for(const p of pending.values())p.reject(Error('Game closed'));pending.clear()});
 }};
 
 /* Lilac AI — real model responses only when the backend is connected. */
@@ -790,16 +1053,16 @@ apps.assistant={name:'Lilac AI Assistant',icon:'✨',w:700,ht:610,init(root,win)
  root.style.overflow='hidden';
  root.innerHTML=`<div class="lilac-chat-shell"><div class="lilac-chat-head"><div class="symbol">✧</div><div style="flex:1"><b style="font-size:17px">LILAC INTELLIGENCE</b><div class="muted">Your AI assistant · Powered by a connected API when configured</div></div><button id="ai-config">⚙ Connect</button><button id="ai-clear">Clear</button></div><div id="ai-stream" class="lilac-chat-scroller" aria-live="polite"></div><div id="ai-status" class="lilac-status"></div><form id="ai-form" class="lilac-chat-composer"><textarea id="ai-question" rows="2" placeholder="Ask Lilac anything…" maxlength="1800"></textarea><button id="ai-send" type="submit">Send ↗</button></form></div>`;
  const stream=root.querySelector('#ai-stream'),form=root.querySelector('#ai-form'),input=root.querySelector('#ai-question'),status=root.querySelector('#ai-status'),button=root.querySelector('#ai-send');
- let messages=[],abort=null,dead=false;
+ let messages=get('lilacAIHistoryV028',[]);if(!Array.isArray(messages))messages=[];messages=messages.filter(m=>m&&(m.role==='user'||m.role==='assistant')&&typeof m.content==='string').slice(-30);let abort=null,dead=false;
  function bubble(text,who='assistant'){const m=h('div',{className:'lilac-msg '+(who==='user'?'self':who==='system'?'system':'')});m.textContent=text;stream.append(m);stream.scrollTop=stream.scrollHeight;return m}
  bubble('Welcome to Lilac Intelligence. I can chat and help with questions once an AI backend is connected. Your existing Nectar Worker is for web search only.','system');
- if(!serviceURL())bubble(serviceHint(),'system');
+ if(!serviceURL())bubble(serviceHint(),'system');messages.forEach(m=>bubble(m.content,m.role==='user'?'user':'assistant'));if(messages.length)stream.scrollTop=stream.scrollHeight;
  root.querySelector('#ai-config').onclick=()=>{openApp('settings');status.textContent='In Settings, save the address of your new Lilac service Worker.'};
- root.querySelector('#ai-clear').onclick=()=>{messages=[];stream.replaceChildren();bubble('Conversation cleared.','system')};
+ root.querySelector('#ai-clear').onclick=()=>{messages=[];put('lilacAIHistoryV028',messages);stream.replaceChildren();bubble('Conversation cleared.','system')};
  input.onkeydown=e=>{if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();form.requestSubmit()}};
- form.onsubmit=async e=>{e.preventDefault();const text=input.value.trim();if(!text||abort)return;input.value='';bubble(text,'user');messages.push({role:'user',content:text});abort=new AbortController();button.disabled=true;status.textContent='Lilac is thinking…';
-  try{const data=await serviceCall('/api/assistant',{method:'POST',body:JSON.stringify({messages:messages.slice(-10)}),signal:abort.signal});if(dead)return;const answer=String(data.reply||'The AI returned an empty response.');bubble(answer);messages.push({role:'assistant',content:answer});status.textContent='Ready'}
-  catch(err){if(dead)return;messages.pop();bubble(serviceErrorMessage(err),'system');status.textContent='Service unavailable'}
+ form.onsubmit=async e=>{e.preventDefault();const text=input.value.trim();if(!text||abort)return;input.value='';bubble(text,'user');messages.push({role:'user',content:text});messages=messages.slice(-30);put('lilacAIHistoryV028',messages);abort=new AbortController();button.disabled=true;status.textContent='Lilac is thinking…';
+  try{const data=await serviceCall('/api/assistant',{method:'POST',body:JSON.stringify({messages:messages.slice(-10)}),signal:abort.signal});if(dead)return;const answer=String(data.reply||'The AI returned an empty response.');bubble(answer);messages.push({role:'assistant',content:answer});messages=messages.slice(-30);put('lilacAIHistoryV028',messages);status.textContent='Ready'}
+  catch(err){if(dead)return;messages.pop();put('lilacAIHistoryV028',messages);bubble(serviceErrorMessage(err),'system');status.textContent='Service unavailable'}
   finally{abort=null;button.disabled=false}
  };
  win.addEventListener('appclosed',()=>{dead=true;abort?.abort()});
@@ -821,7 +1084,7 @@ apps.globalChat={name:'Global Chat',icon:'🌍',w:755,ht:630,init(root,win){
    for(const m of messages){if(muted.has(String(m.author_key)))continue;
     const own=m.author_key===ownId;const outer=h('div',{className:'lilac-msg '+(own?'self':'')});
     const meta=h('div',{className:'meta'});
-    const who=h('strong',{textContent:String(m.nickname||'Guest').slice(0,22)});
+    const who=h('strong',{textContent:String(m.nickname||'Guest').slice(0,22)});who.style.color='hsl('+([...String(m.author_key||m.nickname||'Guest')].reduce((n,ch)=>n+ch.charCodeAt(0)*7,0)%360)+'deg 90% 81%)';
     const when=h('span',{textContent:new Date(m.created_at).toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'})});
     meta.append(who,when);
     if(!own){const report=h('button',{textContent:'Report',title:'Report inappropriate content'}),mute=h('button',{textContent:'Mute',title:'Hide this guest'});
@@ -847,6 +1110,177 @@ apps.globalChat={name:'Global Chat',icon:'🌍',w:755,ht:630,init(root,win){
 }};
 
 
+/* ═══════════ LILAC V0.28 • WALLPAPER COLLECTION ═══════════ */
+const V28_WALLPAPERS = [
+ {id:'meadow',name:'Lilac Meadow',icon:'🪻',gradient:'radial-gradient(circle at 19% 20%,#9270c9 0%,transparent 43%),radial-gradient(circle at 85% 75%,#544078 0%,transparent 55%),linear-gradient(125deg,#42305e,#161026)',petal:'#e4baff',pattern:'#f0d7ff',opacity:.47},
+ {id:'orchid',name:'Midnight Orchid',icon:'🌺',gradient:'radial-gradient(circle at 75% 15%,#7845ad 0%,transparent 44%),radial-gradient(circle at 18% 90%,#343d75,transparent 55%),linear-gradient(145deg,#1a1439,#090c21)',petal:'#bb8cff',pattern:'#ac9eff',opacity:.35},
+ {id:'sakura',name:'Sakura Sky',icon:'🌸',gradient:'radial-gradient(circle at 12% 24%,#ffe1ec,transparent 46%),radial-gradient(circle at 85% 85%,#bb8bca,transparent 60%),linear-gradient(135deg,#b989c8,#6c568e)',petal:'#fff0f5',pattern:'#ffeff8',opacity:.57},
+ {id:'daisy',name:'Golden Daisies',icon:'🌼',gradient:'radial-gradient(circle at 17% 18%,#f6d27e,transparent 43%),radial-gradient(circle at 78% 80%,#d79c71,transparent 58%),linear-gradient(140deg,#b17787,#4b3767)',petal:'#fff2b7',pattern:'#fff5c9',opacity:.42},
+ {id:'rose',name:'Rose Garden',icon:'🌹',gradient:'radial-gradient(circle at 22% 22%,#bc648e,transparent 45%),radial-gradient(circle at 82% 76%,#7c3b77,transparent 56%),linear-gradient(125deg,#482647,#170e2d)',petal:'#ffb3d7',pattern:'#ffb4d4',opacity:.44},
+ {id:'moon',name:'Moonflower Night',icon:'🌙',gradient:'radial-gradient(circle at 74% 18%,#5c6b9b,transparent 35%),radial-gradient(circle at 16% 80%,#335d77,transparent 53%),linear-gradient(140deg,#202d53,#0a1225)',petal:'#b5f3f3',pattern:'#d0efff',opacity:.33},
+ {id:'flowery',name:'Flowey’s Garden',icon:'🌻',gradient:'radial-gradient(circle at 73% 48%,#526525 0%,transparent 42%),radial-gradient(circle at 14% 24%,#6a4822,transparent 54%),linear-gradient(140deg,#181b0c,#101409 58%,#090c08)',petal:'#ffdf55',pattern:'#b2df6e',opacity:.24,secret:true}
+];
+const V28_UNLOCK_KEY='lilac_flowery_unlocked';
+const v28WallpaperLayer=h('div',{className:'wallpaper-decoration'});
+const v28FloweyScene=h('div',{id:'flowery-scene'});
+desk.prepend(v28FloweyScene);desk.prepend(v28WallpaperLayer);
+function v28PatternSVG(color){
+ const blooms=[[48,42,17],[230,110,14],[158,240,21],[310,310,13],[26,325,9]];
+ const flowers=blooms.map(([x,y,r],idx)=>{
+   const petals=Array.from({length:6},(_,i)=>`<ellipse cx="0" cy="-${r*1.04}" rx="${r*.42}" ry="${r*.87}" transform="rotate(${i*60})"/>`).join('');
+   return `<g transform="translate(${x} ${y}) rotate(${idx*23})" fill="${color}" opacity="${.36+idx*.08}">${petals}<circle r="${r*.34}" fill="#fff4b0" opacity=".7"/></g>`;
+ }).join('');
+ return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 360" width="360" height="360"><g fill="none" stroke="${color}" stroke-width="1.5" opacity=".28"><path d="M0 150Q90 110 125 190T360 170"/><path d="M0 310Q150 255 360 310"/></g>${flowers}</svg>`;
+}
+function v28FloweyArt(){
+ const petals=Array.from({length:12},(_,i)=>`<ellipse cx="0" cy="-121" rx="51" ry="94" fill="${i%2?'#ffd23d':'#ffed74'}" stroke="#9d5c15" stroke-width="4" transform="rotate(${i*30})"/>`).join('');
+ const backPetals=Array.from({length:18},(_,i)=>`<ellipse cx="0" cy="-173" rx="36" ry="86" fill="none" stroke="#e6c044" stroke-width="2" opacity=".38" transform="rotate(${i*20})"/>`).join('');
+ const stars=Array.from({length:24},(_,i)=>{let x=45+(i*179)%1120,y=25+(i*113)%630;return `<path d="M${x} ${y-6}v12m-6-6h12" stroke="${i%3?'#f6d86d':'#a5f76c'}" stroke-width="${i%4===0?2:1}" opacity=".${i%4+2}"/>`}).join('');
+ const sideFlowers=Array.from({length:8},(_,i)=>{let x=40+i*140,y=540+((i*43)%100),r=12+(i%3)*8;return `<g transform="translate(${x} ${y})"><path d="M0 0q-15 55 0 145" fill="none" stroke="#5f9e43" stroke-width="5"/>${Array.from({length:6},(_,j)=>`<ellipse cy="-${r}" rx="${r*.5}" ry="${r*.8}" fill="#e8bc50" transform="rotate(${j*60})"/>`).join('')}<circle r="${r*.47}" fill="#4b3e1a"/></g>`}).join('');
+ return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 700" preserveAspectRatio="xMidYMid slice" aria-label="A glowing golden flower with a mischievous face in a shadowy garden"><defs><radialGradient id="v28aura"><stop stop-color="#ffde56" stop-opacity=".45"/><stop offset=".6" stop-color="#a4a92c" stop-opacity=".13"/><stop offset="1" stop-color="#ffde56" stop-opacity="0"/></radialGradient><linearGradient id="v28stem" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#8fcf53"/><stop offset="1" stop-color="#2c6c35"/></linearGradient><filter id="v28glow"><feGaussianBlur stdDeviation="12"/></filter></defs>
+ <g opacity=".3" stroke="#b7ca62" fill="none"><path d="M0 560Q240 420 450 640T1200 540" stroke-width="5"/><path d="M0 650Q260 530 510 660T1200 610" stroke-width="4"/></g>
+ <g class="flower-float">${stars}</g><g opacity=".45">${sideFlowers}</g>
+ <g transform="translate(835 358)"><circle r="260" fill="url(#v28aura)" class="flower-aura"/><g class="flower-aura">${backPetals}</g>
+ <path d="M0 145Q25 280 0 405" fill="none" stroke="#183b18" stroke-width="40"/><path d="M0 145Q25 280 0 405" fill="none" stroke="url(#v28stem)" stroke-width="28"/>
+ <path d="M7 245Q90 172 160 244Q87 290 7 255Z" fill="#4f9a42" stroke="#a3d764" stroke-width="4"/><path d="M-9 295Q-97 206 -162 278Q-78 330 -9 306Z" fill="#397a36" stroke="#83c34c" stroke-width="4"/>
+ <g class="flower-head"><g>${petals}</g><circle r="93" fill="#ffdc47" stroke="#ae711f" stroke-width="8"/><circle r="76" fill="#f9dc5b" opacity=".6"/><g class="flower-eye" fill="#20130c"><ellipse cx="-34" cy="-19" rx="12" ry="24"/><ellipse cx="34" cy="-19" rx="12" ry="24"/></g><path d="M-47 27Q0 87 47 27" fill="none" stroke="#20130c" stroke-width="10" stroke-linecap="round"/><path d="M-43 28Q0 70 43 28" fill="none" stroke="#fff3a5" stroke-width="2" opacity=".5"/><g class="flower-glitch"><path d="M-92 -15h184v24H-92z" fill="#f4baff" opacity=".55"/><path d="M-70 33h150v11H-70z" fill="#78ffc9" opacity=".6"/></g></g></g>
+ <text x="86" y="135" class="flower-caption" font-size="30">FLOWEY'S</text><text x="86" y="177" class="flower-caption" font-size="30">GARDEN</text><text x="87" y="207" font-size="13" fill="#d4cc84" font-family="monospace" letter-spacing="3">SECRET WALLPAPER // UNLOCKED</text></svg>`;
+}
+v28FloweyScene.innerHTML=v28FloweyArt();
+function v28WallpaperUnlocked(){return get(V28_UNLOCK_KEY,false)===true}
+function applyV28Wallpaper(id){
+ const theme=V28_WALLPAPERS.find(t=>t.id===id && (!t.secret || v28WallpaperUnlocked()))||V28_WALLPAPERS[0];
+ desk.dataset.wallpaper=theme.id;
+ desk.style.background=theme.gradient;
+ const svg=v28PatternSVG(theme.pattern);
+ v28WallpaperLayer.style.backgroundImage=`url("data:image/svg+xml,${encodeURIComponent(svg)}")`;
+ v28WallpaperLayer.style.backgroundSize=theme.id==='flowery'?'260px 260px':'360px 360px';
+ v28WallpaperLayer.style.opacity=theme.opacity;
+ // Keep subtle movement on the regular wallpapers without expensive canvases.
+ v28WallpaperLayer.replaceChildren();
+ if(theme.id!=='flowery'){
+   for(let i=0;i<13;i++){
+     const petal=h('span',{className:'wallpaper-petal',textContent:i%3===0?'✿':'✦'});
+     petal.style.setProperty('--x',(i*73+13)%97+'%');
+     petal.style.setProperty('--y',(i*47+9)%91+'%');
+     petal.style.setProperty('--size',(11+i%5*6)+'px');
+     petal.style.setProperty('--opacity',String(.25+(i%4)*.12));
+     petal.style.setProperty('--duration',(4+i%5*1.4)+'s');
+     petal.style.setProperty('--delay',(-i*.8)+'s');
+     petal.style.setProperty('--petal-color',theme.petal);
+     v28WallpaperLayer.append(petal);
+   }
+ }
+ return theme.id;
+}
+function v28UnlockFlowery(){
+ const already=v28WallpaperUnlocked();
+ put(V28_UNLOCK_KEY,true);
+ const cfg={br:1,icons:46,...get('lilacSettings',{})};cfg.wall='flowery';put('lilacSettings',cfg);
+ applyV28Wallpaper('flowery');
+ document.dispatchEvent(new Event('lilac-wallpapers-changed'));
+ const flash=h('div',{id:'flower-unlock-flash',innerHTML:'✿<div style="font-size:clamp(16px,3vw,32px)">YOUR NEW BEST FRIEND</div>✿'});
+ document.body.append(flash);setTimeout(()=>flash.remove(),1450);
+ return already;
+}
+/* Upgrade the existing Hive Console, preserving its other commands. */
+const v28OldTermInit=apps.term.init;
+apps.term.init=function(root,win){
+ v28OldTermInit(root,win);
+ const inp=root.querySelector('#cmd'),out=root.querySelector('#out');
+ const line=(s)=>{out.append(h('div',{textContent:s}));out.scrollTop=out.scrollHeight};
+ inp.addEventListener('keydown',e=>{
+   if(e.key!=='Enter'||inp.value.trim().toLowerCase()!=='flowery')return;
+   e.preventDefault();e.stopImmediatePropagation();
+   line('> flowery');line('[HIVE] An unfamiliar flower has appeared...');
+   const already=v28UnlockFlowery();
+   line(already?'[FLOWEY] Welcome back.':'[UNLOCKED] Flowey’s Garden added to Settings → Wallpapers.');
+   inp.value='';
+ },true);
+};
+
+/* V0.28 secret Magnus cheat command; layered over the Flowey wallpaper command. */
+const v28MagnusOldTermInit=apps.term.init;
+apps.term.init=function(root,win){
+  v28MagnusOldTermInit(root,win);
+  const inp=root.querySelector('#cmd'),out=root.querySelector('#out');
+  const say=t=>{out.append(h('div',{textContent:t}));out.scrollTop=out.scrollHeight};
+  inp.addEventListener('keydown',e=>{
+    if(e.key!=='Enter')return;
+    const cmd=inp.value.trim().toLowerCase().replace(/\s+/g,' ');
+    if(cmd!=='magnus time'&&cmd!=='magnus off')return;
+    e.preventDefault();e.stopImmediatePropagation();
+    say('> '+cmd);
+    if(cmd==='magnus time'){
+      put('lilac_magnus_unlocked',true);
+      put('lilac_magnus_enabled',true);
+      say('[HIVE] CHESS PROTOCOL OVERRIDE ACCEPTED');
+      say('[MAGNUS] Flight and Teleport unlocked. Open Flower Chess to use them.');
+      const flash=h('div',{id:'magnus-unlock-flash',textContent:'✦ MAGNUS TIME ✦'});
+      document.body.append(flash);setTimeout(()=>flash.remove(),900);
+    }else{
+      put('lilac_magnus_enabled',false);
+      say('[MAGNUS] Powers disabled. Normal chess rules restored.');
+    }
+    document.dispatchEvent(new Event('lilac-magnus-changed'));
+    inp.value='';
+  },true);
+};
+
+/* Replace Settings visuals while retaining the online-service wrapper installed below. */
+apps.settings.w=560;apps.settings.ht=630;
+apps.settings.init=function(root,win){
+ let cfg={wall:'meadow',br:1,icons:46,...get('lilacSettings',{})};
+ if(typeof cfg.wall==='number')cfg.wall=['meadow','sakura','orchid'][cfg.wall]||'meadow';
+ root.innerHTML=`<div class="panel v28-settings">
+  <div class="settings-hero"><h2>✿ Lilac Settings</h2><div class="muted">V0.28 • Purple Revolution — make your desktop bloom.</div></div>
+  <div class="settings-section-label">🌸 Floral wallpaper collection</div>
+  <div class="v28-wallpaper-grid" id="v28-wallpapers" aria-label="Wallpaper choices"></div>
+  <div class="v28-secret-hint" id="v28-wallpaper-hint">✦ A secret flower is waiting somewhere in the Hive...</div>
+  <div class="settings-section-label">🪄 Display & personalization</div>
+  <label class="v28-slider-row"><span class="row" style="justify-content:space-between"><strong>Brightness</strong><output id="v28-bright-value"></output></span><input id="v28-bright" type="range" min=".5" max="1.2" step=".05"></label>
+  <label class="v28-slider-row"><span class="row" style="justify-content:space-between"><strong>Desktop icon size</strong><output id="v28-icon-value"></output></span><input id="v28-icon-size" type="range" min="32" max="80" step="2"></label>
+  <div class="card muted">Your wallpaper choice, brightness, and icon size are saved automatically in this browser.</div>
+ </div>`;
+ const gallery=root.querySelector('#v28-wallpapers');
+ const hint=root.querySelector('#v28-wallpaper-hint');
+ const bright=root.querySelector('#v28-bright'),size=root.querySelector('#v28-icon-size');
+ const brOutput=root.querySelector('#v28-bright-value'),sizeOutput=root.querySelector('#v28-icon-value');
+ function apply(){
+   cfg.wall=applyV28Wallpaper(cfg.wall);
+   document.documentElement.style.setProperty('--br',cfg.br);
+   document.documentElement.style.setProperty('--icons',cfg.icons+'px');
+   brOutput.textContent=Math.round(cfg.br*100)+'%';sizeOutput.textContent=cfg.icons+'px';
+   put('lilacSettings',cfg);
+ }
+ function drawGallery(){
+   gallery.replaceChildren();
+   V28_WALLPAPERS.filter(t=>!t.secret||v28WallpaperUnlocked()).forEach(t=>{
+     const b=h('button',{className:'v28-wallpaper-option'});
+     b.type='button';b.setAttribute('aria-label',t.name+' wallpaper');
+     b.setAttribute('aria-pressed',String(cfg.wall===t.id));
+     const thumb=h('div',{className:'wallpaper-thumb',textContent:t.icon});thumb.style.background=t.gradient;
+     b.append(thumb,h('div',{className:'wallpaper-name',textContent:t.name+(t.secret?' ✦':'' )}));
+     b.onclick=()=>{cfg.wall=t.id;apply();drawGallery()};gallery.append(b);
+   });
+   hint.textContent=v28WallpaperUnlocked()?'✿ Flowey’s Garden unlocked! Your secret wallpaper is now permanently available.':'✦ A secret flower is waiting somewhere in the Hive...';
+ }
+ bright.value=cfg.br;size.value=cfg.icons;
+ bright.oninput=()=>{cfg.br=+bright.value;apply()};
+ size.oninput=()=>{cfg.icons=+size.value;apply()};
+ const unlockHandler=()=>{cfg.wall='flowery';apply();drawGallery()};
+ document.addEventListener('lilac-wallpapers-changed',unlockHandler);
+ win.addEventListener('appclosed',()=>document.removeEventListener('lilac-wallpapers-changed',unlockHandler));
+ const tools=h('div',{className:'card'});tools.innerHTML='<div class="v028-kicker">Experience and accessibility</div><div class="row flex-wrap" style="margin-top:8px"><button id="open-clickstudio">✿ Open Click Studio</button><button id="open-files">▣ Open Lilac Files</button></div><label class="row" style="margin-top:10px"><input id="motion-off" type="checkbox" style="flex:0"> Reduce animated effects</label>';
+ root.querySelector('.panel').append(tools);tools.querySelector('#open-clickstudio').onclick=()=>openApp('clickStudio');tools.querySelector('#open-files').onclick=()=>openApp('files');const reduce=tools.querySelector('#motion-off');reduce.checked=get('lilacMotionOff',false);reduce.onchange=()=>{put('lilacMotionOff',reduce.checked);document.documentElement.classList.toggle('lilac-reduced-motion',reduce.checked)};
+ apply();drawGallery();
+};
+/* Initialize wallpaper before the boot screen disappears. */
+const v28SavedSettings=get('lilacSettings',{})||{};
+const v28InitialWall=typeof v28SavedSettings.wall==='number'?['meadow','sakura','orchid'][v28SavedSettings.wall]||'meadow':v28SavedSettings.wall||'meadow';
+applyV28Wallpaper(v28InitialWall);
+
+
 /* Add online-service configuration to the existing Settings app. */
 const previousSettingsInit=apps.settings.init;
 apps.settings.init=function(root,win){
@@ -863,11 +1297,16 @@ apps.settings.init=function(root,win){
  };
 };
 
+
+/* Hive Console history: root capture runs before the existing secret-command interceptors. */
+const beforeHistoryTerm=apps.term.init;
+apps.term.init=function(root,win){beforeHistoryTerm(root,win);root.classList.add('hive-terminal');let history=get('lilacConsoleHistoryV028',[]);if(!Array.isArray(history))history=[];let index=history.length;const inp=root.querySelector('#cmd');root.addEventListener('keydown',e=>{if(e.target!==inp)return;if(e.key==='Enter'&&inp.value.trim()){const value=inp.value.trim();history.push(value);history=history.slice(-45);index=history.length;put('lilacConsoleHistoryV028',history)}else if(e.key==='ArrowUp'){if(history.length){index=Math.max(0,index-1);inp.value=history[index]||'';e.preventDefault()}}else if(e.key==='ArrowDown'){index=Math.min(history.length,index+1);inp.value=history[index]||'';e.preventDefault()}},true)};
+
 /* LAUNCHERS — no stray iframe or overlay is added to the desktop */
 /* SCP MTF containment game: original 3D raycaster and geometry */
 apps.scp={name:'SCP: MTF Containment',icon:'☣',w:1040,ht:700,init(root,win){
- root.style.overflow='hidden';root.innerHTML=`<div style="height:100%;min-height:0;display:flex;flex-direction:column;background:#08111b;color:#d8f6ed"><div style="padding:9px 12px;background:#10232e;display:flex;align-items:center;gap:10px;flex-wrap:wrap;border-bottom:1px solid #367c77"><strong>☣ MTF EPSILON-11 / SITE-19</strong><span id="scpcount" style="color:#86efac">0 / 5 CONTAINED</span><span id="scpmsg" style="flex:1;font-size:12px;color:#b8d9d3">Five containment assignments are awaiting completion.</span><button id="scpbrief">Briefing</button><button id="scpcredits">Credits</button><button id="scpreset">Reset</button></div><div style="flex:1;min-height:0;position:relative"><canvas id="scpview" style="display:block;width:100%;height:100%;background:#050c12;outline:none" tabindex="0"></canvas><div id="scphud" style="position:absolute;bottom:13px;left:13px;background:#06121bdc;border:1px solid #367c77;border-radius:8px;padding:9px 12px;font:12px monospace;max-width:78%"></div><div style="position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);color:#d2fff1;pointer-events:none">+</div></div><div style="padding:7px 11px;background:#10232e;font-size:12px">WASD move · ← → or mouse drag turn · E interact · B briefing · Shift sprint · Touch: use buttons below <span id="scptouch"></span></div><div id="scppanel" style="display:none;position:absolute;inset:45px 10px 45px;background:#0b1826f7;border:1px solid #60b9b0;border-radius:12px;padding:22px;overflow:auto;z-index:3"></div></div>`;
- const cv=root.querySelector('#scpview'),ctx=cv.getContext('2d'),msg=root.querySelector('#scpmsg'),count=root.querySelector('#scpcount'),hud=root.querySelector('#scphud'),panel=root.querySelector('#scppanel');
+ root.style.overflow='hidden';root.innerHTML=`<div style="height:100%;min-height:0;display:flex;flex-direction:column;background:#08111b;color:#d8f6ed"><div style="padding:9px 12px;background:#10232e;display:flex;align-items:center;gap:10px;flex-wrap:wrap;border-bottom:1px solid #367c77"><strong>☣ MTF EPSILON-11 / SITE-19</strong><span id="scpcount" style="color:#86efac">0 / 5 CONTAINED</span><span id="scpmsg" style="flex:1;font-size:12px;color:#b8d9d3">Five containment assignments are awaiting completion.</span><label class="muted">Graphics <select id="scpquality" style="padding:5px"><option>Low</option><option selected>Medium</option><option>High</option><option>Ultra</option></select></label><button id="scpbrief">Briefing</button><button id="scpcredits">Credits</button><button id="scpreset">Reset</button></div><div style="flex:1;min-height:0;position:relative"><canvas id="scpview" style="display:block;width:100%;height:100%;background:#050c12;outline:none" tabindex="0"></canvas><div class="scp-canvas-cover"></div><div id="scphud" class="scp-hud-card"></div><div id="scp-warning" style="position:absolute;top:13px;left:50%;transform:translateX(-50%);font:800 13px monospace;letter-spacing:.12em;color:#ff9fae;text-shadow:0 0 9px #f00;display:none;pointer-events:none">⚠ CONTAINMENT THREAT NEARBY</div><div style="position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);color:#d2fff1;pointer-events:none">+</div></div><div style="padding:7px 11px;background:#10232e;font-size:12px">WASD move · ← → or mouse drag turn · E interact · B briefing · Shift sprint · Touch: use buttons below <span id="scptouch"></span></div><div id="scppanel" style="display:none;position:absolute;inset:45px 10px 45px;background:#0b1826f7;border:1px solid #60b9b0;border-radius:12px;padding:22px;overflow:auto;z-index:3"></div></div>`;
+ const cv=root.querySelector('#scpview'),ctx=cv.getContext('2d'),msg=root.querySelector('#scpmsg'),count=root.querySelector('#scpcount'),hud=root.querySelector('#scphud'),panel=root.querySelector('#scppanel'),warning=root.querySelector('#scp-warning'),qualityEl=root.querySelector('#scpquality');let quality=get('lilacSCPQuality','Medium');qualityEl.value=quality;qualityEl.onchange=()=>{quality=qualityEl.value;put('lilacSCPQuality',quality)};
  const rooms=[{id:'173',x:5,z:5,color:'#e5d9bd',name:'The Sculpture',task:'Coordinate two observers, activate the viewing lights, then lock the chamber.',steps:['Observation team assigned','Floodlights activated','Chamber door locked'],wiki:'https://scp-wiki.wikidot.com/scp-173',credit:'Moto42'},{id:'096',x:16,z:5,color:'#d5dfe9',name:'The Shy Guy',task:'Disable all visual cameras, confirm non-visual sensors, then seal the steel cell.',steps:['Optical feeds disabled','Pressure sensors confirmed','Steel containment sealed'],wiki:'https://scp-wiki.wikidot.com/scp-096',credit:'Dr Dan'},{id:'106',x:5,z:16,color:'#695c7c',name:'The Old Man',task:'Use the remote isolation controls, activate bright lighting, then engage the suspended-cell locks.',steps:['Remote isolation enabled','Containment lights activated','Suspension locks engaged'],wiki:'https://scp-wiki.wikidot.com/scp-106',credit:'Dr Gears'},{id:'049',x:16,z:16,color:'#242d38',name:'Plague Doctor',task:'Prepare the secure humanoid chamber, activate lavender calming mist, then secure the transport restraints.',steps:['Humanoid chamber prepared','Lavender system enabled','Transport restraints secured'],wiki:'https://scp-wiki.wikidot.com/scp-049',credit:'Gabriel Jade and djkaktus (revised article)'},{id:'999',x:10.5,z:20,color:'#ffa931',name:'The Tickle Monster',task:'Prepare its comfortable enclosure, place enrichment items, then guide it gently home.',steps:['Comfortable enclosure ready','Enrichment provided','SCP-999 safely escorted'],wiki:'https://scp-wiki.wikidot.com/scp-999',credit:'SCP Wiki original article (verify attribution on linked page)'}];
  const map=[
  '######################',
@@ -895,10 +1334,10 @@ apps.scp={name:'SCP: MTF Containment',icon:'☣',w:1040,ht:700,init(root,win){
  // Inner bulkheads make the site feel like separate wings, while leaving a traversable central route.
  const walls=[];for(let x=2;x<20;x++){if(x!==10&&x!==11){walls.push([x,10]);}}for(let z=2;z<20;z++){if(z!==10&&z!==11)walls.push([10,z]);}
  function solid(x,z){let a=Math.floor(x),b=Math.floor(z);return !map[b]||map[b][a]==='#'||walls.some(w=>w[0]===a&&w[1]===b)}
- let px=11.5,pz=11.5,angle=-Math.PI/2,keys={},contained=new Set(),progress={},running=true,shown=false,frame=0,last=performance.now(),raf=0;
- function reset(){px=11.5;pz=11.5;angle=-Math.PI/2;contained.clear();progress={};rooms.forEach(r=>progress[r.id]=0);update();say('MTF mission started. Locate all five anomalies.');}
+ let px=11.5,pz=11.5,angle=-Math.PI/2,keys={},contained=new Set(),progress={},running=true,shown=false,frame=0,last=performance.now(),raf=0,suit=100;
+ function reset(){px=11.5;pz=11.5;angle=-Math.PI/2;suit=100;contained.clear();progress={};rooms.forEach(r=>progress[r.id]=0);update();say('MTF mission started. Locate all five anomalies.');}
  function say(t){msg.textContent=t}
- function update(){count.textContent=contained.size+' / 5 CONTAINED';hud.textContent='MTF UNIT • SITE-19 | '+rooms.map(r=>(contained.has(r.id)?'✓':'○')+' '+r.id).join('  ')+' | E: interact';if(contained.size===5)say('MISSION COMPLETE — All five SCPs safely contained!');}
+ function update(){count.textContent=contained.size+' / 5 CONTAINED';hud.textContent='MTF EPSILON-11  /  SUIT '+Math.round(suit)+'%  /  05 ASSIGNMENTS | '+rooms.map(r=>(contained.has(r.id)?'✓':'○')+' '+r.id).join('  ')+'  • E to interact';if(contained.size===5)say('MISSION COMPLETE — All five SCPs safely contained!');}
  function nearest(){let best=null,d=Infinity;for(let r of rooms){if(contained.has(r.id))continue;let dist=Math.hypot(px-r.x,pz-r.z);if(dist<d){d=dist;best=r}}return d<2.5?best:null}
  function interact(){if(shown)return;let r=nearest();if(!r){say('Move near an SCP containment console to interact.');return}let i=progress[r.id];if(i>=3)return;progress[r.id]++;say('SCP-'+r.id+': '+r.steps[i]);if(progress[r.id]===3){contained.add(r.id);say('SCP-'+r.id+' contained successfully!');update();}else update();}
  function openPanel(type){shown=true;panel.style.display='block';if(type==='credits'){panel.innerHTML='<h2>☣ Credits &amp; licensing</h2><p>Based on the SCP Foundation collaborative fiction project. Original code, 3D environments, and simplified character designs created for Lilac OS. No external character models or audio are used.</p><p>Source articles and credited authors:</p>'+rooms.map(r=>`<p><a href="${r.wiki}" target="_blank" rel="noopener">SCP-${r.id}</a> — ${r.credit}</p>`).join('')+'<p>SCP content and logo: <a href="https://scp-wiki.wikidot.com/licensing-guide" target="_blank" rel="noopener">CC BY-SA 3.0</a>. This derivative is shared under CC BY-SA 3.0. The SCP-173 design here is original and does not reproduce Izumi Kato’s sculpture.</p>';}else{panel.innerHTML='<h2>☣ MTF CONTAINMENT BRIEFING</h2><p>You are a Mobile Task Force unit responding to five breached containment areas. Explore the facility in first person, approach each labeled anomaly, and press E three times to complete its tailored protocol.</p>'+rooms.map(r=>`<div style="border-bottom:1px solid #326d70;padding:8px"><strong>SCP-${r.id} — ${r.name}</strong><p>${r.task}</p><small>${r.steps.join(' → ')}</small><p><a href="${r.wiki}" target="_blank" rel="noopener">Read official SCP Wiki procedures</a></p></div>`).join('')+'<p>Procedures are simplified, non-violent game adaptations, not verbatim protocols.</p>';}const b=h('button',{textContent:'Return to mission'});b.onclick=()=>{shown=false;panel.style.display='none';cv.focus()};panel.prepend(b)}
@@ -906,21 +1345,142 @@ apps.scp={name:'SCP: MTF Containment',icon:'☣',w:1040,ht:700,init(root,win){
  const down=e=>{if(!win.classList.contains('focused')||shown)return;const k=e.key.toLowerCase();keys[k]=true;if(['arrowleft','arrowright',' ','e','b'].includes(k))e.preventDefault();if(k==='e'&&!e.repeat)interact();if(k==='b'&&!e.repeat)openPanel('brief')};const up=e=>keys[e.key.toLowerCase()]=false;document.addEventListener('keydown',down);document.addEventListener('keyup',up);
  let dragging=false,mx=0;cv.onpointerdown=e=>{dragging=true;mx=e.clientX;cv.focus();cv.setPointerCapture(e.pointerId)};cv.onpointermove=e=>{if(dragging){angle+=(e.clientX-mx)*.006;mx=e.clientX}};cv.onpointerup=cv.onpointercancel=()=>dragging=false;
  const touch=root.querySelector('#scptouch');['↶','↑','↓','↷','E'].forEach((label,i)=>{let b=h('button',{textContent:label});b.style.padding='3px 8px';touch.append(b);let k=['arrowleft','w','s','arrowright','e'][i];b.onpointerdown=e=>{e.preventDefault();if(k==='e')interact();else keys[k]=true};b.onpointerup=b.onpointercancel=()=>keys[k]=false});
- function render(t){if(!running)return;let dt=Math.min(.05,(t-last)/1000||0);last=t;if(!shown){let turn=(Number(!!keys.arrowright)-Number(!!keys.arrowleft))*dt*2.2;angle+=turn;let forward=Number(!!keys.w)-Number(!!keys.s),strafe=Number(!!keys.d)-Number(!!keys.a),speed=dt*(keys.shift?4:2.7);let vx=(Math.cos(angle)*forward+Math.cos(angle+Math.PI/2)*strafe)*speed,vz=(Math.sin(angle)*forward+Math.sin(angle+Math.PI/2)*strafe)*speed;if(!solid(px+vx+.2*Math.sign(vx),pz))px+=vx;if(!solid(px,pz+vz+.2*Math.sign(vz)))pz+=vz;}
- let width=Math.min(960,Math.max(320,cv.clientWidth)),height=Math.min(600,Math.max(220,cv.clientHeight));if(cv.width!==width||cv.height!==height){cv.width=width;cv.height=height}const w=width,hgt=height,horizon=hgt*.49;let ceiling=ctx.createLinearGradient(0,0,0,horizon);ceiling.addColorStop(0,'#0b1724');ceiling.addColorStop(1,'#233b4b');ctx.fillStyle=ceiling;ctx.fillRect(0,0,w,horizon);let floor=ctx.createLinearGradient(0,horizon,0,hgt);floor.addColorStop(0,'#1a3039');floor.addColorStop(1,'#050b12');ctx.fillStyle=floor;ctx.fillRect(0,horizon,w,hgt-horizon);
- const depths=[];const step=2;for(let sx=0;sx<w;sx+=step){let a=angle+Math.atan((sx/w-.5)*1.25),rayX=Math.cos(a),rayZ=Math.sin(a),dist=.03,hitX=0,hitZ=0;while(dist<30){let x=px+rayX*dist,z=pz+rayZ*dist;if(solid(x,z)){hitX=x;hitZ=z;break}dist+=.055}let corrected=dist*Math.cos(a-angle),wallH=Math.min(hgt*3,hgt/(corrected+.001)*.85),side=Math.min(Math.abs(hitX-Math.round(hitX)),Math.abs(hitZ-Math.round(hitZ))),shade=Math.max(.16,1-dist/25)*(side<.07?.75:1);let c=Math.floor(83*shade);ctx.fillStyle=`rgb(${c},${Math.floor(125*shade)},${Math.floor(145*shade)})`;ctx.fillRect(sx,horizon-wallH/2,step+1,wallH);ctx.fillStyle=`rgba(0,10,20,${Math.min(.65,dist/35)})`;ctx.fillRect(sx,horizon-wallH/2,step+1,wallH);depths[Math.floor(sx/step)]=dist;}
+ function render(t){if(!running)return;let dt=Math.min(.05,(t-last)/1000||0);last=t;if(!shown){const danger=rooms.some(r=>!contained.has(r.id)&&Math.hypot(px-r.x,pz-r.z)<1.3&&r.id!=='999');warning.style.display=danger?'block':'none';hud.classList.toggle('scp-alert',danger);if(danger)suit=Math.max(0,suit-dt*2.9);else suit=Math.min(100,suit+dt*.55);if(suit<=0){reset();say('MTF extraction required. Returned to safe central corridor.');}if(frame++%25===0)update();let turn=(Number(!!keys.arrowright)-Number(!!keys.arrowleft))*dt*2.2;angle+=turn;let forward=Number(!!keys.w)-Number(!!keys.s),strafe=Number(!!keys.d)-Number(!!keys.a),speed=dt*(keys.shift?4:2.7);let vx=(Math.cos(angle)*forward+Math.cos(angle+Math.PI/2)*strafe)*speed,vz=(Math.sin(angle)*forward+Math.sin(angle+Math.PI/2)*strafe)*speed;if(!solid(px+vx+.2*Math.sign(vx),pz))px+=vx;if(!solid(px,pz+vz+.2*Math.sign(vz)))pz+=vz;}
+ let scale={Low:.57,Medium:.78,High:1,Ultra:1.3}[quality]||.78;let width=Math.round(Math.min(1100,Math.max(320,cv.clientWidth))*scale),height=Math.round(Math.min(720,Math.max(220,cv.clientHeight))*scale);if(cv.width!==width||cv.height!==height){cv.width=width;cv.height=height}const w=width,hgt=height,horizon=hgt*.49;let ceiling=ctx.createLinearGradient(0,0,0,horizon);ceiling.addColorStop(0,'#0b1724');ceiling.addColorStop(1,'#233b4b');ctx.fillStyle=ceiling;ctx.fillRect(0,0,w,horizon);let floor=ctx.createLinearGradient(0,horizon,0,hgt);floor.addColorStop(0,'#1a3039');floor.addColorStop(1,'#050b12');ctx.fillStyle=floor;ctx.fillRect(0,horizon,w,hgt-horizon);
+ // Perspective floor panels and overhead emergency strips.
+ const pulse=(Math.sin(performance.now()*.0011)+1)/2;
+ ctx.strokeStyle='#92d0c124';ctx.lineWidth=1;for(let k=1;k<=9;k++){let p=1-Math.pow(.72,k);let y=horizon+p*(hgt-horizon);ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(w,y);ctx.stroke()}
+ for(let k=-12;k<=12;k++){ctx.beginPath();ctx.moveTo(w*.5+k*22,hgt);ctx.lineTo(w*.5+k*5,horizon);ctx.stroke()}
+ const lights=[.11,.34,.57,.8];for(const u of lights){const x=w*u;ctx.fillStyle='#091f31';ctx.fillRect(x-38,8,76,13);ctx.shadowColor='#86f3da';ctx.shadowBlur=quality==='Ultra'?34:15;ctx.fillStyle='#a7fff3';ctx.fillRect(x-24,12,48,5);ctx.shadowBlur=0;ctx.fillStyle='#74ffe113';ctx.beginPath();ctx.moveTo(x-24,19);ctx.lineTo(x+24,19);ctx.lineTo(x+83,horizon);ctx.lineTo(x-83,horizon);ctx.fill()}
+ if(warning.style.display==='block'){ctx.fillStyle=`rgba(255,42,69,${.04+pulse*.07})`;ctx.fillRect(0,0,w,hgt)}
+ const depths=[];const step=quality==='Low'?5:quality==='Medium'?3:quality==='Ultra'?1:2;for(let sx=0;sx<w;sx+=step){let a=angle+Math.atan((sx/w-.5)*1.25),rayX=Math.cos(a),rayZ=Math.sin(a),dist=.03,hitX=0,hitZ=0;while(dist<30){let x=px+rayX*dist,z=pz+rayZ*dist;if(solid(x,z)){hitX=x;hitZ=z;break}dist+=.055}let corrected=dist*Math.cos(a-angle),wallH=Math.min(hgt*3,hgt/(corrected+.001)*.85),side=Math.min(Math.abs(hitX-Math.round(hitX)),Math.abs(hitZ-Math.round(hitZ))),shade=Math.max(.16,1-dist/25)*(side<.07?.75:1);let c=Math.floor(83*shade);ctx.fillStyle=`rgb(${c},${Math.floor(125*shade)},${Math.floor(145*shade)})`;ctx.fillRect(sx,horizon-wallH/2,step+1,wallH);
+ // Concrete panel borders, vertical cabling, upper and lower wall trims.
+ const uv=(hitX+hitZ)%1,top=horizon-wallH/2;
+ if(uv<.095){ctx.fillStyle=`rgba(3,11,17,${.35*shade})`;ctx.fillRect(sx,top,step+1,wallH)}
+ ctx.fillStyle=`rgba(124,201,192,${.12*shade})`;ctx.fillRect(sx,top+wallH*.12,step+1,Math.max(1,wallH*.016));ctx.fillRect(sx,top+wallH*.83,step+1,Math.max(1,wallH*.014));
+ if((Math.floor(hitX*4)+Math.floor(hitZ*4))%9===0){ctx.fillStyle='#8ac7ca18';ctx.fillRect(sx,top+wallH*.33,step+1,wallH*.02)}
+ ctx.fillStyle=`rgba(0,10,20,${Math.min(.72,dist/30)})`;ctx.fillRect(sx,top,step+1,wallH);depths[Math.floor(sx/step)]=dist;}
  // Render stylized 3D billboard entities, depth tested against the raycast walls.
- const sorted=[...rooms].sort((a,b)=>Math.hypot(px-b.x,pz-b.z)-Math.hypot(px-a.x,pz-a.z));for(let r of sorted){let dx=r.x-px,dz=r.z-pz,d=Math.hypot(dx,dz),relative=Math.atan2(dz,dx)-angle;relative=Math.atan2(Math.sin(relative),Math.cos(relative));if(Math.abs(relative)>0.65||d<.15)continue;let screenX=w/2+Math.tan(relative)*w*.8;let column=Math.floor(screenX/step);if(depths[column]!==undefined&&depths[column]<d-.3)continue;let size=Math.min(hgt*1.3,hgt/(d+.3)*.7),y=horizon+size*.15;ctx.save();ctx.globalAlpha=contained.has(r.id)?.3:1;ctx.shadowColor=r.color;ctx.shadowBlur=22;ctx.fillStyle=r.color;if(r.id==='999'){ctx.beginPath();ctx.ellipse(screenX,y,size*.38,size*.28,0,0,Math.PI*2);ctx.fill();}else if(r.id==='173'){ctx.fillRect(screenX-size*.23,y-size*.5,size*.46,size*.85);ctx.fillRect(screenX-size*.3,y-size*.12,size*.6,size*.16)}else if(r.id==='049'){ctx.beginPath();ctx.moveTo(screenX,y-size*.7);ctx.lineTo(screenX+size*.29,y+size*.48);ctx.lineTo(screenX-size*.29,y+size*.48);ctx.closePath();ctx.fill();ctx.fillStyle='#d2c4b1';ctx.beginPath();ctx.moveTo(screenX,y-size*.4);ctx.lineTo(screenX+size*.3,y-size*.24);ctx.lineTo(screenX,y-size*.17);ctx.fill()}else{ctx.fillRect(screenX-size*.13,y-size*.4,size*.26,size*.72);ctx.beginPath();ctx.arc(screenX,y-size*.54,size*.17,0,Math.PI*2);ctx.fill()}ctx.shadowBlur=0;ctx.font=`bold ${Math.max(11,Math.min(21,size*.16))}px monospace`;ctx.textAlign='center';ctx.fillStyle='#dcfff3';ctx.fillText('SCP-'+r.id,screenX,y-size*.8);ctx.restore();}
- let r=nearest();if(r&&!shown){ctx.fillStyle='#d6ffef';ctx.font='bold 15px monospace';ctx.textAlign='center';ctx.fillText('E — SCP-'+r.id+' CONTAINMENT CONSOLE ('+progress[r.id]+'/3)',w/2,hgt*.82)}if(contained.size===5){ctx.fillStyle='#7bf5bd';ctx.font='bold 23px monospace';ctx.textAlign='center';ctx.fillText('MISSION COMPLETE',w/2,50)}raf=requestAnimationFrame(render)}
+ const sorted=[...rooms].sort((a,b)=>Math.hypot(px-b.x,pz-b.z)-Math.hypot(px-a.x,pz-a.z));for(let r of sorted){let dx=r.x-px,dz=r.z-pz,d=Math.hypot(dx,dz),relative=Math.atan2(dz,dx)-angle;relative=Math.atan2(Math.sin(relative),Math.cos(relative));if(Math.abs(relative)>0.65||d<.15)continue;let screenX=w/2+Math.tan(relative)*w*.8;let column=Math.floor(screenX/step);if(depths[column]!==undefined&&depths[column]<d-.3)continue;let size=Math.min(hgt*1.3,hgt/(d+.3)*.7),y=horizon+size*.15;ctx.save();ctx.globalAlpha=contained.has(r.id)?.3:1;ctx.shadowColor=r.color;ctx.shadowBlur=22;ctx.fillStyle=r.color;
+ if(r.id==='999'){const wobble=Math.sin(performance.now()*.006)*size*.04;ctx.beginPath();ctx.ellipse(screenX,y+wobble,size*.38,size*.28,0,0,Math.PI*2);ctx.fill();ctx.fillStyle='#ffdf92';ctx.beginPath();ctx.arc(screenX-size*.1,y-size*.06,Math.max(2,size*.035),0,7);ctx.arc(screenX+size*.1,y-size*.06,Math.max(2,size*.035),0,7);ctx.fill();}
+ else if(r.id==='173'){ctx.beginPath();ctx.ellipse(screenX,y-size*.48,size*.22,size*.19,0,0,7);ctx.fill();ctx.fillRect(screenX-size*.22,y-size*.35,size*.44,size*.8);ctx.fillRect(screenX-size*.28,y-size*.12,size*.56,size*.14);ctx.fillStyle='#392b25';ctx.fillRect(screenX-size*.09,y-size*.52,size*.055,size*.055);ctx.fillRect(screenX+size*.035,y-size*.52,size*.055,size*.055);}
+ else if(r.id==='049'){ctx.fillStyle='#1e2a37';ctx.beginPath();ctx.moveTo(screenX,y-size*.75);ctx.lineTo(screenX+size*.28,y+size*.48);ctx.lineTo(screenX-size*.28,y+size*.48);ctx.closePath();ctx.fill();ctx.fillStyle='#c6bdaf';ctx.beginPath();ctx.ellipse(screenX,y-size*.37,size*.15,size*.13,0,0,7);ctx.fill();ctx.beginPath();ctx.moveTo(screenX,y-size*.35);ctx.lineTo(screenX+size*.27,y-size*.27);ctx.lineTo(screenX,y-size*.17);ctx.fill();}
+ else if(r.id==='096'){ctx.fillStyle='#c4d6dc';ctx.fillRect(screenX-size*.09,y-size*.45,size*.18,size*.75);ctx.fillRect(screenX-size*.24,y-size*.33,size*.09,size*.7);ctx.fillRect(screenX+size*.15,y-size*.33,size*.09,size*.7);ctx.beginPath();ctx.ellipse(screenX,y-size*.58,size*.19,size*.25,0,0,7);ctx.fill();ctx.fillStyle='#182834';ctx.fillRect(screenX-size*.09,y-size*.6,size*.045,size*.055);ctx.fillRect(screenX+size*.04,y-size*.6,size*.045,size*.055);}
+ else{ctx.fillStyle='#292632';ctx.fillRect(screenX-size*.22,y-size*.46,size*.44,size*.86);ctx.beginPath();ctx.arc(screenX,y-size*.52,size*.18,0,7);ctx.fill();ctx.fillStyle='#b45666';ctx.fillRect(screenX-size*.11,y-size*.54,size*.06,size*.04);ctx.fillRect(screenX+size*.05,y-size*.54,size*.06,size*.04);}
+ ctx.shadowBlur=0;ctx.font=`bold ${Math.max(11,Math.min(21,size*.16))}px monospace`;ctx.textAlign='center';ctx.fillStyle='#dcfff3';ctx.fillText('SCP-'+r.id,screenX,y-size*.8);ctx.fillStyle=r.color+'90';ctx.fillRect(screenX-size*.34,y+size*.46,size*.68,Math.max(2,size*.025));ctx.restore();}
+ let r=nearest();if(r&&!shown){ctx.fillStyle='#d6ffef';ctx.font='bold 15px monospace';ctx.textAlign='center';ctx.fillText('E — SCP-'+r.id+' CONTAINMENT CONSOLE ('+progress[r.id]+'/3)',w/2,hgt*.82)}ctx.fillStyle='#8ae3d6';ctx.textAlign='left';ctx.font='bold 10px monospace';ctx.fillText('SITE-19   CAMERA FEED 01   '+quality.toUpperCase()+'   '+new Date().toLocaleTimeString(),14,22);ctx.fillStyle='#b8eee533';ctx.fillRect(0,hgt-40,w,1);if(contained.size===5){ctx.fillStyle='#7bf5bd';ctx.font='bold 23px monospace';ctx.textAlign='center';ctx.fillText('MISSION COMPLETE',w/2,50)}raf=requestAnimationFrame(render)}
  reset();openPanel('brief');raf=requestAnimationFrame(render);win.addEventListener('appclosed',()=>{running=false;cancelAnimationFrame(raf);document.removeEventListener('keydown',down);document.removeEventListener('keyup',up)});
 }};
 
-Object.entries(apps).forEach(([id,app],i)=>{const item=h('div',{className:'icon'});item.style.left=14+Math.floor(i/6)*118+'px';item.style.top=13+(i%6)*96+'px';item.innerHTML=id==='chess'?`${CHESS_ICON}<span class="icon-label">${app.name}</span>`:`<span class="emoji">${app.icon}</span>${app.name}`;let moved=false,ox=0,oy=0;item.onpointerdown=e=>{moved=false;ox=e.clientX-item.offsetLeft;oy=e.clientY-item.offsetTop;item.setPointerCapture(e.pointerId)};item.onpointermove=e=>{if(!item.hasPointerCapture(e.pointerId))return;if(Math.abs(e.clientX-item.offsetLeft-ox)>3||Math.abs(e.clientY-item.offsetTop-oy)>3)moved=true;if(moved){item.style.left=e.clientX-ox+'px';item.style.top=e.clientY-oy+'px'}};item.onpointerup=e=>{if(!moved&&e.pointerType==='touch')openApp(id)};item.ondblclick=()=>openApp(id);desk.append(item);const b=h('button',{textContent:app.icon+' '+app.name});b.onclick=()=>{openApp(id);$('#startmenu').classList.remove('show')};$('#startmenu').append(b)});
+/* ━━━━━━━━━━━━━━━━━ LILAC V0.28 • NEW APPLICATIONS ━━━━━━━━━━━━━━━━━ */
+const BRAND_PATHS={
+ nectar:'<path d="M12 3v18M3 12h18M5.5 5.5l13 13M18.5 5.5l-13 13"/><circle cx="12" cy="12" r="3"/>',
+ browser:'<circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c-5 5-5 13 0 18m0-18c5 5 5 13 0 18"/>',
+ files:'<path d="M3 7h7l2 2h9v10H3zM3 7V5h7l2 2"/><path d="M12 12v5m-2.5-2.5h5"/>',
+ clickStudio:'<path d="M5 3v16l4-4 3 6 3-1-3-6 6-1z"/><path d="M18 4v4m-2-2h4M19 13h3"/>',
+ scp:'<circle cx="12" cy="12" r="9"/><path d="M12 3v6m0 6v6M3 12h6m6 0h6M7.8 7.8l8.4 8.4m0-8.4l-8.4 8.4"/><circle cx="12" cy="12" r="2"/>',
+ realDeal:'<path d="M12 2 3 10l9 12 9-12zM8 10h8M12 2v20"/>',
+ chess:'<path d="M9 21h8M7 18h12M9 18v-3l-3-3 3-3 3 2 3-2 3 3-3 3v3M9 6l3-3 3 3"/>',
+ assistant:'<path d="M12 2l2.5 7.5L22 12l-7.5 2.5L12 22l-2.5-7.5L2 12l7.5-2.5z"/><circle cx="12" cy="12" r="2"/>',
+ globalChat:'<path d="M3 4h18v13H9l-5 4v-4H3z"/><path d="M7 9h10m-10 4h7"/>',
+ term:'<rect x="2" y="4" width="20" height="16" rx="3"/><path d="m6 9 4 3-4 3m6 0h6"/>',
+ hive:'<path d="M8 3 4 7v5l4 4h5l4-4V7l-4-4zm5 8h8v7l-4 3-4-3"/><path d="M7 9h4m-2-2v4"/>',
+ games:'<path d="M7 9h10c4 0 5 11 2 11-2 0-3-3-7-3s-5 3-7 3c-3 0-2-11 2-11zM8 12v4m-2-2h4"/><circle cx="16" cy="13" r="1"/><circle cx="19" cy="15" r="1"/>',
+ notes:'<path d="M5 3h13v18H5zM8 7h7M8 11h7M8 15h5"/>',
+ calc:'<rect x="4" y="2" width="16" height="20" rx="3"/><path d="M7 7h10M8 12h2m4 0h2m-8 4h2m4 0h2"/>',
+ tasks:'<path d="M4 19V5m0 14h17M8 16v-5m4 5V8m4 8V4m4 12v-7"/>',
+ settings:'<circle cx="12" cy="12" r="3.5"/><path d="M12 2v3m0 14v3M2 12h3m14 0h3M5 5l2 2m10 10 2 2M19 5l-2 2M7 17l-2 2"/>',
+ about:'<circle cx="12" cy="12" r="9"/><path d="M12 11v6m0-10v1"/>'
+};
+const BRAND_COLORS={nectar:['#ff8fc7','#7d46a3'],browser:['#69bff4','#6752bd'],files:['#c5a9ff','#6650b4'],clickStudio:['#ffa9d9','#9842ad'],scp:['#73dab3','#245a61'],realDeal:['#ef5878','#422152'],chess:['#ddd2fc','#674f9d'],assistant:['#9fe3f2','#7054c2'],globalChat:['#f3a9cb','#8962ce'],term:['#8ae7cb','#38777a'],hive:['#ffdb92','#ac68b2'],games:['#ffbdad','#7b54ab'],notes:['#ffdc8e','#8b5ac1'],calc:['#a4dfff','#6958be'],tasks:['#9ecbe9','#5256a0'],settings:['#d9a7ff','#7c56bb'],about:['#e7b6ff','#7758bc']};
+function brandIcon(id,mini=false){const col=BRAND_COLORS[id]||['#bda4f2','#664aaa'];const svg=BRAND_PATHS[id]?`<svg viewBox="0 0 24 24" aria-hidden="true">${BRAND_PATHS[id]}</svg>`:'<span class="glyph">✿</span>';return `<span class="app-brand${mini?' mini':''}" style="--ico-a:${col[0]};--ico-b:${col[1]}">${svg}</span>`}
+/* CLICK STUDIO — graphics rendered without preventing regular clicks. */
+const CLICK_DEFAULT={effect:'flower',color:'#e7a8ff',size:26,particles:7,speed:1,glow:10,duration:650,opacity:95};
+let clickPrefs={...CLICK_DEFAULT,...get('lilacClickPrefs',{})};
+const clickLayer=h('div',{id:'clickfx-layer'});document.body.append(clickLayer);
+function clickFX(x,y,force=false){
+ if((get('lilacMotionOff',false)||matchMedia('(prefers-reduced-motion: reduce)').matches)&&!force)return;
+ const o=clickPrefs;if(o.effect==='none')return;
+ while(clickLayer.children.length>120)clickLayer.firstChild.remove();
+ const speed=Math.max(.25,Number(o.speed)||1),dur=Math.max(120,Number(o.duration)||650)/speed;
+ const count=Math.max(1,Math.min(20,+o.particles||7)),size=Math.max(8,Number(o.size)||26),op=Math.min(1,Math.max(.1,(+o.opacity||95)/100));
+ const create=(symbol,i,total,rad=50)=>{
+  const el=h('span',{className:'fx-particle',textContent:symbol});el.style.color=o.color;el.style.fontSize=(size*(i===0?1.25:.55))+'px';el.style.setProperty('--fx-glow',o.glow+'px');el.style.opacity=String(op);clickLayer.append(el);
+  const a=i*2*Math.PI/Math.max(total,1)-Math.PI/2,dx=Math.cos(a)*rad,dy=Math.sin(a)*rad;
+  el.animate([{transform:`translate(${x}px,${y}px) translate(-50%,-50%) scale(.18) rotate(0deg)`,opacity:0},{offset:.22,transform:`translate(${x+dx*.15}px,${y+dy*.15}px) translate(-50%,-50%) scale(1.1) rotate(30deg)`,opacity:op},{transform:`translate(${x+dx}px,${y+dy}px) translate(-50%,-50%) scale(.28) rotate(${180+i*20}deg)`,opacity:0}],{duration:dur,easing:'cubic-bezier(.22,.71,.24,1)',fill:'forwards'}).finished.catch(()=>{}).finally(()=>el.remove());
+ };
+ const ring=(n=1)=>{for(let i=0;i<n;i++){const el=h('div',{className:'fx-ring'});el.style.color=o.color;el.style.setProperty('--fx-glow',o.glow+'px');clickLayer.append(el);el.animate([{transform:`translate(${x}px,${y}px) translate(-50%,-50%) scale(.1)`,opacity:op},{transform:`translate(${x}px,${y}px) translate(-50%,-50%) scale(${size/7+i*1.6})`,opacity:0}],{duration:dur*(1+i*.22),delay:i*60,fill:'forwards'}).finished.catch(()=>{}).finally(()=>el.remove())}};
+ if(o.effect==='ripple'||o.effect==='neon'){ring(o.effect==='neon'?3:2);return}
+ const symbols={flower:['✿','❀'],petals:['❀','✦'],glitch:['▣','▪'],stars:['✧','✦'],custom:['✶','◆']};
+ const chars=symbols[o.effect]||symbols.flower;
+ if(o.effect==='flower')create('✿',0,1,size*.1);
+ for(let i=0;i<count;i++)create(chars[(i+1)%chars.length],i+1,count+1,(o.effect==='glitch'?70:45)+size*.7);
+}
+document.addEventListener('pointerdown',e=>{if(e.button!==0||e.pointerType==='mouse'&&e.buttons!==1)return;clickFX(e.clientX,e.clientY)},{passive:true});
+apps.clickStudio={name:'Click Studio',icon:'✿',w:630,ht:630,init(root){root.classList.add('panel');root.style.overflow='auto';root.innerHTML=`
+ <section class="v028-hero"><div class="v028-kicker">LILAC / PERSONALIZATION LAB</div><h2 class="v028-heading">✿ Click Studio</h2><p class="muted">Every click can bloom. Fine-tune the particle system and save your style.</p></section>
+ <div id="click-preview" class="click-preview"><div style="text-align:center;pointer-events:none"><strong style="font-size:18px">✿ TAP TO BLOOM</strong><div class="muted">Preview your effect here</div></div></div>
+ <label>Effect style <select id="click-type" style="width:100%;margin-top:6px"><option value="flower">✿ Flower Bloom</option><option value="ripple">◉ Purple Ripple</option><option value="petals">❀ Falling Petals</option><option value="glitch">▣ Pixel Glitch</option><option value="stars">✧ Star Explosion</option><option value="neon">◎ Neon Pulse</option><option value="custom">◆ Custom Spark</option><option value="none">⊘ No Effect</option></select></label>
+ <div class="click-control-grid" id="click-controls"></div><div class="row flex-wrap"><button id="click-demo">▶ Preview bloom</button><button id="click-reset">Restore defaults</button><span class="muted" id="click-status">Preferences saved automatically.</span></div>`;
+ const controls=[['color','Petal color','color',null,null],['size','Effect size','range',8,80],['particles','Particles','range',1,20],['speed','Speed','range',.25,2.5],['glow','Glow','range',0,30],['duration','Duration (ms)','range',200,1500],['opacity','Opacity','range',10,100]],grid=root.querySelector('#click-controls');
+ function persist(){put('lilacClickPrefs',clickPrefs);root.querySelector('#click-status').textContent='Saved ✿'}
+ controls.forEach(([id,label,type,min,max])=>{const wrap=h('label'),title=h('span',{textContent:label+' '}),value=h('span',{textContent:String(clickPrefs[id])});value.style.float='right';title.append(value);const input=h('input',{type,value:clickPrefs[id]});if(type==='range'){input.min=min;input.max=max;input.step=id==='speed'?.05:1}input.oninput=()=>{clickPrefs[id]=type==='range'?Number(input.value):input.value;value.textContent=input.value;persist()};wrap.append(title,input);grid.append(wrap)});
+ const select=root.querySelector('#click-type');select.value=clickPrefs.effect;select.onchange=()=>{clickPrefs.effect=select.value;persist()};const preview=root.querySelector('#click-preview');preview.onpointerdown=e=>clickFX(e.clientX,e.clientY,true);root.querySelector('#click-demo').onclick=()=>{const r=preview.getBoundingClientRect();clickFX(r.left+r.width/2,r.top+r.height/2,true)};root.querySelector('#click-reset').onclick=()=>{clickPrefs={...CLICK_DEFAULT};put('lilacClickPrefs',clickPrefs);closeApp('clickStudio');openApp('clickStudio')}
+}};
+/* LILAC FILES — actual persistent local file and bookmark storage via IndexedDB. */
+const LILAC_DB='lilac-v028-files',LILAC_STORE='entries';let lilacDBPromise;
+function dbOpen(){if(!lilacDBPromise)lilacDBPromise=new Promise((resolve,reject)=>{if(!('indexedDB' in window))return reject(Error('IndexedDB is unavailable in this browser'));const request=indexedDB.open(LILAC_DB,1);request.onupgradeneeded=()=>{const s=request.result.createObjectStore(LILAC_STORE,{keyPath:'id'});s.createIndex('parent','parent',{unique:false})};request.onsuccess=()=>resolve(request.result);request.onerror=()=>reject(request.error)}).catch(e=>{lilacDBPromise=null;throw e});return lilacDBPromise}
+async function dbAction(mode,handler){const db=await dbOpen();return new Promise((resolve,reject)=>{const tx=db.transaction(LILAC_STORE,mode),store=tx.objectStore(LILAC_STORE);let result;try{const req=handler(store);if(req&&'onsuccess'in req)req.onsuccess=()=>result=req.result;else result=req}catch(err){reject(err);return}tx.oncomplete=()=>resolve(result);tx.onerror=()=>reject(tx.error||Error('Storage failed'));tx.onabort=()=>reject(tx.error||Error('Storage was interrupted'))})}
+function fileId(){return globalThis.crypto?.randomUUID?.()||('file'+Date.now()+Math.random().toString(36).slice(2))}
+const LilacFiles={
+ async init(){const existing=await dbAction('readonly',s=>s.get('nectar-folder'));if(!existing)await dbAction('readwrite',s=>s.put({id:'nectar-folder',parent:'root',kind:'folder',name:'Nectar Downloads',created:Date.now()}))},
+ all(){return dbAction('readonly',s=>s.getAll())},get(id){return dbAction('readonly',s=>s.get(id))},
+ async add(item){const entry={id:fileId(),parent:item.parent||'root',kind:item.kind||'file',name:String(item.name||'Untitled').slice(0,100),created:Date.now(),...item};await dbAction('readwrite',s=>s.put(entry));document.dispatchEvent(new Event('lilac-files-changed'));return entry},
+ async update(item){await dbAction('readwrite',s=>s.put(item));document.dispatchEvent(new Event('lilac-files-changed'));return item},
+ async saveLink(url,title){const safe=webURL(url);if(!safe)throw Error('Invalid website address');await this.init();return this.add({parent:'nectar-folder',kind:'link',name:String(title||new URL(safe).hostname).slice(0,100),url:safe})},
+ async importFiles(files,parent='root'){const saved=[];for(const file of files){saved.push(await this.add({name:file.name,kind:'file',mime:file.type||'application/octet-stream',blob:file,bytes:file.size,parent}))}return saved},
+ async saveRemote(url,title){const safe=webURL(url);if(!safe)throw Error('Invalid URL');const response=await fetch(safe,{mode:'cors'});if(!response.ok)throw Error('HTTP '+response.status);const b=await response.blob();if(b.size>30*1024*1024)throw Error('File exceeds the 30MB per-file limit');await this.init();const pathname=new URL(safe).pathname;const fileName=(title||decodeURIComponent(pathname.split('/').pop()||'download')).replace(/[\\/]/g,'_');return this.add({name:fileName,kind:'file',mime:b.type||'application/octet-stream',blob:b,bytes:b.size,parent:'nectar-folder'})}
+};
+window.LilacFiles=LilacFiles;
+apps.files={name:'Lilac Files',icon:'▣',w:850,ht:630,init(root,win){root.style.overflow='hidden';root.innerHTML=`<div class="file-shell"><div class="file-toolbar"><button id="f-up" title="Parent folder">↑</button><button id="f-new">✚ Folder</button><button id="f-import">↓ Import</button><button id="f-trash">♻ Bin</button><button id="f-mode">▦ Grid</button><input id="f-search" placeholder="Search files and folders…" aria-label="Search files"><input id="f-upload" type="file" multiple hidden></div><div class="file-crumb" id="f-path">My Files /</div><div id="f-main" class="file-main"></div><div class="file-selection" id="f-actions" hidden></div><div id="f-status" class="file-status">Files stored privately in this browser using IndexedDB.</div></div>`;
+ let folder='root',selected=null,listMode=false,all=[],dead=false,view='files',previewURL=null;const main=root.querySelector('#f-main'),status=root.querySelector('#f-status'),actions=root.querySelector('#f-actions'),pathEl=root.querySelector('#f-path'),search=root.querySelector('#f-search');
+ const report=t=>status.textContent=t;
+ const cleanUrl=()=>{if(previewURL){URL.revokeObjectURL(previewURL);previewURL=null}};
+ function parentOf(id){return all.find(f=>f.id===id)?.parent||'root'}
+ function isDescendant(target,ancestor){let p=target,guard=0;while(p!=='root'&&guard++<150){if(p===ancestor)return true;p=parentOf(p)}return false}
+ function breadcrumb(id){const names=[];while(id!=='root'){const f=all.find(a=>a.id===id);if(!f)break;names.unshift(f.name);id=f.parent}return 'My Files / '+names.join(' / ')}
+ function folderName(id){return id==='root'?'My Files':(all.find(x=>x.id===id)?.name||'Folder')}
+ async function refresh(){try{await LilacFiles.init();all=await LilacFiles.all();if(dead)return;render()}catch(e){report('Storage error: '+e.message);main.textContent='Files could not be loaded: '+e.message}}
+ function render(){cleanUrl();main.replaceChildren();selected=null;actions.hidden=true;pathEl.textContent=view==='bin'?'My Files / Recycle Bin':breadcrumb(folder);
+  const term=search.value.trim().toLowerCase(),items=all.filter(e=>view==='bin'?e.parent==='trash':e.parent!=='trash'&&(term?e.name.toLowerCase().includes(term):e.parent===folder)).sort((a,b)=>(a.kind==='folder'?-1:1)-(b.kind==='folder'?-1:1)||a.name.localeCompare(b.name));
+  const grid=h('div',{className:listMode?'file-list':'file-grid'});
+  items.forEach(entry=>{const b=h('div',{className:'file-item',tabIndex:0,draggable:view!=='bin'});b.dataset.id=entry.id;const icon=h('div',{className:'file-icon',textContent:entry.kind==='folder'?'📁':entry.kind==='link'?'🔗':entry.mime?.startsWith('image/')?'🖼️':entry.mime?.startsWith('text/')?'📃':'📦'});const name=h('div',{className:'file-name',textContent:entry.name});const meta=h('div',{className:'file-meta',textContent:entry.kind==='folder'?'Folder':entry.kind==='link'?'Website bookmark':typeof entry.bytes==='number'?(entry.bytes/1024).toFixed(1)+' KB':'File'});b.append(icon,name,meta);b.onclick=()=>{selected=entry.id;grid.querySelectorAll('.file-item').forEach(n=>n.classList.toggle('selected',n===b));drawActions()};b.ondblclick=()=>{if(entry.kind==='folder'){folder=entry.id;view='files';search.value='';render()}else preview(entry)};b.onkeydown=e=>{if(e.key==='Enter')b.ondblclick()};b.ondragstart=e=>e.dataTransfer.setData('text/x-lilac-file',entry.id);if(entry.kind==='folder'){b.ondragover=e=>e.preventDefault();b.ondrop=e=>{e.preventDefault();const src=e.dataTransfer.getData('text/x-lilac-file');if(src)moveTo(src,entry.id)}}grid.append(b)});
+  main.append(grid);if(!items.length)main.append(h('div',{className:'card muted',textContent:term?'No results match your search.':view==='bin'?'Your Recycle Bin is empty.':'Nothing here yet. Create a folder or import a file.'}));report(`${items.length} item(s) • ${all.filter(a=>a.kind==='file').reduce((s,e)=>s+(e.bytes||0),0)/1024>1024?(all.filter(a=>a.kind==='file').reduce((s,e)=>s+(e.bytes||0),0)/1024/1024).toFixed(1)+' MB':(all.filter(a=>a.kind==='file').reduce((s,e)=>s+(e.bytes||0),0)/1024).toFixed(1)+' KB'} locally stored`);
+ }
+ function drawActions(){if(!selected)return;const e=all.find(f=>f.id===selected);if(!e)return;actions.hidden=false;actions.replaceChildren();const btn=(title,cb)=>{const b=h('button',{textContent:title});b.onclick=cb;actions.append(b)};
+ if(view==='bin'){btn('↶ Restore',async()=>{await LilacFiles.update({...e,parent:e.deletedParent||'root',deletedParent:undefined});await refresh()});btn('✕ Delete forever',async()=>{if(!confirm('Permanently delete '+e.name+' and its contents?'))return;const ids=new Set([e.id]);let grown=true;while(grown){grown=false;for(const child of all){if(ids.has(child.parent)&&!ids.has(child.id)){ids.add(child.id);grown=true}}}for(const id of ids)await dbAction('readwrite',s=>s.delete(id));await refresh()});return}
+ btn('Open',()=>e.kind==='folder'?(folder=e.id,render()):preview(e));btn('✎ Rename',async()=>{const name=prompt('New name',e.name)?.trim();if(!name)return;await LilacFiles.update({...e,name:name.slice(0,100)});await refresh()});
+ btn('⇢ Move',async()=>{const dirs=all.filter(f=>f.kind==='folder'&&f.id!==e.id&&f.parent!=='trash'&&!isDescendant(f.id,e.id));const opts=['root — My Files',...dirs.map(f=>f.id+' — '+f.name)].join('\n');const target=prompt('Enter destination ID:\n'+opts,'root');if(!target)return;const id=target.trim().split(' — ')[0];if(!['root',...dirs.map(f=>f.id)].includes(id)){report('Unknown folder ID');return}await moveTo(e.id,id)});
+ if(e.kind==='file')btn('↓ Download',()=>download(e));if(e.kind==='link')btn('🌐 Open in Lilac',()=>inLilac(e.url));
+ btn('♻ Delete',async()=>{await LilacFiles.update({...e,deletedParent:e.parent,parent:'trash'});await refresh()});
+ }
+ async function moveTo(id,dest){const e=all.find(a=>a.id===id);if(!e||id===dest||isDescendant(dest,id)||dest==='trash'){report('Cannot move this item there.');return}await LilacFiles.update({...e,parent:dest});await refresh()}
+ function download(entry){if(!entry.blob){report('This entry has no downloadable content.');return}const u=URL.createObjectURL(entry.blob),a=h('a',{href:u,download:entry.name});document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(u),2000)}
+ function preview(entry){cleanUrl();main.replaceChildren();const back=h('button',{textContent:'← Back to files'});back.onclick=render;main.append(back,h('h2',{textContent:entry.name}));if(entry.kind==='link'){const p=h('p',{textContent:entry.url}),b=h('button',{textContent:'Open inside Lilac Browser'});b.onclick=()=>inLilac(entry.url);main.append(p,b)}else if(entry.mime?.startsWith('image/')&&entry.blob){previewURL=URL.createObjectURL(entry.blob);const img=h('img',{src:previewURL,alt:entry.name});img.style.cssText='max-width:100%;max-height:75%;object-fit:contain;border-radius:12px';main.append(img)}else if((entry.mime?.startsWith('text/')||/\.(txt|md|json|csv|url)$/i.test(entry.name))&&entry.blob){entry.blob.text().then(t=>{if(!dead&&main.contains(back)){const pre=h('pre',{textContent:t.slice(0,150000)});pre.style.cssText='white-space:pre-wrap;overflow:auto;max-height:80%;word-break:break-word';main.append(pre)}})}else{main.append(h('p',{className:'muted',textContent:'Preview is unavailable for this file type.'}));if(entry.kind==='file'){const b=h('button',{textContent:'Download'});b.onclick=()=>download(entry);main.append(b)}}}
+ root.querySelector('#f-new').onclick=async()=>{const name=prompt('Folder name')?.trim();if(!name)return;try{await LilacFiles.add({name:name.slice(0,100),kind:'folder',parent:folder});await refresh()}catch(e){report('Error: '+e.message)}};
+ const input=root.querySelector('#f-upload');root.querySelector('#f-import').onclick=()=>input.click();input.onchange=async()=>{try{const files=[...input.files];await LilacFiles.importFiles(files,folder);report('Imported '+files.length+' file(s)');await refresh()}catch(e){report('Import failed: '+e.message)}input.value=''};
+ root.querySelector('#f-up').onclick=()=>{if(view==='bin'){view='files';folder='root'}else folder=parentOf(folder);search.value='';render()};root.querySelector('#f-trash').onclick=()=>{view=view==='bin'?'files':'bin';folder='root';search.value='';render()};root.querySelector('#f-mode').onclick=e=>{listMode=!listMode;e.target.textContent=listMode?'☰ List':'▦ Grid';render()};search.oninput=render;
+ main.ondragover=e=>{if(e.dataTransfer.types.includes('Files'))e.preventDefault()};main.ondrop=async e=>{if(e.dataTransfer.files?.length){e.preventDefault();try{await LilacFiles.importFiles([...e.dataTransfer.files],folder);await refresh()}catch(err){report(err.message)}}};
+ const onFiles=()=>refresh();document.addEventListener('lilac-files-changed',onFiles);win.addEventListener('appclosed',()=>{dead=true;cleanUrl();document.removeEventListener('lilac-files-changed',onFiles)});refresh();
+}};
+
+
+Object.entries(apps).forEach(([id,app],i)=>{const item=h('div',{className:'icon'});item.style.left=14+Math.floor(i/6)*118+'px';item.style.top=13+(i%6)*96+'px';item.innerHTML=`${brandIcon(id)}<span class="icon-label">${app.name}</span>`;item.setAttribute('role','button');item.setAttribute('tabindex','0');item.setAttribute('aria-label','Open '+app.name);item.onkeydown=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();openApp(id)}};let moved=false,ox=0,oy=0;item.onpointerdown=e=>{moved=false;ox=e.clientX-item.offsetLeft;oy=e.clientY-item.offsetTop;item.setPointerCapture(e.pointerId)};item.onpointermove=e=>{if(!item.hasPointerCapture(e.pointerId))return;if(Math.abs(e.clientX-item.offsetLeft-ox)>3||Math.abs(e.clientY-item.offsetTop-oy)>3)moved=true;if(moved){item.style.left=e.clientX-ox+'px';item.style.top=e.clientY-oy+'px'}};item.onpointerup=e=>{if(!moved&&e.pointerType==='touch')openApp(id)};item.ondblclick=()=>openApp(id);desk.append(item);const b=h('button');b.innerHTML=brandIcon(id,true)+'<span>'+app.name+'</span>';b.onclick=()=>{openApp(id);$('#startmenu').classList.remove('show')};$('#startmenu').append(b)});
 $('#start').onclick=e=>{e.stopPropagation();$('#startmenu').classList.toggle('show')};document.addEventListener('click',e=>{if(!e.target.closest('#startmenu')&&!e.target.closest('#start'))$('#startmenu').classList.remove('show')});$('#fullscreen').onclick=()=>{if(document.fullscreenElement)document.exitFullscreen();else document.documentElement.requestFullscreen().catch(()=>{})};function tick(){$('#clock').textContent=new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'})}tick();setInterval(tick,1000);
-const config=get('lilacSettings',null);if(config){document.documentElement.style.setProperty('--br',config.br||1);document.documentElement.style.setProperty('--icons',(config.icons||46)+'px');const walls=['radial-gradient(circle at 17% 16%,#7456a8,transparent 49%),linear-gradient(135deg,#36274f,#151021)','linear-gradient(140deg,#a18ad3,#e2c9fa 58%,#ffcf72)','linear-gradient(135deg,#1a122c,#343a7c,#a05a94)'];desk.style.background=walls[config.wall]||walls[0]}
+const config=get('lilacSettings',null);if(config){document.documentElement.style.setProperty('--br',config.br||1);document.documentElement.style.setProperty('--icons',(config.icons||46)+'px')}applyV28Wallpaper(v28InitialWall);
 const boot=$('#boot');
 const bootFill=$('#bootbar'),bootPercent=$('#bootpercent'),bootLine=$('#bootline');
-const bootMessages=['[INIT] LOADING LILAC KERNEL','[OK] MOUNTING DESKTOP','[OK] NECTAR SEARCH ONLINE','[INIT] OPENING THE HIVE','[OK] CHESS ENGINE LINKED','[INIT] BLOOM PROTOCOL READY'];
+const bootMessages=['[V0.28] INITIATING PURPLE REVOLUTION','[OK] FLORAL DESKTOP LOADED','[OK] LILAC FILES STORAGE READY','[INIT] NEW BROWSER ONLINE','[OK] CHESS + MAGNUS PROTOCOL','[READY] ALL PETALS BLOOMED'];
 let bootProgress=0,bootDone=false;
 function endBoot(){if(bootDone)return;bootDone=true;clearInterval(bootTimer);if(!boot.isConnected)return;bootFill.style.width='100%';bootPercent.textContent='100%';bootLine.textContent='[READY] WELCOME TO LILAC';boot.classList.add('boot-flash');setTimeout(()=>boot.remove(),450)}
 const bootTimer=setInterval(()=>{if(bootDone)return;bootProgress=Math.min(100,bootProgress+(bootProgress>84?3:8+Math.random()*12));bootFill.style.width=Math.round(bootProgress)+'%';bootPercent.textContent=String(Math.round(bootProgress)).padStart(2,'0')+'%';bootLine.textContent=bootMessages[Math.min(bootMessages.length-1,Math.floor(bootProgress/18))];if(bootProgress>=100)endBoot()},260);
